@@ -1,0 +1,1458 @@
+/* ==========================================================================
+   OSZTRÁK BÉR-AUDIT – INGYENES DIAGNOSZTIKA
+   Design: Modern Sötét Téma (Dark Mode), Narancssárga / Vörös Neon Akcentusok
+   Mobil-Első Reszponzív Stíluslap
+   ========================================================================== */
+
+:root {
+  /* Színpaletta */
+  --bg-main: #090c14;
+  --bg-card: rgba(18, 24, 38, 0.88);
+  --bg-card-subtle: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(26, 35, 54, 0.95);
+  --bg-input: rgba(12, 17, 28, 0.95);
+
+  --accent-orange: #ff5e1a;
+  --accent-orange-bright: #ff7733;
+  --accent-orange-glow: rgba(255, 94, 26, 0.35);
+  --accent-red: #ef4444;
+  --accent-red-glow: rgba(239, 68, 68, 0.35);
+  --gradient-cta: linear-gradient(135deg, #ff5e1a 0%, #e11d48 100%);
+  --gradient-cta-hover: linear-gradient(135deg, #ff7733 0%, #f43f5e 100%);
+
+  --accent-green: #10b981;
+  --accent-green-glow: rgba(16, 185, 129, 0.3);
+  --accent-amber: #f59e0b;
+
+  --text-white: #ffffff;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.12);
+  --border-orange: rgba(255, 94, 26, 0.5);
+  --border-red: rgba(239, 68, 68, 0.5);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 25px var(--accent-orange-glow);
+}
+
+/* Alap reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(255, 94, 26, 0.09) 0%, transparent 45%),
+    radial-gradient(circle at 85% 60%, rgba(239, 68, 68, 0.07) 0%, transparent 50%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Tipográfia */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--text-white);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+p {
+  color: var(--text-muted);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+/* Fényeffektek háttérben */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-top-left {
+  top: -60px;
+  left: -60px;
+  width: 250px;
+  height: 250px;
+  background: var(--accent-orange-glow);
+}
+
+.glow-bottom-right {
+  bottom: 50px;
+  right: -50px;
+  width: 280px;
+  height: 280px;
+  background: var(--accent-red-glow);
+}
+
+/* ==========================================================================
+   TOP LEBEGŐ NAVIGÁCIÓ
+   ========================================================================== */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: rgba(9, 12, 20, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 0;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flag-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-white);
+  letter-spacing: -0.3px;
+}
+
+.brand-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-orange-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-cta-pill {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-white);
+  background: rgba(255, 94, 26, 0.16);
+  border: 1px solid var(--border-orange);
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-cta-pill:hover {
+  background: var(--accent-orange);
+  color: #fff;
+  box-shadow: 0 0 15px var(--accent-orange-glow);
+}
+
+/* ==========================================================================
+   BLOKK 1 – HERO
+   ========================================================================== */
+.hero-section {
+  position: relative;
+  padding: 40px 0 50px 0;
+}
+
+.hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 0.2px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-red);
+  box-shadow: 0 0 8px var(--accent-red);
+  animation: pulse-animation 1.8s infinite;
+}
+
+@keyframes pulse-animation {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+.hero-title {
+  font-size: clamp(26px, 5.5vw, 42px);
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 18px;
+  letter-spacing: -0.6px;
+}
+
+.highlight-orange-red {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(30px, 7vw, 50px);
+  background: linear-gradient(135deg, #ff7a3d 0%, #ff4500 50%, #ef4444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 18px rgba(255, 94, 26, 0.35));
+}
+
+.hero-lead {
+  font-size: clamp(16px, 3.8vw, 19px);
+  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 auto 24px auto;
+  color: #cbd5e1;
+}
+
+.hero-lead strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.hero-action-box {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(255, 94, 26, 0.08);
+  border: 1px solid rgba(255, 94, 26, 0.3);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.action-highlight {
+  font-size: 16px;
+  color: var(--text-white);
+  margin-bottom: 14px;
+}
+
+.action-highlight strong {
+  color: var(--accent-orange-bright);
+}
+
+/* Gombok */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  min-height: 52px;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--gradient-cta);
+  color: #fff;
+  box-shadow: 0 6px 20px var(--accent-orange-glow);
+}
+
+.btn-primary:hover {
+  background: var(--gradient-cta-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 94, 26, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-cta {
+  background: var(--gradient-cta);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 18px 28px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 30px var(--accent-orange-glow);
+  letter-spacing: -0.2px;
+}
+
+.btn-cta:hover {
+  background: var(--gradient-cta-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255, 94, 26, 0.6);
+}
+
+.btn-secondary-sm {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-white);
+  border: 1px solid var(--border-card);
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  margin-top: 14px;
+  width: auto;
+}
+
+.btn-secondary-sm:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Hero Piros Lámpa & Bérpapír Szimuláció Illusztráció */
+.hero-illustration-card {
+  width: 100%;
+  max-width: 540px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-illustration-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-orange), var(--accent-amber));
+}
+
+.warning-light-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.traffic-light {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 12px #ef4444;
+  flex-shrink: 0;
+  animation: pulse-animation 1.5s infinite;
+}
+
+.warning-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fca5a5;
+  line-height: 1.3;
+}
+
+.payslip-visual {
+  background: rgba(10, 15, 25, 0.95);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.payslip-header-fake {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.fake-bar-short {
+  width: 120px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.fake-stamp {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.payslip-row-fake {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+}
+
+.fake-text {
+  color: var(--text-muted);
+}
+
+.negative-text {
+  color: #f87171;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.alert-badge {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  font-weight: 700;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.payslip-footer-fake {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 10px;
+  font-size: 12px;
+}
+
+.audit-status {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.free-tag {
+  background: var(--accent-orange);
+  color: #fff;
+  font-weight: 800;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   BLOKK 2 – BIZALOMÉPÍTÉS
+   ========================================================================== */
+.trust-section {
+  padding: 60px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(14, 19, 32, 0.4);
+}
+
+.section-heading {
+  margin-bottom: 36px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.sub-label {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-orange-bright);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: clamp(24px, 5vw, 34px);
+  letter-spacing: -0.4px;
+}
+
+.section-subtitle {
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.trust-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trust-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.trust-card:hover {
+  border-color: rgba(255, 94, 26, 0.4);
+  transform: translateY(-2px);
+}
+
+.trust-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 22px;
+}
+
+.lock-icon {
+  background: rgba(255, 94, 26, 0.15);
+  border: 1px solid rgba(255, 94, 26, 0.3);
+}
+
+.eye-icon {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.scale-icon {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.trust-content h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.trust-content p {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.trust-content strong {
+  color: var(--text-white);
+}
+
+/* ==========================================================================
+   BLOKK 3 – KI VAGYOK
+   ========================================================================== */
+.about-section {
+  padding: 60px 0;
+}
+
+.about-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px 22px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-photo-column {
+  flex-shrink: 0;
+}
+
+.photo-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-photo {
+  width: 170px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-orange);
+  box-shadow: 0 0 25px rgba(255, 94, 26, 0.25);
+  display: block;
+}
+
+.photo-badge {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  border: 1px solid var(--accent-orange);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.verified-icon {
+  color: var(--accent-orange-bright);
+  font-weight: 900;
+}
+
+.about-text-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-name {
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+
+.about-title-tag {
+  color: var(--accent-orange-bright);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.about-quote {
+  font-style: italic;
+  color: #e2e8f0;
+  font-size: 15px;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid var(--accent-orange);
+  padding: 14px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.about-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.highlight-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-card);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chip-num {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent-orange-bright);
+}
+
+.chip-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   BLOKK 4 – HOGYAN MŰKÖDIK
+   ========================================================================== */
+.how-it-works-section {
+  padding: 60px 0;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(14, 19, 32, 0.3);
+}
+
+.steps-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 94, 26, 0.35);
+}
+
+.step-badge {
+  font-size: 26px;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.step-title {
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.step-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   BLOKK 5 – SZŰRŐKÉRDÉSEK & GATING LOGIKA
+   ========================================================================== */
+.filter-section {
+  padding: 60px 0 80px 0;
+}
+
+.filter-box-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.question-group {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.question-group:last-of-type {
+  border-bottom: none;
+  margin-bottom: 18px;
+}
+
+.question-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.q-number {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-orange-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.q-text {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-white);
+  line-height: 1.35;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Egyéni választó kártyák */
+.option-card {
+  display: block;
+  cursor: pointer;
+  position: relative;
+}
+
+.option-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  min-height: 54px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.option-indicator::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.option-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.option-card:hover .option-content {
+  border-color: rgba(255, 94, 26, 0.4);
+  background: rgba(26, 35, 54, 0.6);
+}
+
+.option-card input[type="radio"]:checked + .option-content {
+  background: rgba(255, 94, 26, 0.14);
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 15px rgba(255, 94, 26, 0.2);
+}
+
+.option-card input[type="radio"]:checked + .option-content .option-indicator {
+  border-color: var(--accent-orange);
+}
+
+.option-card input[type="radio"]:checked + .option-content .option-indicator::after {
+  background-color: var(--accent-orange);
+}
+
+.option-card input[type="radio"]:checked + .option-content .option-title {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Állapot dobozok (Kizárás / Megfelelt) */
+.status-box {
+  border-radius: var(--radius-md);
+  padding: 22px;
+  margin: 20px 0;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.status-box-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.status-box-icon {
+  font-size: 24px;
+}
+
+.status-box-header h4 {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.status-box-message {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.disqualified-box {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1.5px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.disqualified-box .status-box-header h4 {
+  color: #fecaca;
+}
+
+.disqualified-box .status-box-message {
+  color: #fca5a5;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.qualified-box {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px solid rgba(16, 185, 129, 0.4);
+  color: #a7f3d0;
+}
+
+.qualified-box .status-box-header h4 {
+  color: #6ee7b7;
+}
+
+/* ==========================================================================
+   BLOKK 6 – DOKUMENTUM FELTÖLTÉS & ŰRLAP
+   ========================================================================== */
+.upload-block-container {
+  animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 24px;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.upload-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.upload-divider::before, .upload-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.upload-divider span {
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent-orange-bright);
+}
+
+.upload-inner-card {
+  background: rgba(12, 17, 28, 0.95);
+  border: 1px solid var(--border-orange);
+  border-radius: var(--radius-lg);
+  padding: 24px 18px;
+  box-shadow: 0 0 25px rgba(255, 94, 26, 0.15);
+}
+
+.upload-header {
+  margin-bottom: 18px;
+}
+
+.upload-step-tag {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent-orange);
+  background: rgba(255, 94, 26, 0.15);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.upload-title {
+  font-size: 22px;
+}
+
+/* Anonimitási felhívás doboz */
+.anonymity-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 24px;
+}
+
+.alert-symbol {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.alert-text strong {
+  display: block;
+  color: #fbbf24;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.alert-text p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #fde68a;
+}
+
+.alert-text p strong {
+  display: inline;
+  color: #fff;
+}
+
+/* Dropzone */
+.file-dropzone {
+  border: 2px dashed rgba(255, 94, 26, 0.45);
+  background: rgba(255, 94, 26, 0.03);
+  border-radius: var(--radius-md);
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.file-dropzone:hover, .file-dropzone.dragover {
+  border-color: var(--accent-orange);
+  background: rgba(255, 94, 26, 0.08);
+  transform: scale(1.01);
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.dropzone-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.dropzone-main-text {
+  font-size: 15px;
+  color: var(--text-white);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.dropzone-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.dropzone-active-file {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+
+.file-info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.file-type-icon {
+  font-size: 24px;
+}
+
+.file-text-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.btn-remove-file {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-file:hover {
+  background: var(--accent-red);
+  color: #fff;
+}
+
+/* Űrlap elemek */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.required-star {
+  color: var(--accent-orange-bright);
+}
+
+.optional-tag {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+.phone-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.phone-input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 18px;
+  pointer-events: none;
+  color: var(--text-dim);
+}
+
+.form-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 14px 14px 44px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: #fff;
+  min-height: 52px;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px rgba(255, 94, 26, 0.2);
+}
+
+.form-textarea {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #fff;
+  resize: vertical;
+  line-height: 1.5;
+  transition: border-color 0.2s ease;
+}
+
+.field-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+.field-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  margin-top: 8px;
+  animation: fadeIn 0.2s ease;
+}
+
+/* CTA Beküldő doboz */
+.cta-action-area {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.cta-microcopy {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-top: 10px;
+}
+
+/* Spinner animáció */
+.btn-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   BLOKK 8 – LÁBLÉC (FOOTER)
+   ========================================================================== */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(7, 10, 16, 0.95);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-brand-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+}
+
+.footer-brand-sub {
+  font-size: 13px;
+  color: var(--accent-orange-bright);
+}
+
+.footer-disclaimer {
+  font-size: 12px;
+  color: var(--text-dim);
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.footer-bottom-line {
+  font-size: 11px;
+  color: var(--text-dim);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 14px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   FELUGRÓ SIKERES MODAL
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #0f1626;
+  border: 1.5px solid var(--accent-orange);
+  box-shadow: 0 0 50px rgba(255, 94, 26, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  animation: modalScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 2px solid var(--accent-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px auto;
+  box-shadow: 0 0 20px var(--accent-green-glow);
+}
+
+.modal-checkmark {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--accent-green);
+}
+
+.modal-title {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.modal-message {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--accent-orange);
+}
+
+.modal-meta {
+  margin-bottom: 22px;
+}
+
+.modal-badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.btn-modal-close {
+  min-height: 48px;
+}
+
+/* ==========================================================================
+   RESZPONZIVITÁS – TABLET & ASZTALI (min-width: 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+  .hero-section {
+    padding: 60px 0 70px 0;
+  }
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .about-card {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    padding: 36px;
+    gap: 32px;
+  }
+
+  .about-highlights {
+    justify-content: flex-start;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .filter-box-card {
+    padding: 36px 30px;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
