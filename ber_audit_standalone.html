@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Osztrák Bér-Audit – Ingyenes Diagnosztika | Kristály László BSc</title>
+  
+  <meta name="description" content="Van egy kérdés amit a legtöbb ausztriai magyar munkás sosem tesz fel magának: Rendesen ki vagyok fizetve? Töltsd ki a 2 perces Jelzőlámpa Tesztet és nézd meg a számodat.">
+  <meta property="og:title" content="Osztrák Bér-Audit – Ingyenes Diagnosztika">
+  <meta property="og:description" content="Rossz bérbesorolás, kifizetetlen túlórák, elmaradt pótlékok? Töltsd ki a Jelzőlámpa Tesztet!">
+  <meta property="og:image" content="assets/laszlo.jpg">
+  <meta property="og:type" content="website">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-main: #090c14;
+      --bg-card: rgba(18, 24, 38, 0.88);
+      --bg-card-subtle: rgba(255, 255, 255, 0.03);
+      --bg-card-hover: rgba(26, 35, 54, 0.95);
+      --bg-input: rgba(12, 17, 28, 0.95);
+
+      --accent-orange: #ff5e1a;
+      --accent-orange-bright: #ff7733;
+      --accent-orange-glow: rgba(255, 94, 26, 0.35);
+      --accent-red: #ef4444;
+      --accent-red-glow: rgba(239, 68, 68, 0.35);
+      --gradient-cta: linear-gradient(135deg, #ff5e1a 0%, #e11d48 100%);
+      --gradient-cta-hover: linear-gradient(135deg, #ff7733 0%, #f43f5e 100%);
+
+      --accent-green: #10b981;
+      --accent-green-glow: rgba(16, 185, 129, 0.3);
+      --accent-amber: #f59e0b;
+
+      --text-white: #ffffff;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --border-orange: rgba(255, 94, 26, 0.5);
+      --border-red: rgba(239, 68, 68, 0.5);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+      --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 25px var(--accent-orange-glow);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(255, 94, 26, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 85% 60%, rgba(239, 68, 68, 0.07) 0%, transparent 50%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      color: var(--text-white);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    p { color: var(--text-muted); }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: rgba(9, 12, 20, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .flag-icon { font-size: 22px; line-height: 1; }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-white);
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-orange-bright);
+      text-transform: uppercase;
+    }
+
+    .nav-cta-pill {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-white);
+      background: rgba(255, 94, 26, 0.16);
+      border: 1px solid var(--border-orange);
+      padding: 7px 14px;
+      border-radius: var(--radius-full);
+      transition: all 0.2s ease;
+    }
+
+    .nav-cta-pill:hover {
+      background: var(--accent-orange);
+      color: #fff;
+    }
+
+    /* HERO + FOTÓ + KI VAGYOK */
+    .hero-section {
+      position: relative;
+      padding: 36px 0 50px 0;
+    }
+
+    .hero-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent-red);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.95); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .hero-title {
+      font-size: clamp(26px, 5.5vw, 42px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+
+    .highlight-orange-red {
+      display: block;
+      margin-top: 10px;
+      font-size: clamp(30px, 7vw, 50px);
+      background: linear-gradient(135deg, #ff7a3d 0%, #ff4500 50%, #ef4444 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-lead {
+      font-size: clamp(16px, 3.8vw, 19px);
+      line-height: 1.6;
+      max-width: 680px;
+      margin: 0 auto 26px auto;
+      color: #cbd5e1;
+    }
+
+    /* Hero Expert Card: Fotó karórával + Bemutatkozás */
+    .hero-expert-card {
+      width: 100%;
+      max-width: 800px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-orange);
+      border-radius: var(--radius-lg);
+      padding: 24px 18px;
+      margin: 10px 0 28px 0;
+      box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 94, 26, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      text-align: center;
+    }
+
+    .expert-photo-col {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .photo-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    /* Karóra 100%-ban látszik */
+    .profile-photo-full {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-orange);
+      box-shadow: 0 0 25px rgba(255, 94, 26, 0.3);
+      background: #0f1626;
+    }
+
+    .photo-badge {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      border: 1px solid var(--accent-orange);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .expert-info-col {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .sub-label {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent-orange-bright);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .expert-name {
+      font-size: clamp(24px, 4.5vw, 30px);
+      margin-bottom: 4px;
+    }
+
+    .expert-title {
+      color: var(--accent-orange-bright);
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .expert-quote {
+      font-style: italic;
+      color: #e2e8f0;
+      font-size: 15px;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--accent-orange);
+      padding: 14px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .expert-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-card);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .chip-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent-orange-bright);
+    }
+
+    .chip-sub { font-size: 11px; color: var(--text-muted); }
+
+    /* Bizalomépítés: 3 garancia */
+    .trust-horizontal-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+
+    .trust-mini-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(18, 24, 38, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    .trust-mini-card .mini-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .trust-mini-card strong {
+      display: block;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .trust-mini-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .hero-action-box {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255, 94, 26, 0.08);
+      border: 1px solid rgba(255, 94, 26, 0.3);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .action-highlight {
+      font-size: 16px;
+      color: var(--text-white);
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      min-height: 52px;
+      width: 100%;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--gradient-cta);
+      color: #fff;
+      box-shadow: 0 6px 20px var(--accent-orange-glow);
+    }
+
+    .btn-cta {
+      background: var(--gradient-cta);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 18px 28px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 30px var(--accent-orange-glow);
+    }
+
+    /* 2. JELZŐLÁMPA TESZT */
+    .traffic-light-section {
+      padding: 60px 0;
+      background: rgba(10, 15, 26, 0.85);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .traffic-box-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 28px 18px;
+    }
+
+    .traffic-mini-lights {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .t-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+    .t-red { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
+    .t-yellow { background: #f59e0b; box-shadow: 0 0 10px #f59e0b; }
+    .t-green { background: #10b981; box-shadow: 0 0 10px #10b981; }
+
+    .section-title { font-size: clamp(23px, 5vw, 32px); }
+    .section-subtitle { margin-top: 8px; font-size: 15px; color: var(--text-muted); }
+
+    .traffic-q-group {
+      margin-bottom: 26px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .traffic-q-header { text-align: left; margin-bottom: 12px; }
+    .traffic-q-num { font-size: 11px; font-weight: 800; color: var(--accent-orange-bright); text-transform: uppercase; }
+    .traffic-q-title { font-size: 16px; font-weight: 700; color: #fff; margin-top: 3px; }
+
+    .traffic-options-grid { display: flex; flex-direction: column; gap: 10px; }
+
+    .t-opt-card { display: block; cursor: pointer; position: relative; }
+    .t-opt-card input[type="radio"] { position: absolute; opacity: 0; }
+
+    .t-opt-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      min-height: 52px;
+    }
+
+    .t-opt-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .t-opt-indicator::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: transparent; }
+
+    .t-opt-text { font-size: 14px; color: var(--text-main); flex: 1; text-align: left; }
+
+    .t-risk-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .tag-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .tag-danger { background: rgba(239, 68, 68, 0.18); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+    .t-opt-card input[type="radio"]:checked + .t-opt-content {
+      background: rgba(255, 94, 26, 0.14);
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 14px rgba(255, 94, 26, 0.2);
+    }
+
+    .t-opt-card input[type="radio"]:checked + .t-opt-content .t-opt-indicator { border-color: var(--accent-orange); }
+    .t-opt-card input[type="radio"]:checked + .t-opt-content .t-opt-indicator::after { background: var(--accent-orange); }
+    .t-opt-card input[type="radio"]:checked + .t-opt-content .t-opt-text { color: #fff; font-weight: 600; }
+
+    .traffic-result-card { margin-top: 24px; }
+    .res-light-box { border-radius: var(--radius-md); padding: 24px 18px; text-align: left; }
+    .res-light-header { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+    .big-lamp { font-size: 38px; line-height: 1; }
+
+    .res-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .light-box-red { background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.5); }
+    .light-box-red h4 { color: #fecaca; font-size: 20px; }
+    .badge-red { background: rgba(239, 68, 68, 0.25); color: #fca5a5; }
+
+    .light-box-yellow { background: rgba(245, 158, 11, 0.12); border: 1.5px solid rgba(245, 158, 11, 0.5); }
+    .light-box-yellow h4 { color: #fef08a; font-size: 20px; }
+    .badge-yellow { background: rgba(245, 158, 11, 0.25); color: #fde047; }
+
+    .light-box-green { background: rgba(16, 185, 129, 0.12); border: 1.5px solid rgba(16, 185, 129, 0.5); }
+    .light-box-green h4 { color: #a7f3d0; font-size: 20px; }
+    .badge-green { background: rgba(16, 185, 129, 0.25); color: #6ee7b7; }
+
+    .res-quote {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 3px solid var(--accent-orange);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+    }
+
+    .res-auto-scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-bottom: 14px;
+    }
+
+    .spinner-small {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: var(--accent-orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 3. SZŰRŐKÉRDÉSEK */
+    .filter-section { padding: 60px 0 80px 0; }
+    .filter-box-card { background: var(--bg-card); border: 1px solid var(--border-card); border-radius: var(--radius-lg); padding: 28px 18px; }
+    .question-group { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+    .question-label { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; text-align: left; }
+    .q-number { font-size: 12px; font-weight: 700; color: var(--accent-orange-bright); text-transform: uppercase; }
+    .q-text { font-size: 17px; font-weight: 700; color: var(--text-white); }
+
+    .options-grid { display: flex; flex-direction: column; gap: 10px; }
+    .option-card { display: block; cursor: pointer; position: relative; }
+    .option-card input[type="radio"] { position: absolute; opacity: 0; }
+
+    .option-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      min-height: 54px;
+    }
+
+    .option-indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .option-indicator::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: transparent; }
+
+    .option-card input[type="radio"]:checked + .option-content {
+      background: rgba(255, 94, 26, 0.14);
+      border-color: var(--accent-orange);
+    }
+    .option-card input[type="radio"]:checked + .option-content .option-indicator { border-color: var(--accent-orange); }
+    .option-card input[type="radio"]:checked + .option-content .option-indicator::after { background: var(--accent-orange); }
+
+    .status-box { border-radius: var(--radius-md); padding: 22px; margin: 20px 0; }
+    .disqualified-box { background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.4); color: #fca5a5; }
+    .qualified-box { background: rgba(16, 185, 129, 0.12); border: 1.5px solid rgba(16, 185, 129, 0.4); color: #a7f3d0; }
+
+    /* 4. FELTÖLTÉS */
+    .upload-block-container { margin-top: 24px; }
+    .upload-inner-card { background: rgba(12, 17, 28, 0.95); border: 1px solid var(--border-orange); border-radius: var(--radius-lg); padding: 24px 18px; }
+    .anonymity-alert { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 24px; text-align: left; }
+
+    .file-dropzone {
+      border: 2px dashed rgba(255, 94, 26, 0.45);
+      background: rgba(255, 94, 26, 0.03);
+      border-radius: var(--radius-md);
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .form-group { margin-bottom: 20px; text-align: left; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      color: #fff;
+    }
+
+    .site-footer { border-top: 1px solid var(--border-subtle); background: rgba(7, 10, 16, 0.95); padding: 40px 0; text-align: center; }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: #0f1626;
+      border: 1.5px solid var(--accent-orange);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .hero-expert-card {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        padding: 32px;
+        gap: 32px;
+      }
+      .expert-photo-col { max-width: 280px; }
+      .expert-chips { justify-content: flex-start; }
+      .trust-horizontal-grid { flex-direction: row; gap: 16px; }
+      .trust-mini-card { flex: 1; }
+      .traffic-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .filter-box-card { padding: 36px 30px; }
+      .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand">
+        <span class="flag-icon">🇦🇹</span>
+        <div class="brand-text">
+          <span class="brand-title">Osztrák Bér-Audit</span>
+          <span class="brand-badge">Ingyenes Diagnosztika</span>
+        </div>
+      </div>
+      <a href="#jelzolampa-teszt" class="nav-cta-pill">Jelzőlámpa Teszt ↓</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. HERO + FOTÓ (KARÓRÁVAL) + KI VAGYOK -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Kizárólag Ausztriában dolgozó magyar munkavállalóknak</span>
+        </div>
+
+        <h1 class="hero-title">
+          Van egy kérdés, amit a legtöbb ausztriai magyar munkás sosem tesz fel magának.
+          <span class="highlight-orange-red">Rendesen ki vagyok fizetve?</span>
+        </h1>
+
+        <p class="hero-lead">
+          Rossz bérbesorolás, kifizetetlen túlórák, elmaradt pótlékok – sok magyar munkásnál ezek együtt havonta <strong>több száz euró különbséget</strong> jelenthetnek.
+        </p>
+
+        <!-- Szakértő kártya: Fotó karórával + Bemutatkozás -->
+        <div class="hero-expert-card">
+          <div class="expert-photo-col">
+            <div class="photo-wrapper">
+              <img src="assets/laszlo.jpg" alt="Kristály László BSc" class="profile-photo-full">
+              <div class="photo-badge">✓ Hitelesített Szakértő</div>
+            </div>
+          </div>
+
+          <div class="expert-info-col">
+            <span class="sub-label">SZEMÉLYES SZAKÉRTELEM ÉS TEREPTAPASZTALAT</span>
+            <h2 class="expert-name">Kristály László BSc</h2>
+            <p class="expert-title">Diplomás munkavállalási tanácsadó • Osztrák Bér-Audit Szakértő</p>
+
+            <blockquote class="expert-quote">
+              „15 évet éltem és dolgoztam Ausztriában és Németországban, főleg Leihfirmákon keresztül. Tudom pontosan, hogyan működnek ezek a rendszerek – és hol nyúlnak bele a pénzedbe.”
+            </blockquote>
+
+            <div class="expert-chips">
+              <div class="chip">
+                <span class="chip-title">15+ év</span>
+                <span class="chip-sub">kinti tapasztalat</span>
+              </div>
+              <div class="chip">
+                <span class="chip-title">100%</span>
+                <span class="chip-sub">osztrák KV fókusz</span>
+              </div>
+              <div class="chip">
+                <span class="chip-title">Leihfirma</span>
+                <span class="chip-sub">rendszerek átlátása</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Garancia -->
+        <div class="trust-horizontal-grid">
+          <div class="trust-mini-card">
+            <div class="mini-icon">🔒</div>
+            <div>
+              <strong>Teljesen névtelen</strong>
+              <p>Húzd ki a neved és a céged nevét. Csak a számok kellenek.</p>
+            </div>
+          </div>
+          <div class="trust-mini-card">
+            <div class="mini-icon">👁️</div>
+            <div>
+              <strong>A főnököd soha nem tudja meg</strong>
+              <p>A rendszer zárt, privát. Senki nem értesül róla.</p>
+            </div>
+          </div>
+          <div class="trust-mini-card">
+            <div class="mini-icon">⚖️</div>
+            <div>
+              <strong>Nem jogi tanács – tiszta matek</strong>
+              <p>A hatályos osztrák KV és a bérpapír pontos összevetése.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-action-box">
+          <p class="action-highlight">
+            👉 <strong>Töltsd fel a névtelen bérpapírod. Megnézem a számodat.</strong>
+          </p>
+          <a href="#jelzolampa-teszt" class="btn btn-primary">
+            <span>🚦 Nézd meg 2 perc alatt a Jelzőlámpa Tesztet ↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. JELZŐLÁMPA TESZT -->
+    <section class="traffic-light-section" id="jelzolampa-teszt">
+      <div class="container">
+        <div class="traffic-box-card">
+          <div class="traffic-mini-lights">
+            <span class="t-dot t-red"></span>
+            <span class="t-dot t-yellow"></span>
+            <span class="t-dot t-green"></span>
+          </div>
+          <span class="sub-label">GYORS KOCKÁZATI DIAGNOSZTIKA</span>
+          <h2 class="section-title">Nézd meg 2 perc alatt – neked milyen lámpa ég?</h2>
+          <p class="section-subtitle">Válaszolj az alábbi 4 egyszerű kérdésre, és a rendszer azonnal kiértékeli a veszteség kockázatát:</p>
+
+          <form id="trafficLightForm" style="margin-top:20px;">
+            <!-- 1. TÚLÓRA -->
+            <div class="traffic-q-group">
+              <div class="traffic-q-header">
+                <span class="traffic-q-num">1. kérdés</span>
+                <h3 class="traffic-q-title">„Van túlórád az elmúlt 3 hónapban?”</h3>
+              </div>
+              <div class="traffic-options-grid">
+                <label class="t-opt-card">
+                  <input type="radio" name="tq1" value="Igen, rendszeresen">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Igen, rendszeresen</span>
+                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq1" value="Volt néha">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Volt néha</span>
+                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq1" value="Nem volt">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Nem volt</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 2. 13/14. HAVI -->
+            <div class="traffic-q-group">
+              <div class="traffic-q-header">
+                <span class="traffic-q-num">2. kérdés</span>
+                <h3 class="traffic-q-title">„Kaptál 13. vagy 14. havi fizetést idén?”</h3>
+              </div>
+              <div class="traffic-options-grid">
+                <label class="t-opt-card">
+                  <input type="radio" name="tq2" value="Igen, megkaptam">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Igen, megkaptam</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq2" value="Nem tudom / nem kaptam">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Nem tudom / nem kaptam</span>
+                    <span class="t-risk-tag tag-danger">Magas kockázat</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq2" value="Nálam nincs ilyen">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Nálam nincs ilyen</span>
+                    <span class="t-risk-tag tag-danger">Gyakori tévedés!</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 3. KV BESOROLÁS -->
+            <div class="traffic-q-group">
+              <div class="traffic-q-header">
+                <span class="traffic-q-num">3. kérdés</span>
+                <h3 class="traffic-q-title">„Tudod melyik Kollektivvertragban vagy besorolva?”</h3>
+              </div>
+              <div class="traffic-options-grid">
+                <label class="t-opt-card">
+                  <input type="radio" name="tq3" value="Igen, tudom">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Igen, tudom</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq3" value="Hallottam róla de nem tudom pontosan">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Hallottam róla de nem tudom pontosan</span>
+                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq3" value="Fogalmam sincs">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Fogalmam sincs</span>
+                    <span class="t-risk-tag tag-danger">Magas kockázat</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 4. SZÁLLÁS LEVONÁS -->
+            <div class="traffic-q-group">
+              <div class="traffic-q-header">
+                <span class="traffic-q-num">4. kérdés</span>
+                <h3 class="traffic-q-title">„Ha van szállásod amit a cég biztosít – tudod mennyit vonnak le érte?”</h3>
+              </div>
+              <div class="traffic-options-grid">
+                <label class="t-opt-card">
+                  <input type="radio" name="tq4" value="Igen, pontosan tudom">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Igen, pontosan tudom</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq4" value="Nagyjából tudom">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Nagyjából tudom</span>
+                  </div>
+                </label>
+                <label class="t-opt-card">
+                  <input type="radio" name="tq4" value="Fogalmam sincs / nincs szállásom">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Fogalmam sincs / levonnak, de nem tudom</span>
+                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </form>
+
+          <!-- KIÉRTÉKELŐ EREDMÉNY -->
+          <div id="trafficResultCard" class="traffic-result-card" style="display: none;">
+            <!-- PIROS LÁMPA -->
+            <div id="resRedLight" class="res-light-box light-box-red" style="display: none;">
+              <div class="res-light-header">
+                <div class="big-lamp">🔴</div>
+                <div>
+                  <span class="res-badge badge-red">MAGAS KOCKÁZAT AZONOSÍTVA</span>
+                  <h4>PIROS LÁMPA</h4>
+                </div>
+              </div>
+              <p class="res-quote">„Valószínű, hogy pénzed ragad bent havonta. Töltsd fel a névtelen bérpapírod – megnézem.”</p>
+              <div class="res-auto-scroll-hint">
+                <span class="spinner-small"></span>
+                <span>Görgetés az előminősítő szűrőhöz...</span>
+              </div>
+              <a href="#szuro-blokk" class="btn btn-primary"><span>Tovább a 3 kérdéses szűrőhöz ↓</span></a>
+            </div>
+
+            <!-- SÁRGA LÁMPA -->
+            <div id="resYellowLight" class="res-light-box light-box-yellow" style="display: none;">
+              <div class="res-light-header">
+                <div class="big-lamp">🟡</div>
+                <div>
+                  <span class="res-badge badge-yellow">KÖZEPES KOCKÁZAT / GYENGE PONTOK</span>
+                  <h4>SÁRGA LÁMPA</h4>
+                </div>
+              </div>
+              <p class="res-quote">„Lehetséges eltérés. Érdemes megnézni a számokat.”</p>
+              <div class="res-auto-scroll-hint">
+                <span class="spinner-small"></span>
+                <span>Görgetés az előminősítő szűrőhöz...</span>
+              </div>
+              <a href="#szuro-blokk" class="btn btn-primary"><span>Tovább a 3 kérdéses szűrőhöz ↓</span></a>
+            </div>
+
+            <!-- ZÖLD LÁMPA -->
+            <div id="resGreenLight" class="res-light-box light-box-green" style="display: none;">
+              <div class="res-light-header">
+                <div class="big-lamp">🟢</div>
+                <div>
+                  <span class="res-badge badge-green">MINDEN TISZTÁNAK TŰNIK</span>
+                  <h4>ZÖLD LÁMPA</h4>
+                </div>
+              </div>
+              <p class="res-quote">„Úgy tűnik, minden stimmel. Ha mégis bizonytalan vagy, feltöltheted a bérpapírt.”</p>
+              <div class="res-auto-scroll-hint">
+                <span class="spinner-small"></span>
+                <span>Görgetés az előminősítő szűrőhöz...</span>
+              </div>
+              <a href="#szuro-blokk" class="btn btn-primary"><span>Tovább a 3 kérdéses szűrőhöz ↓</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SZŰRŐKÉRDÉSEK -->
+    <section class="filter-section" id="szuro-blokk">
+      <div class="container">
+        <div class="filter-box-card">
+          <div class="section-heading text-center">
+            <span class="sub-label">ELŐMINŐSÍTŐ SZŰRŐ</span>
+            <h2 class="section-title">Először 3 gyors kérdés</h2>
+            <p class="section-subtitle">Válaszolj őszintén az alábbi 3 kérdésre a folytatáshoz:</p>
+          </div>
+
+          <form id="auditForm" novalidate>
+            <!-- 1. KÉRDÉS -->
+            <div class="question-group">
+              <label class="question-label">
+                <span class="q-number">1. kérdés</span>
+                <span class="q-text">Mióta érzed hogy nem stimmelnek a számok?</span>
+              </label>
+              <div class="options-grid">
+                <label class="option-card">
+                  <input type="radio" name="q1" value="Csak 1-2 hónapja">
+                  <div class="option-content">
+                    <span class="option-indicator"></span>
+                    <span class="option-title">Csak 1-2 hónapja</span>
+                  </div>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="q1" value="Több mint fél éve / évek óta">
+                  <div class="option-content">
+                    <span class="option-indicator"></span>
+                    <span class="option-title">Több mint fél éve / évek óta</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 2. KÉRDÉS -->
+            <div class="question-group">
+              <label class="question-label">
+                <span class="q-number">2. kérdés</span>
+                <span class="q-text">Mit szeretnél elérni?</span>
+              </label>
+              <div class="options-grid">
+                <label class="option-card">
+                  <input type="radio" name="q2" value="Csak kíváncsi vagyok">
+                  <div class="option-content">
+                    <span class="option-indicator"></span>
+                    <span class="option-title">Csak kíváncsi vagyok</span>
+                  </div>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="q2" value="Ha kiderül hogy meglopnak, kész vagyok lépni és elkérni a pénzem">
+                  <div class="option-content">
+                    <span class="option-indicator"></span>
+                    <span class="option-title">Ha kiderül hogy meglopnak, kész vagyok lépni és elkérni a pénzem</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 3. KÉRDÉS -->
+            <div class="question-group">
+              <label class="question-label">
+                <span class="q-number">3. kérdés</span>
+                <span class="q-text">Tudod hogy az ingyenes diagnosztika után a teljes audit és dokumentumcsomag fix díjas?</span>
+              </label>
+              <div class="options-grid">
+                <label class="option-card">
+                  <input type="radio" name="q3" value="Igen, megértem">
+                  <div class="option-content">
+                    <span class="option-indicator"></span>
+                    <span class="option-title">Igen, megértem</span>
+                  </div>
+                </label>
+                <label class="option-card">
+                  <input type="radio" name="q3" value="Nem, mindent ingyen várok">
+                  <div class="option-content">
+                    <span class="option-indicator"></span>
+                    <span class="option-title">Nem, mindent ingyen várok</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Kizárás doboz -->
+            <div id="disqualifiedBox" class="status-box disqualified-box" style="display: none;">
+              <div class="status-box-header">
+                <span class="status-box-icon">🛑</span>
+                <h4>Jelentkezés lezárva</h4>
+              </div>
+              <p class="status-box-message">
+                „Köszönöm a jelentkezést. Ha meggondolod magad és komolyan lépni akarsz, visszavárunk.”
+              </p>
+              <button type="button" id="btnResetFilter" class="btn btn-secondary-sm">
+                ↺ Válaszaim átgondolása és módosítása
+              </button>
+            </div>
+
+            <!-- Megfelelt doboz -->
+            <div id="qualifiedBox" class="status-box qualified-box" style="display: none;">
+              <div class="status-box-header">
+                <span class="status-box-icon">✓</span>
+                <h4>Köszönöm a válaszaidat! Megfeleltél a feltételeknek.</h4>
+              </div>
+              <p class="status-box-message">
+                Készítsd elő a névtelen bérpapírod, és töltsd fel alább.
+              </p>
+            </div>
+
+            <!-- 4. ANONIM BÉRPAPÍR FELTÖLTÉS -->
+            <div id="uploadBlock" class="upload-block-container" style="display: none;">
+              <div class="upload-inner-card">
+                <h3>Töltsd fel a névtelen bérpapírod</h3>
+                <div class="anonymity-alert">
+                  <p>⚠️ <strong>Biztonsági utasítás:</strong> Húzd ki vagy feketítsd be a <strong>neved, lakcímed, céged nevét</strong>. Csak a számok, órák és sorok maradjanak láthatók.</p>
+                </div>
+
+                <div class="file-dropzone" id="fileDropzone">
+                  <input type="file" id="payslipFile" accept=".pdf,image/jpeg,image/png,image/webp,image/jpg" style="display:none;">
+                  <div id="dropzoneIdle">
+                    <div style="font-size:36px; margin-bottom: 8px;">📄</div>
+                    <p><strong>Kattints ide a bérpapír kiválasztásához</strong></p>
+                    <span style="font-size:12px; color:#94a3b8;">Kép (JPG, PNG) vagy PDF • Max. 10 MB</span>
+                  </div>
+                  <div id="dropzoneActiveFile" style="display:none;">
+                    <span id="fileName">fajl.pdf</span> (<span id="fileSize"></span>)
+                    <button type="button" id="btnRemoveFile" style="background:#ef4444; color:#fff; border:none; border-radius:50%; width:24px; height:24px; margin-left:10px; cursor:pointer;">✕</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Írd le röviden mi a gyanúd – mi nem stimmel szerinted? (Opcionális)</label>
+                  <textarea id="userSuspicions" rows="3" class="form-textarea" placeholder="Pl.: Túlórapótlék hiánya vagy rossz besorolás..."></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">WhatsApp telefonszámod * (Kötelező)</label>
+                  <input type="tel" id="whatsappNumber" class="form-input" placeholder="+43 676 1234567 vagy +36 30 123 4567" required>
+                </div>
+
+                <button type="submit" id="btnSubmitAudit" class="btn btn-cta">
+                  <span id="btnText">🔍 Beküldöm – Átnézed!</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <span class="footer-brand-title">Kristály László BSc</span>
+      <span class="footer-brand-sub">Osztrák Bér-Audit Szakértő</span>
+      <p class="footer-disclaimer">Ez az oldal tájékoztató és elemző jellegű. Nem minősül jogi tanácsadásnak.</p>
+    </div>
+  </footer>
+
+  <div id="successModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div style="font-size:48px; color:#10b981; margin-bottom:12px;">✓</div>
+      <h3 style="font-size:24px; margin-bottom:12px;">Sikeres beküldés!</h3>
+      <p style="margin-bottom:20px; color:#e2e8f0;">„Köszönöm! 48 órán belül visszaírok WhatsAppon. Készítsd elő a számodat.”</p>
+      <button type="button" id="btnCloseModal" class="btn btn-primary">Rendben, értem!</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. JELZŐLÁMPA TESZT
+      const tq1 = document.querySelectorAll('input[name="tq1"]');
+      const tq2 = document.querySelectorAll('input[name="tq2"]');
+      const tq3 = document.querySelectorAll('input[name="tq3"]');
+      const tq4 = document.querySelectorAll('input[name="tq4"]');
+
+      const card = document.getElementById('trafficResultCard');
+      const red = document.getElementById('resRedLight');
+      const yellow = document.getElementById('resYellowLight');
+      const green = document.getElementById('resGreenLight');
+
+      function evalTraffic() {
+        const a1 = document.querySelector('input[name="tq1"]:checked')?.value;
+        const a2 = document.querySelector('input[name="tq2"]:checked')?.value;
+        const a3 = document.querySelector('input[name="tq3"]:checked')?.value;
+        const a4 = document.querySelector('input[name="tq4"]:checked')?.value;
+
+        if (!a1 || !a2 || !a3 || !a4) return;
+
+        let risk = 0;
+        if (a1 === 'Igen, rendszeresen' || a1 === 'Volt néha') risk++;
+        if (a2 === 'Nem tudom / nem kaptam' || a2 === 'Nálam nincs ilyen') risk++;
+        if (a3 === 'Fogalmam sincs' || a3 === 'Hallottam róla de nem tudom pontosan') risk++;
+        if (a4 && a4.includes('Fogalmam sincs')) risk++;
+
+        red.style.display = 'none';
+        yellow.style.display = 'none';
+        green.style.display = 'none';
+        card.style.display = 'block';
+
+        if (risk >= 2) red.style.display = 'block';
+        else if (risk === 1) yellow.style.display = 'block';
+        else green.style.display = 'block';
+
+        setTimeout(() => {
+          document.getElementById('szuro-blokk')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 1100);
+      }
+
+      [...tq1, ...tq2, ...tq3, ...tq4].forEach(r => r.addEventListener('change', evalTraffic));
+
+      // 2. SZŰRŐKÉRDÉSEK & GATING
+      const q1 = document.querySelectorAll('input[name="q1"]');
+      const q2 = document.querySelectorAll('input[name="q2"]');
+      const q3 = document.querySelectorAll('input[name="q3"]');
+      const disq = document.getElementById('disqualifiedBox');
+      const qual = document.getElementById('qualifiedBox');
+      const upload = document.getElementById('uploadBlock');
+
+      function evalFilter() {
+        const v2 = document.querySelector('input[name="q2"]:checked')?.value;
+        const v3 = document.querySelector('input[name="q3"]:checked')?.value;
+        const v1 = document.querySelector('input[name="q1"]:checked')?.value;
+
+        if (!v2 && !v3) return;
+
+        if (v2 === 'Csak kíváncsi vagyok' || v3 === 'Nem, mindent ingyen várok') {
+          disq.style.display = 'block';
+          qual.style.display = 'none';
+          upload.style.display = 'none';
+          return;
+        }
+
+        if (v2 === 'Ha kiderül hogy meglopnak, kész vagyok lépni és elkérni a pénzem' && v3 === 'Igen, megértem') {
+          disq.style.display = 'none';
+          if (v1) {
+            qual.style.display = 'block';
+            upload.style.display = 'block';
+            setTimeout(() => upload.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+          }
+        }
+      }
+
+      [...q1, ...q2, ...q3].forEach(r => r.addEventListener('change', evalFilter));
+
+      document.getElementById('btnResetFilter')?.addEventListener('click', () => {
+        [...q1, ...q2, ...q3].forEach(r => r.checked = false);
+        disq.style.display = 'none';
+        qual.style.display = 'none';
+        upload.style.display = 'none';
+      });
+
+      // 3. FÁJL ÉS BEKÜLDÉS
+      let currentFile = null;
+      const fileInput = document.getElementById('payslipFile');
+      const dropzone = document.getElementById('fileDropzone');
+
+      dropzone.addEventListener('click', (e) => {
+        if (e.target.id !== 'btnRemoveFile') fileInput.click();
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          const f = e.target.files[0];
+          if (f.size > 10 * 1024 * 1024) {
+            alert('A fájl maximum 10 MB lehet!');
+            return;
+          }
+          currentFile = f;
+          document.getElementById('fileName').textContent = f.name;
+          document.getElementById('fileSize').textContent = (f.size / (1024*1024)).toFixed(2) + ' MB';
+          document.getElementById('dropzoneIdle').style.display = 'none';
+          document.getElementById('dropzoneActiveFile').style.display = 'block';
+        }
+      });
+
+      document.getElementById('btnRemoveFile')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentFile = null;
+        fileInput.value = '';
+        document.getElementById('dropzoneIdle').style.display = 'block';
+        document.getElementById('dropzoneActiveFile').style.display = 'none';
+      });
+
+      document.getElementById('auditForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const p = document.getElementById('whatsappNumber').value.trim();
+        if (!p || p.replace(/[^0-9]/g, '').length < 7) {
+          alert('Kérlek adj meg érvényes telefonszámot!');
+          return;
+        }
+        if (!currentFile) {
+          alert('Kérlek töltsd fel a bérpapírod!');
+          return;
+        }
+        document.getElementById('successModal').style.display = 'flex';
+      });
+
+      document.getElementById('btnCloseModal').addEventListener('click', () => {
+        document.getElementById('successModal').style.display = 'none';
+        document.getElementById('auditForm').reset();
+        upload.style.display = 'none';
+        qual.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
