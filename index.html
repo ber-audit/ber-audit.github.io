@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -203,7 +203,7 @@
             <div class="traffic-q-group" data-tq="1">
               <div class="traffic-q-header">
                 <span class="traffic-q-num">1. kérdés</span>
-                <h3 class="traffic-q-title">„Van túlórád az elmúlt 3 hónapban?”</h3>
+                <h3 class="traffic-q-title">„Volt túlórád az elmúlt 3 hónapban?”</h3>
               </div>
               <div class="traffic-options-grid">
                 <label class="t-opt-card">
@@ -295,10 +295,18 @@
                     <span class="t-opt-text">Fogalmam sincs</span>
                   </div>
                 </label>
+
+                <label class="t-opt-card">
+                  <input type="radio" name="tq3" value="Nincs szerződésem / nem kaptam semmit">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Nincs szerződésem / nem kaptam semmit</span>
+                  </div>
+                </label>
               </div>
             </div>
 
-            <!-- 4. SZÁLLÁS KÉRDÉS (Pontosított: saját albérlet / ingázás figyelembevételével) -->
+            <!-- 4. SZÁLLÁS KÉRDÉS (Teljeskörű választási lehetőségek) -->
             <div class="traffic-q-group" data-tq="4">
               <div class="traffic-q-header">
                 <span class="traffic-q-num">4. kérdés</span>
@@ -310,6 +318,14 @@
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
                     <span class="t-opt-text">Nincs céges szállásom (saját albérletben lakom / hazajárok)</span>
+                  </div>
+                </label>
+
+                <label class="t-opt-card">
+                  <input type="radio" name="tq4" value="Van, és teljesen ingyenes">
+                  <div class="t-opt-content">
+                    <span class="t-opt-indicator"></span>
+                    <span class="t-opt-text">Van céges szállásom, és teljesen ingyenes (nem vonnak le semmit)</span>
                   </div>
                 </label>
 
@@ -643,6 +659,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

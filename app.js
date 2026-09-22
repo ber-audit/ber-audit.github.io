@@ -52,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
       riskCount++;
     }
 
-    // 3. Kollektivvertrag kockázat: „Fogalmam sincs” VAGY „Hallottam róla de nem tudom pontosan”
-    if (a3 === 'Fogalmam sincs' || a3 === 'Hallottam róla de nem tudom pontosan') {
+    // 3. Kollektivvertrag kockázat: „Fogalmam sincs” VAGY „Hallottam róla de nem tudom pontosan” VAGY „Nincs szerződésem / nem kaptam semmit”
+    if (a3 === 'Fogalmam sincs' || a3 === 'Hallottam róla de nem tudom pontosan' || a3 === 'Nincs szerződésem / nem kaptam semmit') {
       riskCount++;
     }
 
     // 4. Céges szállás kockázat:
     // CSAK akkor kockázat, ha van céges szállás, de nem tudja pontosan a levonást!
-    // Ha nincs céges szállása (saját albérletben lakik / hazajár), az 0 kockázat.
+    // Ha nincs céges szállása, vagy teljesen ingyenes, vagy pontosan tudja a levonást: az 0 kockázat.
     if (a4 === 'Van, de nem tudom pontosan') {
       riskCount++;
     }
