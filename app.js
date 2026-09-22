@@ -1,14 +1,12 @@
 /**
  * OSZTRÁK BÉR-AUDIT – INGYENES DIAGNOSZTIKA
- * Jelzőlámpa Teszt, Kliensoldali szűrőlogika, fájlkezelés és Google Sheets / Drive integráció
+ * Jelzőlámpa Teszt (befolyásolásmentes felület), szűrőlogika és Google Sheets / Drive integráció
  * Szerző: Kristály László BSc megbízásából
  */
 
 // ============================================================================
 // KONFIGURÁCIÓ
 // ============================================================================
-// Ha elkészítetted a Google Apps Script Web App-ot (lásd: google_apps_script.js),
-// ide másold be a kapott Web App URL-t (pl: https://script.google.com/macros/s/AKfycb.../exec)
 const GOOGLE_SCRIPT_WEB_APP_URL = "";
 
 // ============================================================================
@@ -17,9 +15,8 @@ const GOOGLE_SCRIPT_WEB_APP_URL = "";
 document.addEventListener('DOMContentLoaded', () => {
 
   // --------------------------------------------------------------------------
-  // ÚJ BLOKK: JELZŐLÁMPA TESZT LOGIKA (BULLETPROOF KOCKÁZATI ÉRTÉKELÉS)
+  // 3. BLOKK: JELZŐLÁMPA TESZT HÁTTÉRSZÁMÍTÁSA (BEFOLYÁSOLÁSMENTES UI)
   // --------------------------------------------------------------------------
-  const trafficForm = document.getElementById('trafficLightForm');
   const tq1Radios = document.querySelectorAll('input[name="tq1"]');
   const tq2Radios = document.querySelectorAll('input[name="tq2"]');
   const tq3Radios = document.querySelectorAll('input[name="tq3"]');
@@ -38,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const a3 = document.querySelector('input[name="tq3"]:checked')?.value;
     const a4 = document.querySelector('input[name="tq4"]:checked')?.value;
 
-    // Csak akkor értékelünk, ha már van legalább 3 megválaszolt kérdés (vagy mind a 4)
     const answeredCount = [a1, a2, a3, a4].filter(Boolean).length;
     if (answeredCount < 4) {
       return;
@@ -61,12 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
       riskCount++;
     }
 
-    // 4. Szállás levonás kockázat: „Fogalmam sincs / nincs szállásom” (bizonytalanság a levonásról)
-    if (a4 && a4.includes('Fogalmam sincs')) {
+    // 4. Céges szállás kockázat:
+    // CSAK akkor kockázat, ha van céges szállás, de nem tudja pontosan a levonást!
+    // Ha nincs céges szállása (saját albérletben lakik / hazajár), az 0 kockázat.
+    if (a4 === 'Van, de nem tudom pontosan') {
       riskCount++;
     }
 
-    // Eredmény dobozok reset
     resRedLight.style.display = 'none';
     resYellowLight.style.display = 'none';
     resGreenLight.style.display = 'none';
@@ -90,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (szuroBlokk) {
         szuroBlokk.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 1200);
+    }, 1100);
   }
 
   [...tq1Radios, ...tq2Radios, ...tq3Radios, ...tq4Radios].forEach(radio => {
@@ -98,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------------------------------------------------------------------------
-  // BLOKK 5: SZŰRŐ ÉS GATING LOGIKA
+  // 4. BLOKK: SZŰRŐ ÉS GATING LOGIKA (TURISTÁK KISZŰRÉSE)
   // --------------------------------------------------------------------------
   const form = document.getElementById('auditForm');
   const q1Radios = document.querySelectorAll('input[name="q1"]');
@@ -206,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------------------------------------------------------------------------
-  // BLOKK 6: FÁJLKEZELÉS & VALIDÁCIÓ (MAX 10 MB, KÉP/PDF)
+  // 5. BLOKK: FÁJLKEZELÉS & VALIDÁCIÓ (MAX 10 MB, KÉP/PDF)
   // --------------------------------------------------------------------------
   const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
   const ALLOWED_TYPES = [
@@ -373,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const base64DataUrl = await fileToBase64(currentFile);
       const base64Content = base64DataUrl.split(',')[1];
 
-      // Összegyűjtjük a Jelzőlámpa Teszt válaszait is
       const tq1Val = document.querySelector('input[name="tq1"]:checked')?.value || 'Nincs kitöltve';
       const tq2Val = document.querySelector('input[name="tq2"]:checked')?.value || 'Nincs kitöltve';
       const tq3Val = document.querySelector('input[name="tq3"]:checked')?.value || 'Nincs kitöltve';

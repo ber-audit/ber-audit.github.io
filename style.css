@@ -195,11 +195,11 @@ a {
 }
 
 /* ==========================================================================
-   1. FŐRÉSZ: HERO + FOTÓ + KI VAGYOK
+   1. BLOKK: HERO
    ========================================================================== */
 .hero-section {
   position: relative;
-  padding: 36px 0 50px 0;
+  padding: 36px 0 45px 0;
 }
 
 .hero-container {
@@ -262,7 +262,7 @@ a {
   font-size: clamp(16px, 3.8vw, 19px);
   line-height: 1.6;
   max-width: 680px;
-  margin: 0 auto 26px auto;
+  margin: 0 auto 24px auto;
   color: #cbd5e1;
 }
 
@@ -271,151 +271,171 @@ a {
   font-weight: 700;
 }
 
-/* HERO EXPERT KÁRTYA (A komoly arc + karóra teljes nézetben) */
-.hero-expert-card {
+.hero-action-box {
   width: 100%;
-  max-width: 800px;
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-orange);
-  border-radius: var(--radius-lg);
-  padding: 24px 18px;
-  margin: 10px 0 28px 0;
-  box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 94, 26, 0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 22px;
-  text-align: center;
-}
-
-.expert-photo-col {
-  width: 100%;
-  max-width: 320px;
-  display: flex;
-  justify-content: center;
-}
-
-.photo-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 300px;
-}
-
-/* Teljes fotó megjelenítés, karórával, levágás nélkül */
-.profile-photo-full {
-  width: 100%;
-  height: auto;
-  display: block;
+  max-width: 520px;
+  background: rgba(255, 94, 26, 0.08);
+  border: 1px solid rgba(255, 94, 26, 0.3);
   border-radius: var(--radius-md);
-  border: 2px solid var(--border-orange);
-  box-shadow: 0 0 25px rgba(255, 94, 26, 0.3);
-  background: #0f1626;
-  /* Semmilyen alsó levágás sincs */
+  padding: 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-.photo-badge {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #0f172a;
-  border: 1px solid var(--accent-orange);
-  color: #fff;
-  padding: 5px 14px;
-  border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-}
-
-.verified-icon {
-  color: var(--accent-orange-bright);
-  font-weight: 900;
-}
-
-.expert-info-col {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.sub-label {
-  display: inline-block;
-  font-family: var(--font-heading);
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--accent-orange-bright);
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.expert-name {
-  font-size: clamp(24px, 4.5vw, 30px);
-  margin-bottom: 4px;
-}
-
-.expert-title {
-  color: var(--accent-orange-bright);
-  font-weight: 600;
-  font-size: 14px;
+.action-highlight {
+  font-size: 16px;
+  color: var(--text-white);
   margin-bottom: 14px;
 }
 
-.expert-quote {
-  font-style: italic;
-  color: #e2e8f0;
-  font-size: 15px;
-  line-height: 1.6;
-  background: rgba(255, 255, 255, 0.04);
-  border-left: 3px solid var(--accent-orange);
-  padding: 14px 16px;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  margin-bottom: 18px;
-  text-align: left;
-}
-
-.expert-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.chip {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-card);
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.chip-title {
-  font-family: var(--font-heading);
-  font-size: 15px;
-  font-weight: 800;
+.action-highlight strong {
   color: var(--accent-orange-bright);
 }
 
-.chip-sub {
+/* Bérpapír Illusztráció Kártya */
+.hero-illustration-card {
+  width: 100%;
+  max-width: 540px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.warning-light-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.traffic-light {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 12px #ef4444;
+  flex-shrink: 0;
+  animation: pulse-animation 1.5s infinite;
+}
+
+.warning-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fca5a5;
+  line-height: 1.3;
+}
+
+.payslip-visual {
+  background: rgba(10, 15, 25, 0.95);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.payslip-header-fake {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.fake-bar-short {
+  width: 120px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.fake-stamp {
+  font-family: monospace;
   font-size: 11px;
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.payslip-row-fake {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+}
+
+.fake-text {
   color: var(--text-muted);
 }
 
-/* BIZALOMÉPÍTÉS: 3 VÍZSZINTES KÁRTYA */
+.negative-text {
+  color: #f87171;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.alert-badge {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  font-weight: 700;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.payslip-footer-fake {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 10px;
+  font-size: 12px;
+}
+
+.audit-status {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.free-tag {
+  background: var(--accent-orange);
+  color: #fff;
+  font-weight: 800;
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.clickable-pill:hover {
+  background: var(--accent-orange-bright);
+  box-shadow: 0 0 12px var(--accent-orange-glow);
+}
+
+/* Bizalomépítés: 3 Garancia Kártya */
 .trust-horizontal-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
   width: 100%;
   max-width: 800px;
-  margin-bottom: 24px;
 }
 
 .trust-mini-card {
@@ -446,27 +466,6 @@ a {
   color: var(--text-muted);
   line-height: 1.4;
   margin-top: 2px;
-}
-
-/* Hero Action Box */
-.hero-action-box {
-  width: 100%;
-  max-width: 520px;
-  background: rgba(255, 94, 26, 0.08);
-  border: 1px solid rgba(255, 94, 26, 0.3);
-  border-radius: var(--radius-md);
-  padding: 18px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-.action-highlight {
-  font-size: 16px;
-  color: var(--text-white);
-  margin-bottom: 14px;
-}
-
-.action-highlight strong {
-  color: var(--accent-orange-bright);
 }
 
 /* Gombok */
@@ -532,6 +531,7 @@ a {
   border-radius: var(--radius-sm);
   margin-top: 14px;
   width: auto;
+  display: inline-block;
 }
 
 .btn-secondary-sm:hover {
@@ -539,12 +539,162 @@ a {
 }
 
 /* ==========================================================================
-   2. FŐRÉSZ: JELZŐLÁMPA TESZT
+   2. BLOKK: FOTÓS RÉSZ (RÓLAM / KI VAGYOK) - A HERO ALATT ÉS A TESZT ELŐTT
+   ========================================================================== */
+.about-standalone-section {
+  padding: 50px 0;
+  background: rgba(14, 19, 32, 0.5);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.about-standalone-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-orange);
+  border-radius: var(--radius-lg);
+  padding: 30px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 26px;
+}
+
+.about-photo-column {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  justify-content: center;
+}
+
+.photo-wrapper-full {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* A FOTÓ: Karóra 100%-ban látszódik, semmilyen vágás nélkül */
+.photo-wrist-visible {
+  width: 100% !important;
+  max-width: 320px !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  display: block !important;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-orange);
+  box-shadow: 0 0 35px rgba(255, 94, 26, 0.35);
+  background: #0f1626;
+  margin: 0 auto;
+}
+
+.photo-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid var(--accent-orange);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 2;
+}
+
+.verified-icon {
+  color: var(--accent-orange-bright);
+  font-weight: 900;
+}
+
+.about-text-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sub-label {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent-orange-bright);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.about-name {
+  font-size: clamp(24px, 4.5vw, 32px);
+  margin-bottom: 4px;
+}
+
+.about-title-tag {
+  color: var(--accent-orange-bright);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.about-quote {
+  font-style: italic;
+  color: #e2e8f0;
+  font-size: 15px;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--accent-orange);
+  padding: 14px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.about-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.highlight-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-card);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chip-num {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent-orange-bright);
+}
+
+.chip-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.about-bottom-cta {
+  margin-top: 14px;
+}
+
+/* ==========================================================================
+   3. BLOKK: JELZŐLÁMPA TESZT
    ========================================================================== */
 .traffic-light-section {
   padding: 60px 0;
   background: rgba(10, 15, 26, 0.85);
-  border-top: 1px solid var(--border-subtle);
   border-bottom: 1px solid var(--border-subtle);
   position: relative;
 }
@@ -663,7 +813,7 @@ a {
   background: var(--bg-input);
   border: 1.5px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 12px 16px;
+  padding: 14px 16px;
   min-height: 52px;
   transition: all 0.2s ease;
 }
@@ -694,27 +844,7 @@ a {
   font-weight: 500;
   color: var(--text-main);
   flex: 1;
-}
-
-.t-risk-tag {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 4px;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-}
-
-.tag-warning {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.tag-danger {
-  background: rgba(239, 68, 68, 0.18);
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  text-align: left;
 }
 
 .t-opt-card:hover .t-opt-content {
@@ -859,7 +989,7 @@ a {
 }
 
 /* ==========================================================================
-   3. FŐRÉSZ: SZŰRŐKÉRDÉSEK & GATING LOGIKA
+   4. BLOKK: SZŰRŐKÉRDÉSEK & GATING LOGIKA
    ========================================================================== */
 .filter-section {
   padding: 60px 0 80px 0;
@@ -1053,7 +1183,7 @@ a {
 }
 
 /* ==========================================================================
-   4. FŐRÉSZ: DOKUMENTUM FELTÖLTÉS & ŰRLAP
+   5. BLOKK: DOKUMENTUM FELTÖLTÉS & ŰRLAP
    ========================================================================== */
 .upload-block-container {
   animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1490,19 +1620,23 @@ a {
     padding: 50px 0 60px 0;
   }
 
-  .hero-expert-card {
+  .about-standalone-card {
     flex-direction: row;
     align-items: flex-start;
     text-align: left;
-    padding: 32px;
-    gap: 32px;
+    padding: 36px;
+    gap: 36px;
   }
 
-  .expert-photo-col {
-    max-width: 280px;
+  .about-photo-column {
+    max-width: 320px;
   }
 
-  .expert-chips {
+  .photo-wrapper-full {
+    max-width: 320px;
+  }
+
+  .about-highlights {
     justify-content: flex-start;
   }
 

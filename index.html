@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
@@ -36,7 +36,9 @@
   </header>
 
   <main>
-    <!-- 1. FŐRÉSZ: HERO + FOTÓ + KI VAGYOK (A komoly, céltudatos arc + Karóra) -->
+    <!-- ====================================================================
+         1. BLOKK: HERO (Cím, kérdés, probléma, bizalomépítés)
+         ==================================================================== -->
     <section class="hero-section" id="hero">
       <div class="glow-orb glow-top-left" aria-hidden="true"></div>
       <div class="glow-orb glow-bottom-right" aria-hidden="true"></div>
@@ -58,45 +60,48 @@
           Rossz bérbesorolás, kifizetetlen túlórák, elmaradt pótlékok – sok magyar munkásnál ezek együtt havonta <strong>több száz euró különbséget</strong> jelenthetnek.
         </p>
 
-        <!-- SZEMÉLYES BEMUTATKOZÓ KÁRTYA A HERO-BAN (FOTÓ KARÓRÁVAL) -->
-        <div class="hero-expert-card" id="ki-vagyok">
-          <div class="expert-photo-col">
-            <div class="photo-wrapper">
-              <img src="assets/laszlo.jpg" alt="Kristály László BSc – Osztrák Bér-Audit Szakértő" class="profile-photo-full" loading="eager">
-              <div class="photo-badge">
-                <span class="verified-icon">✓</span>
-                <span>Hitelesített Szakértő</span>
-              </div>
-            </div>
+        <!-- Hero Akció doboz -->
+        <div class="hero-action-box">
+          <p class="action-highlight">
+            👉 <strong>Töltsd fel a névtelen bérpapírod. Megnézem a számodat.</strong>
+          </p>
+          <a href="#jelzolampa-teszt" class="btn btn-primary btn-hero">
+            <span>🚦 Nézd meg 2 perc alatt a Jelzőlámpa Tesztet ↓</span>
+          </a>
+        </div>
+
+        <!-- Bérpapír szimuláció illusztráció -->
+        <div class="hero-illustration-card">
+          <div class="warning-light-indicator">
+            <span class="traffic-light red-glow"></span>
+            <span class="warning-label">FIGYELEM: Gyakori eltérés a Kollektív Szerződéstől (KV)!</span>
           </div>
 
-          <div class="expert-info-col">
-            <span class="sub-label">SZEMÉLYES SZAKÉRTELEM ÉS TEREPTAPASZTALAT</span>
-            <h2 class="expert-name">Kristály László BSc</h2>
-            <p class="expert-title">Diplomás munkavállalási tanácsadó • Osztrák Bér-Audit Szakértő</p>
-
-            <blockquote class="expert-quote">
-              „15 évet éltem és dolgoztam Ausztriában és Németországban, főleg Leihfirmákon keresztül. Tudom pontosan, hogyan működnek ezek a rendszerek – és hol nyúlnak bele a pénzedbe.”
-            </blockquote>
-
-            <div class="expert-chips">
-              <div class="chip">
-                <span class="chip-title">15+ év</span>
-                <span class="chip-sub">kinti tapasztalat</span>
-              </div>
-              <div class="chip">
-                <span class="chip-title">100%</span>
-                <span class="chip-sub">osztrák KV fókusz</span>
-              </div>
-              <div class="chip">
-                <span class="chip-title">Leihfirma</span>
-                <span class="chip-sub">rendszerek átlátása</span>
-              </div>
+          <div class="payslip-visual">
+            <div class="payslip-header-fake">
+              <div class="fake-bar-short"></div>
+              <div class="fake-stamp">LOHNABRECHNUNG</div>
+            </div>
+            <div class="payslip-row-fake">
+              <span class="fake-text">Alapbér besorolás (KV Einstufung)</span>
+              <span class="fake-diff negative-text">Alacsonyabb csoportba sorolva?</span>
+            </div>
+            <div class="payslip-row-fake">
+              <span class="fake-text">Túlórák (Überstunden 50% / 100%)</span>
+              <span class="fake-diff alert-badge">- €280 – €450 / hó hiány</span>
+            </div>
+            <div class="payslip-row-fake">
+              <span class="fake-text">Pótlékok, Diéták (Zulagen & Diäten)</span>
+              <span class="fake-diff alert-badge">Gyakran elfelejtik elszámolni</span>
+            </div>
+            <div class="payslip-footer-fake">
+              <span class="audit-status">🔒 100% Névtelen Bérpapír Elemzés</span>
+              <a href="#jelzolampa-teszt" class="free-tag clickable-pill">INGYENES ELSŐ LÉPÉS ↓</a>
             </div>
           </div>
         </div>
 
-        <!-- BIZALOMÉPÍTÉS: 3 GARANCIA -->
+        <!-- Bizalomépítés: 3 Garancia -->
         <div class="trust-horizontal-grid">
           <div class="trust-mini-card">
             <div class="mini-icon">🔒</div>
@@ -122,20 +127,63 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Hero Hook & CTA gomb -->
-        <div class="hero-action-box">
-          <p class="action-highlight">
-            👉 <strong>Töltsd fel a névtelen bérpapírod. Megnézem a számodat.</strong>
-          </p>
-          <a href="#jelzolampa-teszt" class="btn btn-primary btn-hero">
-            <span>🚦 Nézd meg 2 perc alatt a Jelzőlámpa Tesztet ↓</span>
-          </a>
+    <!-- ====================================================================
+         2. BLOKK: FOTÓS RÉSZ (RÓLAM / KI VAGYOK) - A HERO ALATT ÉS A TESZT ELŐTT
+         ==================================================================== -->
+    <section class="about-standalone-section" id="ki-vagyok">
+      <div class="container">
+        <div class="about-standalone-card">
+          <div class="about-photo-column">
+            <div class="photo-wrapper-full">
+              <!-- A fotó teljes egészében, karórával, levágás nélkül -->
+              <img src="assets/laszlo.jpg" alt="Kristály László BSc – Diplomás munkavállalási tanácsadó" class="photo-wrist-visible" loading="eager">
+              <div class="photo-badge">
+                <span class="verified-icon">✓</span>
+                <span>Hitelesített Szakértő</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-text-column">
+            <span class="sub-label">SZEMÉLYES SZAKÉRTELEM ÉS TEREPTAPASZTALAT</span>
+            <h2 class="about-name">Kristály László BSc</h2>
+            <p class="about-title-tag">Diplomás munkavállalási tanácsadó • Osztrák Bér-Audit Szakértő</p>
+
+            <blockquote class="about-quote">
+              „15 évet éltem és dolgoztam Ausztriában és Németországban, főleg Leihfirmákon keresztül. Tudom pontosan, hogyan működnek ezek a rendszerek – és hol nyúlnak bele a pénzedbe.”
+            </blockquote>
+
+            <div class="about-highlights">
+              <div class="highlight-chip">
+                <span class="chip-num">15+ év</span>
+                <span class="chip-desc">kinti tereptapasztalat</span>
+              </div>
+              <div class="highlight-chip">
+                <span class="chip-num">100%</span>
+                <span class="chip-desc">osztrák KV fókusz</span>
+              </div>
+              <div class="highlight-chip">
+                <span class="chip-num">Leihfirma</span>
+                <span class="chip-desc">rendszerek átlátása</span>
+              </div>
+            </div>
+
+            <div class="about-bottom-cta">
+              <a href="#jelzolampa-teszt" class="btn btn-secondary-sm">
+                Töltsd ki a 2 perces Jelzőlámpa Tesztet alább ↓
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 2. FŐRÉSZ: JELZŐLÁMPA TESZT (Szembesülés a problémával) -->
+    <!-- ====================================================================
+         3. BLOKK: JELZŐLÁMPA TESZT (Szembesülés – befolyásolásmentes válaszokkal)
+         ==================================================================== -->
     <section class="traffic-light-section" id="jelzolampa-teszt">
       <div class="container">
         <div class="traffic-box-card">
@@ -147,7 +195,7 @@
             </div>
             <span class="sub-label">GYORS KOCKÁZATI DIAGNOSZTIKA</span>
             <h2 class="section-title">Nézd meg 2 perc alatt – neked milyen lámpa ég?</h2>
-            <p class="section-subtitle">Válaszolj az alábbi 4 egyszerű kérdésre, és a rendszer azonnal kiértékeli a veszteség kockázatát:</p>
+            <p class="section-subtitle">Válaszolj az alábbi 4 egyszerű kérdésre, és a rendszer a háttérben azonnal kiértékeli a helyzeted:</p>
           </div>
 
           <form id="trafficLightForm" class="traffic-form">
@@ -158,25 +206,23 @@
                 <h3 class="traffic-q-title">„Van túlórád az elmúlt 3 hónapban?”</h3>
               </div>
               <div class="traffic-options-grid">
-                <label class="t-opt-card" data-risk="high">
+                <label class="t-opt-card">
                   <input type="radio" name="tq1" value="Igen, rendszeresen">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
                     <span class="t-opt-text">Igen, rendszeresen</span>
-                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="high">
+                <label class="t-opt-card">
                   <input type="radio" name="tq1" value="Volt néha">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
                     <span class="t-opt-text">Volt néha</span>
-                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="safe">
+                <label class="t-opt-card">
                   <input type="radio" name="tq1" value="Nem volt">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
@@ -193,7 +239,7 @@
                 <h3 class="traffic-q-title">„Kaptál 13. vagy 14. havi fizetést idén?”</h3>
               </div>
               <div class="traffic-options-grid">
-                <label class="t-opt-card" data-risk="safe">
+                <label class="t-opt-card">
                   <input type="radio" name="tq2" value="Igen, megkaptam">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
@@ -201,21 +247,19 @@
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="high">
+                <label class="t-opt-card">
                   <input type="radio" name="tq2" value="Nem tudom / nem kaptam">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
                     <span class="t-opt-text">Nem tudom / nem kaptam</span>
-                    <span class="t-risk-tag tag-danger">Magas kockázat</span>
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="high">
+                <label class="t-opt-card">
                   <input type="radio" name="tq2" value="Nálam nincs ilyen">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
                     <span class="t-opt-text">Nálam nincs ilyen</span>
-                    <span class="t-risk-tag tag-danger">Gyakori tévedés!</span>
                   </div>
                 </label>
               </div>
@@ -228,7 +272,7 @@
                 <h3 class="traffic-q-title">„Tudod melyik Kollektivvertragban vagy besorolva?”</h3>
               </div>
               <div class="traffic-options-grid">
-                <label class="t-opt-card" data-risk="safe">
+                <label class="t-opt-card">
                   <input type="radio" name="tq3" value="Igen, tudom">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
@@ -236,55 +280,52 @@
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="high">
+                <label class="t-opt-card">
                   <input type="radio" name="tq3" value="Hallottam róla de nem tudom pontosan">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
                     <span class="t-opt-text">Hallottam róla de nem tudom pontosan</span>
-                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="high">
+                <label class="t-opt-card">
                   <input type="radio" name="tq3" value="Fogalmam sincs">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
                     <span class="t-opt-text">Fogalmam sincs</span>
-                    <span class="t-risk-tag tag-danger">Magas kockázat</span>
                   </div>
                 </label>
               </div>
             </div>
 
-            <!-- 4. SZÁLLÁS LEVONÁS KÉRDÉS -->
+            <!-- 4. SZÁLLÁS KÉRDÉS (Pontosított: saját albérlet / ingázás figyelembevételével) -->
             <div class="traffic-q-group" data-tq="4">
               <div class="traffic-q-header">
                 <span class="traffic-q-num">4. kérdés</span>
-                <h3 class="traffic-q-title">„Ha van szállásod amit a cég biztosít – tudod mennyit vonnak le érte?”</h3>
+                <h3 class="traffic-q-title">„Van céges szállásod, amit a munkáltatód vagy közvetítőd biztosít?”</h3>
               </div>
               <div class="traffic-options-grid">
-                <label class="t-opt-card" data-risk="safe">
-                  <input type="radio" name="tq4" value="Igen, pontosan tudom">
+                <label class="t-opt-card">
+                  <input type="radio" name="tq4" value="Nincs céges szállásom">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
-                    <span class="t-opt-text">Igen, pontosan tudom</span>
+                    <span class="t-opt-text">Nincs céges szállásom (saját albérletben lakom / hazajárok)</span>
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="safe">
-                  <input type="radio" name="tq4" value="Nagyjából tudom">
+                <label class="t-opt-card">
+                  <input type="radio" name="tq4" value="Van, és pontosan tudom a levonást">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
-                    <span class="t-opt-text">Nagyjából tudom</span>
+                    <span class="t-opt-text">Van céges szállásom, és pontosan látom a levonást a bérpapíron</span>
                   </div>
                 </label>
 
-                <label class="t-opt-card" data-risk="high">
-                  <input type="radio" name="tq4" value="Fogalmam sincs / nincs szállásom">
+                <label class="t-opt-card">
+                  <input type="radio" name="tq4" value="Van, de nem tudom pontosan">
                   <div class="t-opt-content">
                     <span class="t-opt-indicator"></span>
-                    <span class="t-opt-text">Fogalmam sincs / levonnak, de nem tudom</span>
-                    <span class="t-risk-tag tag-warning">Kockázati pont</span>
+                    <span class="t-opt-text">Van céges szállásom, de nem tudom pontosan mennyit és miért vonnak le</span>
                   </div>
                 </label>
               </div>
@@ -308,7 +349,7 @@
               </p>
               <div class="res-auto-scroll-hint">
                 <span class="spinner-small"></span>
-                <span>Görgetés az előminősítő szűrőhöz...</span>
+                <span>Görgetés a szűrőkérdésekhez...</span>
               </div>
               <a href="#szuro-blokk" class="btn btn-primary btn-jump-to-filter">
                 <span>Tovább a 3 kérdéses szűrőhöz ↓</span>
@@ -320,7 +361,7 @@
               <div class="res-light-header">
                 <div class="big-lamp lamp-yellow">🟡</div>
                 <div class="res-light-title-group">
-                  <span class="res-badge badge-yellow">KÖZEPES KOCKÁZAT / GYENGE PONTOK</span>
+                  <span class="res-badge badge-yellow">KÖZEPES KOCKÁZAT / BIZONYTALAN PONTOK</span>
                   <h4>SÁRGA LÁMPA</h4>
                 </div>
               </div>
@@ -329,7 +370,7 @@
               </p>
               <div class="res-auto-scroll-hint">
                 <span class="spinner-small"></span>
-                <span>Görgetés az előminősítő szűrőhöz...</span>
+                <span>Görgetés a szűrőkérdésekhez...</span>
               </div>
               <a href="#szuro-blokk" class="btn btn-primary btn-jump-to-filter">
                 <span>Tovább a 3 kérdéses szűrőhöz ↓</span>
@@ -341,7 +382,7 @@
               <div class="res-light-header">
                 <div class="big-lamp lamp-green">🟢</div>
                 <div class="res-light-title-group">
-                  <span class="res-badge badge-green">MINDEN TISZTÁNAK TŰNIK</span>
+                  <span class="res-badge badge-green">MINDEN RENDBENNEK TŰNIK</span>
                   <h4>ZÖLD LÁMPA</h4>
                 </div>
               </div>
@@ -350,7 +391,7 @@
               </p>
               <div class="res-auto-scroll-hint">
                 <span class="spinner-small"></span>
-                <span>Görgetés az előminősítő szűrőhöz...</span>
+                <span>Görgetés a szűrőkérdésekhez...</span>
               </div>
               <a href="#szuro-blokk" class="btn btn-primary btn-jump-to-filter">
                 <span>Tovább a 3 kérdéses szűrőhöz ↓</span>
@@ -362,7 +403,9 @@
       </div>
     </section>
 
-    <!-- 3. FŐRÉSZ: SZŰRŐKÉRDÉSEK (Kiszűri a panaszkodó idővámpírokat) -->
+    <!-- ====================================================================
+         4. BLOKK: SZŰRŐKÉRDÉSEK (Idővámpírok kiszűrése)
+         ==================================================================== -->
     <section class="filter-section" id="szuro-blokk">
       <div class="container">
         <div class="filter-box-card">
@@ -476,7 +519,9 @@
               </p>
             </div>
 
-            <!-- 4. FŐRÉSZ: ANONIM BÉRPAPÍR FELTÖLTÉS (Biztonságos lezárás) -->
+            <!-- ====================================================================
+                 5. BLOKK: DOKUMENTUM FELTÖLTÉS (Biztonságos lezárás)
+                 ==================================================================== -->
             <div id="uploadBlock" class="upload-block-container" style="display: none;">
               <div class="upload-divider">
                 <span>Következő lépés: Dokumentum és elérhetőség</span>
@@ -598,6 +643,6 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>
