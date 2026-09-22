@@ -498,9 +498,17 @@ a {
   color: #fff;
   font-weight: 800;
   font-size: 10px;
-  padding: 3px 8px;
+  padding: 5px 10px;
   border-radius: var(--radius-full);
   letter-spacing: 0.5px;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.clickable-pill:hover {
+  background: var(--accent-orange-bright);
+  box-shadow: 0 0 12px var(--accent-orange-glow);
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
@@ -606,7 +614,303 @@ a {
 }
 
 /* ==========================================================================
-   BLOKK 3 – KI VAGYOK
+   ÚJ BLOKK: JELZŐLÁMPA TESZT
+   ========================================================================== */
+.traffic-light-section {
+  padding: 60px 0;
+  background: rgba(10, 15, 26, 0.8);
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.traffic-box-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.traffic-mini-lights {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.t-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.t-red {
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+
+.t-yellow {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+}
+
+.t-green {
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.traffic-q-group {
+  margin-bottom: 26px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.traffic-q-group:last-of-type {
+  border-bottom: none;
+  margin-bottom: 10px;
+}
+
+.traffic-q-header {
+  margin-bottom: 12px;
+}
+
+.traffic-q-num {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent-orange-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.traffic-q-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 3px;
+  line-height: 1.35;
+}
+
+.traffic-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.t-opt-card {
+  display: block;
+  cursor: pointer;
+  position: relative;
+}
+
+.t-opt-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.t-opt-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  min-height: 52px;
+  transition: all 0.2s ease;
+}
+
+.t-opt-indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.t-opt-indicator::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.t-opt-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  flex: 1;
+}
+
+.t-risk-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.tag-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.tag-danger {
+  background: rgba(239, 68, 68, 0.18);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.t-opt-card:hover .t-opt-content {
+  border-color: rgba(255, 94, 26, 0.4);
+  background: rgba(26, 35, 54, 0.6);
+}
+
+.t-opt-card input[type="radio"]:checked + .t-opt-content {
+  background: rgba(255, 94, 26, 0.14);
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 14px rgba(255, 94, 26, 0.2);
+}
+
+.t-opt-card input[type="radio"]:checked + .t-opt-content .t-opt-indicator {
+  border-color: var(--accent-orange);
+}
+
+.t-opt-card input[type="radio"]:checked + .t-opt-content .t-opt-indicator::after {
+  background-color: var(--accent-orange);
+}
+
+.t-opt-card input[type="radio"]:checked + .t-opt-content .t-opt-text {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Kiértékelő Eredmény Kártyák */
+.traffic-result-card {
+  margin-top: 24px;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.res-light-box {
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  text-align: left;
+}
+
+.res-light-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.big-lamp {
+  font-size: 38px;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px currentColor);
+}
+
+.res-light-title-group h4 {
+  font-size: 20px;
+  letter-spacing: -0.3px;
+  margin-top: 2px;
+}
+
+.res-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.light-box-red {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1.5px solid rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.2);
+}
+
+.light-box-red h4 { color: #fecaca; }
+.badge-red {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.light-box-yellow {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
+}
+
+.light-box-yellow h4 { color: #fef08a; }
+.badge-yellow {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fde047;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+}
+
+.light-box-green {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px solid rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+}
+
+.light-box-green h4 { color: #a7f3d0; }
+.badge-green {
+  background: rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+.res-quote {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  border-left: 3px solid var(--accent-orange);
+  padding: 14px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 18px;
+}
+
+.res-auto-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-bottom: 14px;
+}
+
+.spinner-small {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--accent-orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+.btn-jump-to-filter {
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   BLOKK 3 – KI VAGYOK (KÉP KARÓRÁVAL)
    ========================================================================== */
 .about-section {
   padding: 60px 0;
@@ -616,7 +920,7 @@ a {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
-  padding: 28px 22px;
+  padding: 28px 20px;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
@@ -629,21 +933,31 @@ a {
 
 .about-photo-column {
   flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 290px;
 }
 
 .photo-wrapper {
   position: relative;
   display: inline-block;
+  width: 100%;
 }
 
+/* Nagyobb kép, hogy a karóra is jól látszódjon */
 .profile-photo {
-  width: 170px;
-  height: 220px;
+  width: 100%;
+  max-width: 290px;
+  height: auto;
+  aspect-ratio: 9 / 14;
   object-fit: cover;
+  object-position: top center;
   border-radius: var(--radius-md);
   border: 2px solid var(--border-orange);
-  box-shadow: 0 0 25px rgba(255, 94, 26, 0.25);
+  box-shadow: 0 0 30px rgba(255, 94, 26, 0.3);
   display: block;
+  background: #0f1626;
 }
 
 .photo-badge {
@@ -654,7 +968,7 @@ a {
   background: #0f172a;
   border: 1px solid var(--accent-orange);
   color: #fff;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: var(--radius-full);
   font-size: 11px;
   font-weight: 700;
@@ -662,7 +976,7 @@ a {
   align-items: center;
   gap: 5px;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .verified-icon {
@@ -1428,12 +1742,26 @@ a {
     gap: 20px;
   }
 
+  .traffic-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
   .about-card {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     text-align: left;
     padding: 36px;
-    gap: 32px;
+    gap: 36px;
+  }
+
+  .about-photo-column {
+    max-width: 320px;
+  }
+
+  .profile-photo {
+    max-width: 320px;
   }
 
   .about-highlights {
