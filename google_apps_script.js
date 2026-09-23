@@ -1,40 +1,38 @@
 /**
  * ============================================================================
- * OSZTRÁK BÉR-AUDIT – GOOGLE APPS SCRIPT HÁTTÉRRENDSZER
+ * OSZTRÁK BÉR-AUDIT – GOOGLE APPS SCRIPT HÁTTÉRRENDSZER (STANDALONE VERZIÓ)
  * ============================================================================
- * 
- * Ez a script kezeli a landing oldalról érkező beküldéseket:
- * 1. Automatikusan létrehoz egy "Osztrák Bér-Audit Feltöltések" nevű Drive mappát.
- * 2. Elmenti a feltöltött bérpapírt (PDF vagy kép) a Drive-ba.
- * 3. Hozzáadja az adatokat a Google Táblázat új soraként:
- *    Időbélyeg | WhatsApp szám | 1. kérdés | 2. kérdés | 3. kérdés | Gyanú | Fájlnév | Drive Link
- * 
- * BEÜZEMELÉSI ÚTMUTATÓ:
- * 1. Hozz létre egy új Google Táblázatot (pl. "Osztrák Bér-Audit Jelentkezések").
- * 2. A menüben menj a Bővítmények -> Apps Script (Extensions -> Apps Script) menüpontra.
- * 3. Töröld ki az ott lévő kódot, és másold be ezt a teljes fájlt.
- * 4. Kattints a Mentés ikonra (Floppy / Ctrl+S).
- * 5. Futtasd le egyszer az 'initialSetup' funkciót a fejléc beállításához (Engedélyezd a jogosultságokat).
- * 6. Kattints a jobb felső kék "Telepítés" (Deploy) gombra -> "Új telepítés" (New deployment).
- * 7. Válassz típust: "Webalkalmazás" (Web app).
- *    - Leírás: "Bér-Audit Végpont"
- *    - Végrehajtás mint: "Én" (Me)
- *    - Ki férhet hozzá: "Bárki" (Anyone) - EZ KÖTELEZŐ, hogy a weboldal be tudja küldeni!
- * 8. Kattints a "Telepítés" gombra.
- * 9. Másold ki a kapott Webalkalmazás URL-t (Web app URL).
- * 10. Nyisd meg az 'app.js' fájlt a weboldal mappájában, és illeszd be a GOOGLE_SCRIPT_WEB_APP_URL változóba!
  */
 
+const SPREADSHEET_NAME = "Osztrák Bér-Audit Adatbázis";
 const FOLDER_NAME = "Osztrák Bér-Audit Feltöltések";
 
+// Ez a függvény automatikusan megkeresi vagy létrehozza a táblázatot
+function getOrCreateSpreadsheet() {
+  const files = DriveApp.getFilesByName(SPREADSHEET_NAME);
+  if (files.hasNext()) {
+    return SpreadsheetApp.open(files.next());
+  }
+  return SpreadsheetApp.create(SPREADSHEET_NAME);
+}
+
+function getOrCreateFolder(folderName) {
+  const folders = DriveApp.getFoldersByName(folderName);
+  if (folders.hasNext()) {
+    return folders.next();
+  } else {
+    return DriveApp.createFolder(folderName);
+  }
+}
+
 function initialSetup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = getOrCreateSpreadsheet();
   
   // 1. Leads Sheet
   let leadsSheet = ss.getSheetByName('Leads');
   if (!leadsSheet) {
-    if (ss.getActiveSheet().getName() === 'Sheet1') {
-      leadsSheet = ss.getActiveSheet();
+    if (ss.getSheets()[0].getName() === 'Sheet1' || ss.getSheets()[0].getName() === 'Munka1') {
+      leadsSheet = ss.getSheets()[0];
       leadsSheet.setName('Leads');
     } else {
       leadsSheet = ss.insertSheet('Leads');
@@ -72,18 +70,16 @@ function initialSetup() {
   
   // Drive mappa létrehozása ha még nincs
   getOrCreateFolder(FOLDER_NAME);
-  Logger.log("A beállítás sikeresen lefutott! Mindkét munkalap és mappa készen áll.");
+  Logger.log("A beállítás sikeresen lefutott! Létrehoztam az 'Osztrák Bér-Audit Adatbázis' fájlt a Drive-odon.");
 }
 
 function doPost(e) {
   try {
     const postData = JSON.parse(e.postData.contents);
-    const type = postData.type || 'submission'; // fallback
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const type = postData.type || 'submission';
+    const ss = getOrCreateSpreadsheet();
     
-    // ========================================================================
     // ANALYTICS ESEMÉNYEK KEZELÉSE
-    // ========================================================================
     if (type === 'event') {
       let eventsSheet = ss.getSheetByName('Events');
       if (!eventsSheet) {
@@ -103,9 +99,7 @@ function doPost(e) {
       return ContentService.createTextOutput(JSON.stringify({ status: "success" })).setMimeType(ContentService.MimeType.JSON);
     }
     
-    // ========================================================================
     // BÉRPAPÍR BEKÜLDÉS KEZELÉSE (LEADS)
-    // ========================================================================
     if (type === 'submission') {
       const folder = getOrCreateFolder(FOLDER_NAME);
       let fileUrl = "Nincs csatolva";
@@ -162,10 +156,9 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  // Stats API Endpoint a dashboardhoz
   if (e.parameter.action === 'getStats') {
     try {
-      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      const ss = getOrCreateSpreadsheet();
       const eventsSheet = ss.getSheetByName('Events');
       if (!eventsSheet) {
         return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Nincs Events munkalap" })).setMimeType(ContentService.MimeType.JSON);
@@ -188,10 +181,8 @@ function doGet(e) {
         purchases: 0
       };
       
-      // Egyszerű aggregáció az események oszlopa alapján (Index 1)
       const sessionIds = new Set();
       
-      // Skip header row
       for (let i = 1; i < data.length; i++) {
         const row = data[i];
         const sessionId = row[0];
@@ -225,17 +216,7 @@ function doGet(e) {
     }
   }
 
-  // Alapértelmezett válasz pingelésre
   return ContentService
-    .createTextOutput(JSON.stringify({ status: "ok", message: "Osztrák Bér-Audit Webhook V2 működik!" }))
+    .createTextOutput(JSON.stringify({ status: "ok", message: "Osztrák Bér-Audit Webhook V2 (Standalone) működik!" }))
     .setMimeType(ContentService.MimeType.JSON);
-}
-
-function getOrCreateFolder(folderName) {
-  const folders = DriveApp.getFoldersByName(folderName);
-  if (folders.hasNext()) {
-    return folders.next();
-  } else {
-    return DriveApp.createFolder(folderName);
-  }
 }
