@@ -19,8 +19,17 @@ const PAID_AUDIT_CONFIG = {
 // ============================================================================
 // ANALYTICS TRACKING MODUL
 // ============================================================================
-const SESSION_ID = localStorage.getItem('ba_session') || crypto.randomUUID();
-localStorage.setItem('ba_session', SESSION_ID);
+let VISITOR_ID = localStorage.getItem('ba_visitor_id');
+if (!VISITOR_ID) {
+  VISITOR_ID = crypto.randomUUID();
+  localStorage.setItem('ba_visitor_id', VISITOR_ID);
+}
+
+let SESSION_ID = sessionStorage.getItem('ba_session_id');
+if (!SESSION_ID) {
+  SESSION_ID = crypto.randomUUID();
+  sessionStorage.setItem('ba_session_id', SESSION_ID);
+}
 
 function detectSource() {
   const params = new URLSearchParams(window.location.search);
@@ -38,23 +47,34 @@ function detectSource() {
   return 'source_other';
 }
 
-const SOURCE = detectSource();
+const CURRENT_SOURCE = detectSource();
+let FIRST_SOURCE = localStorage.getItem('ba_first_source');
+if (!FIRST_SOURCE) {
+  FIRST_SOURCE = CURRENT_SOURCE;
+  localStorage.setItem('ba_first_source', FIRST_SOURCE);
+}
+
 const trackedEvents = new Set();
 
-function trackEvent(eventName, metadata) {
-  metadata = metadata || {};
+function trackEvent(eventName, additionalMetadata = {}) {
   const oneTimeEvents = ['landing_view', 'test_started', 'test_completed',
     'qualification_started', 'qualification_completed', 'document_upload_started'];
   if (oneTimeEvents.includes(eventName) && trackedEvents.has(eventName)) return;
   trackedEvents.add(eventName);
+
+  const payloadMetadata = { 
+    visitorId: VISITOR_ID, 
+    currentSource: CURRENT_SOURCE,
+    ...additionalMetadata
+  };
 
   const event = {
     type: 'event',
     sessionId: SESSION_ID,
     event: eventName,
     timestamp: new Date().toISOString(),
-    source: SOURCE,
-    metadata: JSON.stringify(metadata)
+    source: FIRST_SOURCE,
+    metadata: JSON.stringify(payloadMetadata)
   };
 
   if (GOOGLE_SCRIPT_WEB_APP_URL && GOOGLE_SCRIPT_WEB_APP_URL.startsWith('http')) {
@@ -252,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
         hideAllStatusBoxes();
         qualifiedBox.style.display = 'block';
         uploadBlock.style.display = 'block';
-        trackEvent('document_upload_started');
         phoneInput.setAttribute('required', 'required');
         fileInput.setAttribute('required', 'required');
         setTimeout(() => {
@@ -280,6 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'image/webp'
   ];
 
+  let uploadStartTracked = false;
+
   function formatBytes(bytes) {
     if (bytes < 1024) return bytes + ' B';
     else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
@@ -293,6 +314,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!file) {
       clearFile();
       return;
+    }
+
+    if (!uploadStartTracked) {
+      trackEvent('document_upload_started');
+      uploadStartTracked = true;
     }
 
     if (file.size > MAX_FILE_SIZE_BYTES) {
