@@ -479,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fileMimeType: currentFile.type || 'application/octet-stream',
         fileSizeFormatted: formatBytes(currentFile.size),
         fileBase64: base64Content,
-        source: SOURCE
+        source: FIRST_SOURCE
       };
 
       if (GOOGLE_SCRIPT_WEB_APP_URL && GOOGLE_SCRIPT_WEB_APP_URL.startsWith('http')) {

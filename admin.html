@@ -1092,6 +1092,39 @@
             <button 
               type="button" 
               class="event-card-btn active" 
+              data-event="whatsapp_contacted"
+            >
+              <span class="event-badge-icon">💬</span>
+              <span class="event-card-title">WhatsApp kapcsolatfelvétel (Cég felől)</span>
+              <span class="event-card-code">whatsapp_contacted</span>
+              <span class="event-card-desc">Cégként mi írtunk rá az ügyfélre a megadott számon.</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="event-card-btn" 
+              data-event="free_review_scheduled"
+            >
+              <span class="event-badge-icon">📅</span>
+              <span class="event-card-title">Ingyenes áttekintés beütemezve</span>
+              <span class="event-card-code">free_review_scheduled</span>
+              <span class="event-card-desc">Az ügyféllel megbeszéltünk egy időpontot az átbeszélésre.</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="event-card-btn" 
+              data-event="free_review_no_show"
+            >
+              <span class="event-badge-icon">❌</span>
+              <span class="event-card-title">Ingyenes áttekintés - Nem jelent meg</span>
+              <span class="event-card-code">free_review_no_show</span>
+              <span class="event-card-desc">Az ügyfél nem volt elérhető a megbeszélt időpontban.</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="event-card-btn" 
               data-event="free_review_completed"
             >
               <span class="event-badge-icon">📋</span>
@@ -1138,6 +1171,9 @@
           <!-- Dropdown fallback / synced select -->
           <div class="dropdown-container">
             <select id="eventSelect" class="input-control" required aria-label="Esemény típusa">
+              <option value="whatsapp_contacted">whatsapp_contacted – WhatsApp kapcsolatfelvétel</option>
+              <option value="free_review_scheduled">free_review_scheduled – Áttekintés beütemezve</option>
+              <option value="free_review_no_show">free_review_no_show – Nem jelent meg</option>
               <option value="free_review_completed">free_review_completed – Ingyenes áttekintés megtörtént</option>
               <option value="paid_offer_shown">paid_offer_shown – Fizetős ajánlat megjelenítve</option>
               <option value="checkout_started">checkout_started – Checkout indítva</option>
@@ -1226,6 +1262,21 @@
 
       // Esemény szótár címkékkel és ikonokkal
       const EVENT_DEFINITIONS = {
+        whatsapp_contacted: {
+          label: 'WhatsApp kapcsolatfelvétel (Cég felől)',
+          badgeClass: 'badge-whatsapp_contacted',
+          icon: '💬'
+        },
+        free_review_scheduled: {
+          label: 'Ingyenes áttekintés beütemezve',
+          badgeClass: 'badge-free_review_scheduled',
+          icon: '📅'
+        },
+        free_review_no_show: {
+          label: 'Ingyenes áttekintés - Nem jelent meg',
+          badgeClass: 'badge-free_review_no_show',
+          icon: '❌'
+        },
         free_review_completed: {
           label: 'Ingyenes áttekintés megtörtént',
           badgeClass: 'badge-free_review_completed',
