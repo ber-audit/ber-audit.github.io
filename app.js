@@ -6,7 +6,7 @@
 // ============================================================================
 // KONFIGURÁCIÓ
 // ============================================================================
-const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbybA-aH1MhGofFdJA3HBqqowmlZUtl_ihelV3JW0V9E-RjnsOrxYjBHxma5o4QLbvGYGg/exec";
+const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJgveAKP7FbAEoaRYoGF9TG3eEzDET4nnCW1c9mi1ozGCiPjSWkQBlqONvBSYrrH6t/exec";
 
 // Fizetős audit ár konfig – amíg nincs végleges ár, a blokk rejtett marad
 const PAID_AUDIT_CONFIG = {
@@ -172,7 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (autoScrollTimeout) clearTimeout(autoScrollTimeout);
     autoScrollTimeout = setTimeout(() => {
       const szuroBlokk = document.getElementById('szuro-blokk');
-      if (szuroBlokk) szuroBlokk.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (szuroBlokk) {
+        szuroBlokk.style.display = 'block';
+        szuroBlokk.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }, 1100);
   }
 
