@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Ber-Audit Funnel Statisztika</title>
+
+  <!-- Google Fonts: Outfit (headings) + Plus Jakarta Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       OSZTRÁK BÉR-AUDIT – FUNNEL ANALYTICS DASHBOARD
+       Design System: Sötét Téma (#090c14), Glassmorphism, Narancs / Piros Neon
+       ========================================================================== */
+    :root {
+      --bg-main: #090c14;
+      --bg-card: rgba(18, 24, 38, 0.88);
+      --bg-card-hover: rgba(26, 35, 54, 0.95);
+      --bg-card-subtle: rgba(255, 255, 255, 0.03);
+      --bg-input: rgba(12, 17, 28, 0.95);
+      
+      --accent-orange: #ff5e1a;
+      --accent-orange-bright: #ff7733;
+      --accent-orange-glow: rgba(255, 94, 26, 0.35);
+      --accent-red: #ef4444;
+      --accent-red-glow: rgba(239, 68, 68, 0.35);
+      --accent-green: #10b981;
+      --accent-green-glow: rgba(16, 185, 129, 0.3);
+      --accent-amber: #f59e0b;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+
+      --text-white: #ffffff;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --border-orange: rgba(255, 94, 26, 0.5);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+      --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 25px var(--accent-orange-glow);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 10% 8%, rgba(255, 94, 26, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 90% 40%, rgba(239, 68, 68, 0.07) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Fejléc és Navigáció */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 12, 20, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 20px;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-flag {
+      font-size: 1.6rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text-white);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--accent-orange-bright);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .nav-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card-subtle);
+      color: var(--text-main);
+      border: 1px solid var(--border-card);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-back-link:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-orange);
+      color: var(--accent-orange-bright);
+      transform: translateX(-3px);
+    }
+
+    /* Fő tartalom konténer */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* Fejléc szekció */
+    .header-hero {
+      margin-bottom: 28px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 94, 26, 0.12);
+      border: 1px solid rgba(255, 94, 26, 0.35);
+      color: var(--accent-orange-bright);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-orange);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-orange);
+      animation: pulseAnim 2s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      font-weight: 800;
+      color: var(--text-white);
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .page-title .accent {
+      background: linear-gradient(135deg, #ff7733 0%, #ef4444 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-lead {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 780px;
+    }
+
+    /* Kártya stílus */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    /* Konfigurációs szekció */
+    .config-card {
+      border: 1px solid rgba(255, 94, 26, 0.3);
+      background: linear-gradient(180deg, rgba(26, 35, 54, 0.7) 0%, rgba(18, 24, 38, 0.95) 100%);
+    }
+
+    .config-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .config-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .status-badge.live {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .status-badge.demo {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+    }
+
+    .status-badge.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+
+    .config-form {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .config-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .input-field {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-size: 0.92rem;
+      color: var(--text-white);
+      font-family: var(--font-body);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 0 3px rgba(255, 94, 26, 0.2);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: var(--radius-md);
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff5e1a 0%, #e11d48 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(255, 94, 26, 0.35);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #ff7733 0%, #f43f5e 100%);
+      box-shadow: 0 6px 20px rgba(255, 94, 26, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-card);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-subtle);
+      color: var(--text-white);
+    }
+
+    .status-banner {
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-banner.demo-active {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #fde68a;
+    }
+
+    .status-banner.live-active {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #a7f3d0;
+    }
+
+    .status-banner.error-active {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    /* Apps Script Kód Segítség (Lenyíló) */
+    .docs-toggle {
+      margin-top: 14px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+
+    .docs-toggle:hover {
+      color: var(--accent-orange-bright);
+    }
+
+    .docs-drawer {
+      display: none;
+      margin-top: 12px;
+      padding: 16px;
+      background: rgba(10, 14, 22, 0.9);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .docs-drawer.open {
+      display: block;
+    }
+
+    .docs-code {
+      background: #05080e;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-family: 'Consolas', 'Courier New', monospace;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin: 8px 0;
+      white-space: pre;
+    }
+
+    /* Kiemelt Konverziós Metrikák Kártyák (Key Metrics) */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 94, 26, 0.4);
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .metric-card.card-landing::before {
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+
+    .metric-card.card-red::before {
+      background: linear-gradient(90deg, #ef4444, #f87171);
+    }
+
+    .metric-card.card-review::before {
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+
+    .metric-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 14px;
+    }
+
+    .card-landing .metric-icon-wrap {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .card-red .metric-icon-wrap {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .card-review .metric-icon-wrap {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .metric-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .metric-number-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .metric-huge {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-white);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .metric-unit {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-orange-bright);
+    }
+
+    .metric-detail {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .metric-progress-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-full);
+      margin-top: 14px;
+      overflow: hidden;
+    }
+
+    .metric-progress-bar {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card-landing .metric-progress-bar {
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+
+    .card-red .metric-progress-bar {
+      background: linear-gradient(90deg, #ef4444, #f87171);
+    }
+
+    .card-review .metric-progress-bar {
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+
+    /* Szekció címek */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    /* Táblázat Stílusok */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-card);
+      background: rgba(12, 16, 25, 0.85);
+      margin-bottom: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    thead th {
+      background: rgba(18, 24, 38, 0.95);
+      color: var(--text-muted);
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-card);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    tbody td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .stage-num {
+      color: var(--text-dim);
+      font-weight: 700;
+      font-size: 0.8rem;
+      width: 32px;
+    }
+
+    .stage-name-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .stage-label {
+      font-weight: 600;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stage-key {
+      font-family: 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .count-cell {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-white);
+    }
+
+    .rate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+    }
+
+    .rate-badge.high {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+
+    .rate-badge.medium {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+    }
+
+    .rate-badge.drop {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+
+    .visual-bar-cell {
+      min-width: 140px;
+      max-width: 220px;
+    }
+
+    .table-progress-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .table-progress-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.4s ease;
+    }
+
+    /* Kiemelt fázis címkék / jelölők */
+    .highlight-red {
+      color: #f87171;
+    }
+    .highlight-yellow {
+      color: #fbbf24;
+    }
+    .highlight-green {
+      color: #34d399;
+    }
+    .highlight-purchase {
+      color: #a78bfa;
+    }
+
+    .pill-tag {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .pill-tag.red {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+    .pill-tag.yellow {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fde68a;
+    }
+    .pill-tag.green {
+      background: rgba(16, 185, 129, 0.2);
+      color: #a7f3d0;
+    }
+    .pill-tag.gold {
+      background: rgba(255, 94, 26, 0.2);
+      color: #ff9466;
+    }
+    .pill-tag.purple {
+      background: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+    }
+
+    /* Forrás Bontás Grid / Táblázat */
+    .source-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .source-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .source-icon {
+      font-size: 1.1rem;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    .source-card-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .source-mini-stat {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .source-mini-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .source-mini-val {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-white);
+    }
+
+    /* Alsó lábléc és Akciók */
+    .bottom-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .footer-note {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    /* Töltés Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Segédosztályok */
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Felső Fix Navigációs Sáv -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-flag" aria-hidden="true">🇦🇹</span>
+        <div class="brand-text">
+          <span class="brand-title">Osztrák Bér-Audit</span>
+          <span class="brand-subtitle">Funnel Statisztika</span>
+        </div>
+      </a>
+      <a href="index.html" class="nav-back-link">
+        <span>← Vissza a főoldalra</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Fő Tartalom -->
+  <main class="container">
+    
+    <!-- Hero / Fejléc Cím -->
+    <header class="header-hero">
+      <div class="badge-pill">
+        <span class="pulse-dot"></span>
+        <span>Élő Konverziós Dashboard</span>
+      </div>
+      <h1 class="page-title">
+        Ber-Audit <span class="accent">Funnel Statisztika</span>
+      </h1>
+      <p class="page-lead">
+        Kövesd nyomon a teljes látogatói útvonalat az érkezéstől a teszten és a szűrőkön át a sikeres vásárlásig.
+      </p>
+    </header>
+
+    <!-- 1. Konfigurációs Kártya -->
+    <section class="card config-card">
+      <div class="config-header">
+        <div class="config-title">
+          <span>⚙️ Google Apps Script Webhook Csatlakozás</span>
+        </div>
+        <div id="statusBadge" class="status-badge demo">
+          <span class="pulse-dot" style="background:#fbbf24;box-shadow:none;"></span>
+          <span>Demó adatok</span>
+        </div>
+      </div>
+
+      <div class="config-form">
+        <div class="input-wrapper">
+          <input 
+            type="url" 
+            id="gasUrlInput" 
+            class="input-field" 
+            placeholder="Illeszd be a Web App URL-t (pl. https://script.google.com/macros/s/.../exec)" 
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+        <button id="btnRefresh" class="btn btn-primary" type="button">
+          <span id="refreshSpinner" class="spinner hidden"></span>
+          <span id="refreshIcon">🔄</span>
+          <span>Frissítés</span>
+        </button>
+        <button id="btnResetDemo" class="btn btn-secondary" type="button" title="Mintaadatok visszaállítása">
+          <span>Demó mód</span>
+        </button>
+      </div>
+
+      <!-- Állapotjelző sáv -->
+      <div id="statusBanner" class="status-banner demo-active">
+        <span>ℹ️</span>
+        <span id="statusMessage">Jelenleg mintaadatok láthatóak. Illeszd be a Google Apps Script Web App URL-t a valós adatok betöltéséhez!</span>
+      </div>
+
+      <!-- Lenyíló segítség az Apps Scripthez -->
+      <div class="docs-toggle" id="toggleDocs">
+        <span>▶</span>
+        <span>Hogyan kell beállítani a Google Apps Script végpontot az adatok lekéréséhez? (Kattints ide)</span>
+      </div>
+
+      <div class="docs-drawer" id="docsDrawer">
+        <p><strong>1. lépés:</strong> Nyisd meg a Google Táblázatod Apps Script szerkesztőjét.</p>
+        <p><strong>2. lépés:</strong> Győződj meg róla, hogy a <code>doGet(e)</code> függvény kezeli a <code>?action=getEvents</code> kérést. Példa kód:</p>
+        <div class="docs-code">function doGet(e) {
+  if (e && e.parameter && e.parameter.action === "getEvents") {
+    // Táblázat eseményeinek visszaadása JSON formátumban
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName("Events") || ss.getActiveSheet();
+    const rows = sheet.getDataRange().getValues();
+    
+    // Vagy ha összesített számokat tárolsz:
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "success",
+        events: getEventCountsFromSheet(sheet)
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  return ContentService.createTextOutput(JSON.stringify({ status: "ok" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}</div>
+        <p><strong>3. lépés:</strong> Kattints a <em>Telepítés ➔ Új telepítés (New deployment)</em> pontra (vagy Telepítések kezelése ➔ Új verzió), hozzáférés: <strong>Bárki (Anyone)</strong>.</p>
+      </div>
+    </section>
+
+    <!-- 2. Kiemelt Konverziós Metrikák (Key Conversion Metrics) -->
+    <section>
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">🎯 Kiemelt Konverziós Mutatók</h2>
+          <p class="section-subtitle">A legfontosabb hatékonysági arányok a feliratkozási és fizetési tölcsérben</p>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <!-- Metrika 1: 100 landing látogatóból hány fizető ügyfél -->
+        <div class="metric-card card-landing">
+          <div>
+            <div class="metric-icon-wrap">🌐</div>
+            <div class="metric-title">100 Landing Látogatóból Vásárló</div>
+            <div class="metric-number-row">
+              <span id="metricLandingToPay" class="metric-huge">2.37</span>
+              <span class="metric-unit">fizető / 100</span>
+            </div>
+            <div id="metricLandingDetail" class="metric-detail">
+              58 vásárlás 2 450 látogatóból
+            </div>
+          </div>
+          <div class="metric-progress-bg">
+            <div id="barLandingToPay" class="metric-progress-bar" style="width: 2.37%;"></div>
+          </div>
+        </div>
+
+        <!-- Metrika 2: 100 pirosból hány fizető ügyfél -->
+        <div class="metric-card card-red">
+          <div>
+            <div class="metric-icon-wrap">🔴</div>
+            <div class="metric-title">100 Piros Eredményből Vásárló</div>
+            <div class="metric-number-row">
+              <span id="metricRedToPay" class="metric-huge">6.90</span>
+              <span class="metric-unit">fizető / 100</span>
+            </div>
+            <div id="metricRedDetail" class="metric-detail">
+              58 vásárlás 840 piros jelzésű tesztből
+            </div>
+          </div>
+          <div class="metric-progress-bg">
+            <div id="barRedToPay" class="metric-progress-bar" style="width: 6.9%;"></div>
+          </div>
+        </div>
+
+        <!-- Metrika 3: 100 ingyenes auditból hány fizető ügyfél -->
+        <div class="metric-card card-review">
+          <div>
+            <div class="metric-icon-wrap">📑</div>
+            <div class="metric-title">100 Ingyenes Auditból Vásárló</div>
+            <div class="metric-number-row">
+              <span id="metricReviewToPay" class="metric-huge">20.71</span>
+              <span class="metric-unit">fizető / 100</span>
+            </div>
+            <div id="metricReviewDetail" class="metric-detail">
+              58 vásárlás 280 átadott elemzésből
+            </div>
+          </div>
+          <div class="metric-progress-bg">
+            <div id="barReviewToPay" class="metric-progress-bar" style="width: 20.71%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Teljes Tölcsér Táblázat (18 Fázis) -->
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">📊 Részletes Konverziós Tölcsér (Funnel)</h2>
+          <p class="section-subtitle">Mind a 18 egymásra épülő konverziós lépés számai és lemorzsolódása</p>
+        </div>
+        <button id="btnExportCsv" class="btn btn-secondary" type="button" style="padding: 8px 16px; font-size: 0.84rem;">
+          <span>📥 CSV Letöltése</span>
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th class="stage-num">#</th>
+              <th>Fázis & Eseménykód</th>
+              <th style="text-align: right;">Eseményszám</th>
+              <th style="text-align: right;">Lépéskonverzió</th>
+              <th style="text-align: right;">Tölcsérkonverzió</th>
+              <th class="visual-bar-cell">Vizuális arány</th>
+            </tr>
+          </thead>
+          <tbody id="funnelTableBody">
+            <!-- A JavaScript dinamikusan feltölti a 18 sort -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. Forrás Bontás (Source Breakdown) -->
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">📱 Forgalmi Források Bontása (Traffic Sources)</h2>
+          <p class="section-subtitle">Látogatók és események megoszlása csatornánként</p>
+        </div>
+      </div>
+
+      <div class="source-grid">
+        <!-- Források táblázata -->
+        <div class="table-container" style="margin-bottom: 0;">
+          <table>
+            <thead>
+              <tr>
+                <th>Forrás</th>
+                <th style="text-align: right;">Eseményszám</th>
+                <th style="text-align: right;">Megoszlás</th>
+                <th class="visual-bar-cell">Arány</th>
+              </tr>
+            </thead>
+            <tbody id="sourceTableBody">
+              <!-- JavaScript dinamikusan generálja -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Összegző kártyák a forrásokhoz -->
+        <div class="source-card-stats">
+          <div class="source-mini-stat">
+            <span class="source-mini-label">
+              <span class="source-icon">🥇</span> Legfőbb forgalmi forrás
+            </span>
+            <span id="topSourceVal" class="source-mini-val">TikTok (45.7%)</span>
+          </div>
+
+          <div class="source-mini-stat">
+            <span class="source-mini-label">
+              <span class="source-icon">👥</span> Összes csatornaforgalom
+            </span>
+            <span id="totalSourceTraffic" class="source-mini-val">2 450</span>
+          </div>
+
+          <div class="source-mini-stat">
+            <span class="source-mini-label">
+              <span class="source-icon">🎯</span> Legerősebb belépési arány
+            </span>
+            <span class="source-mini-val">66.1% Tesztindítás</span>
+          </div>
+
+          <div class="source-mini-stat">
+            <span class="source-mini-label">
+              <span class="source-icon">💰</span> Teljes értékesítési konverzió
+            </span>
+            <span id="totalConversionRate" class="source-mini-val highlight-purchase">2.37%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alsó navigáció és lábléc -->
+    <div class="bottom-actions">
+      <a href="index.html" class="nav-back-link">
+        <span>← Vissza a főoldalra (index.html)</span>
+      </a>
+      <span class="footer-note" id="lastUpdatedNote">Utolsó frissítés: Most</span>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       JAVASCRIPT LOGIKA: Adatkezelés, Tölcsér kalkulációk, Google Sheets hívás
+       ======================================================================== -->
+  <script>
+    /**
+     * Ber-Audit Funnel Statisztika - Frontend Vezérlő
+     * Kezeli a localStorage-t, a Google Apps Script GET lekérést és a dinamikus számításokat.
+     */
+
+    // A 18 megadott fázis pontos sorrendben, címkékkel és vizuális jelölőkkel
+    const FUNNEL_STAGES = [
+      { key: "landing_view", label: "Látogatók", icon: "🌐", tag: null },
+      { key: "test_started", label: "Tesztindítás", icon: "🚦", tag: null },
+      { key: "test_completed", label: "Teszt befejezés", icon: "🏁", tag: null },
+      { key: "result_red", label: "Piros eredmény", icon: "🔴", tag: "red" },
+      { key: "result_yellow", label: "Sárga eredmény", icon: "🟡", tag: "yellow" },
+      { key: "result_green", label: "Zöld eredmény", icon: "🟢", tag: "green" },
+      { key: "qualification_started", label: "Kvalifikáció indítás", icon: "📋", tag: null },
+      { key: "qualification_completed", label: "Kvalifikáció befejezés", icon: "✅", tag: null },
+      { key: "willing_to_pay_yes", label: "Fizetést elfogadja", icon: "💳", tag: "green" },
+      { key: "willing_to_pay_details_first", label: "Előbb részleteket kér", icon: "💬", tag: "yellow" },
+      { key: "not_willing_to_pay", label: "Nem szeretne fizetni", icon: "❌", tag: "red" },
+      { key: "document_upload_started", label: "Dokumentum feltöltés indítás", icon: "📤", tag: null },
+      { key: "document_submitted", label: "Dokumentum beküldve", icon: "📑", tag: "gold" },
+      { key: "whatsapp_started", label: "WhatsApp indítás", icon: "💬", tag: null },
+      { key: "free_review_completed", label: "Ingyenes audit megtörtént", icon: "🔍", tag: "gold" },
+      { key: "paid_offer_shown", label: "Fizetős ajánlat megjelent", icon: "💼", tag: null },
+      { key: "checkout_started", label: "Checkout indítás", icon: "🛒", tag: null },
+      { key: "purchase_completed", label: "Vásárlás", icon: "🎉", tag: "purple" }
+    ];
+
+    // Források listája
+    const SOURCE_KEYS = [
+      { key: "source_tiktok", label: "TikTok", icon: "🎵", color: "#25f4ee" },
+      { key: "source_facebook", label: "Facebook", icon: "📘", color: "#1877f2" },
+      { key: "source_youtube", label: "YouTube", icon: "▶️", color: "#ff0000" },
+      { key: "source_direct", label: "Közvetlen / Direkt", icon: "🔗", color: "#ff7733" },
+      { key: "source_other", label: "Egyéb / Kampány", icon: "🌐", color: "#94a3b8" }
+    ];
+
+    // Realisztikus Minta / Demó Adatok
+    const DEMO_DATA = {
+      events: {
+        landing_view: 2450,
+        test_started: 1620,
+        test_completed: 1380,
+        result_red: 840,
+        result_yellow: 380,
+        result_green: 160,
+        qualification_started: 920,
+        qualification_completed: 790,
+        willing_to_pay_yes: 390,
+        willing_to_pay_details_first: 290,
+        not_willing_to_pay: 110,
+        document_upload_started: 480,
+        document_submitted: 340,
+        whatsapp_started: 310,
+        free_review_completed: 280,
+        paid_offer_shown: 210,
+        checkout_started: 95,
+        purchase_completed: 58
+      },
+      sources: {
+        source_tiktok: 1120,
+        source_facebook: 780,
+        source_youtube: 280,
+        source_direct: 180,
+        source_other: 90
+      }
+    };
+
+    const LOCAL_STORAGE_KEY = "ber_audit_gas_url";
+
+    // DOM Elemek
+    const gasUrlInput = document.getElementById("gasUrlInput");
+    const btnRefresh = document.getElementById("btnRefresh");
+    const btnResetDemo = document.getElementById("btnResetDemo");
+    const refreshSpinner = document.getElementById("refreshSpinner");
+    const refreshIcon = document.getElementById("refreshIcon");
+    const statusBadge = document.getElementById("statusBadge");
+    const statusBanner = document.getElementById("statusBanner");
+    const statusMessage = document.getElementById("statusMessage");
+    const toggleDocs = document.getElementById("toggleDocs");
+    const docsDrawer = document.getElementById("docsDrawer");
+
+    const metricLandingToPay = document.getElementById("metricLandingToPay");
+    const metricLandingDetail = document.getElementById("metricLandingDetail");
+    const barLandingToPay = document.getElementById("barLandingToPay");
+
+    const metricRedToPay = document.getElementById("metricRedToPay");
+    const metricRedDetail = document.getElementById("metricRedDetail");
+    const barRedToPay = document.getElementById("barRedToPay");
+
+    const metricReviewToPay = document.getElementById("metricReviewToPay");
+    const metricReviewDetail = document.getElementById("metricReviewDetail");
+    const barReviewToPay = document.getElementById("barReviewToPay");
+
+    const funnelTableBody = document.getElementById("funnelTableBody");
+    const sourceTableBody = document.getElementById("sourceTableBody");
+    const topSourceVal = document.getElementById("topSourceVal");
+    const totalSourceTraffic = document.getElementById("totalSourceTraffic");
+    const totalConversionRate = document.getElementById("totalConversionRate");
+    const lastUpdatedNote = document.getElementById("lastUpdatedNote");
+    const btnExportCsv = document.getElementById("btnExportCsv");
+
+    let currentEventCounts = {};
+    let currentSourceCounts = {};
+
+    // Számformázó segédfüggvény (pl. 2 450)
+    function formatNumber(num) {
+      if (num === undefined || num === null || isNaN(num)) return "0";
+      return Number(num).toLocaleString("hu-HU");
+    }
+
+    // Százalék formázó segédfüggvény
+    function formatPercent(val) {
+      if (isNaN(val) || !isFinite(val)) return "0.0%";
+      return val.toFixed(1) + "%";
+    }
+
+    // UI Állapotjelző beállítása
+    function setStatus(type, message) {
+      statusBanner.className = `status-banner ${type}-active`;
+      statusMessage.textContent = message;
+
+      if (type === "live") {
+        statusBadge.className = "status-badge live";
+        statusBadge.innerHTML = '<span class="pulse-dot" style="background:#10b981;"></span><span>Élő adatok</span>';
+      } else if (type === "error") {
+        statusBadge.className = "status-badge error";
+        statusBadge.innerHTML = '<span class="pulse-dot" style="background:#ef4444;"></span><span>Hiba</span>';
+      } else {
+        statusBadge.className = "status-badge demo";
+        statusBadge.innerHTML = '<span class="pulse-dot" style="background:#fbbf24;"></span><span>Demó adatok</span>';
+      }
+    }
+
+    // Töltésjelző gomb
+    function setLoading(isLoading) {
+      if (isLoading) {
+        btnRefresh.disabled = true;
+        refreshSpinner.classList.remove("hidden");
+        refreshIcon.classList.add("hidden");
+      } else {
+        btnRefresh.disabled = false;
+        refreshSpinner.classList.add("hidden");
+        refreshIcon.classList.remove("hidden");
+      }
+    }
+
+    // Dokumentáció lenyitása
+    toggleDocs.addEventListener("click", () => {
+      docsDrawer.classList.toggle("open");
+      const isOpened = docsDrawer.classList.contains("open");
+      toggleDocs.firstElementChild.textContent = isOpened ? "▼" : "▶";
+    });
+
+    /**
+     * Adatok feldolgozása és UI renderelése
+     */
+    function renderDashboard(eventCounts, sourceCounts, isDemo = false) {
+      currentEventCounts = eventCounts;
+      currentSourceCounts = sourceCounts;
+
+      const landingCount = Number(eventCounts["landing_view"]) || 1;
+      const redCount = Number(eventCounts["result_red"]) || 0;
+      const reviewCount = Number(eventCounts["free_review_completed"]) || 0;
+      const purchaseCount = Number(eventCounts["purchase_completed"]) || 0;
+
+      // 1. Kiemelt Konverziós Metrikák Számítása
+      // A) 100 landing látogatóból hány fizető ügyfél
+      const landingToPayRate = (purchaseCount / landingCount) * 100;
+      metricLandingToPay.textContent = landingToPayRate.toFixed(2);
+      metricLandingDetail.textContent = `${formatNumber(purchaseCount)} vásárlás ${formatNumber(landingCount)} látogatóból`;
+      barLandingToPay.style.width = `${Math.min(landingToPayRate * 10, 100)}%`;
+
+      // B) 100 pirosból hány fizető ügyfél
+      const redToPayRate = redCount > 0 ? (purchaseCount / redCount) * 100 : 0;
+      metricRedToPay.textContent = redToPayRate.toFixed(2);
+      metricRedDetail.textContent = `${formatNumber(purchaseCount)} vásárlás ${formatNumber(redCount)} piros teszteredményből`;
+      barRedToPay.style.width = `${Math.min(redToPayRate * 4, 100)}%`;
+
+      // C) 100 ingyenes auditból hány fizető ügyfél
+      const reviewToPayRate = reviewCount > 0 ? (purchaseCount / reviewCount) * 100 : 0;
+      metricReviewToPay.textContent = reviewToPayRate.toFixed(2);
+      metricReviewDetail.textContent = `${formatNumber(purchaseCount)} vásárlás ${formatNumber(reviewCount)} átadott elemzésből`;
+      barReviewToPay.style.width = `${Math.min(reviewToPayRate, 100)}%`;
+
+      // 2. A 18 Fázisú Tölcsér Táblázat Renderelése
+      funnelTableBody.innerHTML = "";
+      let prevCount = landingCount;
+
+      FUNNEL_STAGES.forEach((stage, idx) => {
+        const count = Number(eventCounts[stage.key]) || 0;
+        
+        // Lépésről lépésre konverzió (előző fázishoz képest)
+        let stepRate = 100;
+        if (idx === 0) {
+          stepRate = 100;
+        } else if (prevCount > 0) {
+          stepRate = (count / prevCount) * 100;
+        } else {
+          stepRate = 0;
+        }
+
+        // Tölcsérkonverzió (a landing_view-hoz képest)
+        const overallRate = landingCount > 0 ? (count / landingCount) * 100 : 0;
+
+        // Vizualizációs szélesség (max 100%)
+        const barWidth = Math.min(Math.max(overallRate, count > 0 ? 2 : 0), 100);
+
+        // Kiemelt jelvény
+        let tagHtml = "";
+        if (stage.tag) {
+          tagHtml = `<span class="pill-tag ${stage.tag}">${stage.tag.toUpperCase()}</span>`;
+        }
+
+        // Lépéskonverzió színkódja
+        let stepClass = "medium";
+        if (stepRate >= 70) stepClass = "high";
+        else if (stepRate < 40) stepClass = "drop";
+
+        // Progresszív színséma a tölcsér sávhoz
+        let barColor = "linear-gradient(90deg, #ff5e1a, #ff7733)";
+        if (stage.key === "result_red") barColor = "linear-gradient(90deg, #ef4444, #f87171)";
+        else if (stage.key === "result_yellow") barColor = "linear-gradient(90deg, #f59e0b, #fbbf24)";
+        else if (stage.key === "result_green") barColor = "linear-gradient(90deg, #10b981, #34d399)";
+        else if (stage.key === "purchase_completed") barColor = "linear-gradient(90deg, #8b5cf6, #c084fc)";
+        else if (stage.key === "free_review_completed") barColor = "linear-gradient(90deg, #10b981, #059669)";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="stage-num">${idx + 1}.</td>
+          <td>
+            <div class="stage-name-wrap">
+              <span class="stage-label">
+                <span>${stage.icon}</span>
+                <span>${stage.label}</span>
+                ${tagHtml}
+              </span>
+              <span class="stage-key">${stage.key}</span>
+            </div>
+          </td>
+          <td class="count-cell" style="text-align: right;">${formatNumber(count)}</td>
+          <td style="text-align: right;">
+            <span class="rate-badge ${stepClass}">${formatPercent(stepRate)}</span>
+          </td>
+          <td style="text-align: right;">
+            <span style="font-weight: 600; color: ${overallRate > 0 ? 'var(--text-white)' : 'var(--text-dim)'};">
+              ${formatPercent(overallRate)}
+            </span>
+          </td>
+          <td class="visual-bar-cell">
+            <div class="table-progress-bg" title="${formatPercent(overallRate)} a látogatókból">
+              <div class="table-progress-fill" style="width: ${barWidth}%; background: ${barColor};"></div>
+            </div>
+          </td>
+        `;
+        funnelTableBody.appendChild(tr);
+
+        // Előző érték frissítése a következő fázishoz
+        // (A 4, 5, 6 eredmények a 3. test_completed-ből ágaznak le, így a 7. fázis a teszt befejezésekből indul)
+        if (stage.key === "result_red" || stage.key === "result_yellow" || stage.key === "result_green") {
+          // nem írja felül a prevCount-ot kizárólagosan a részeredménnyel
+        } else {
+          prevCount = count;
+        }
+      });
+
+      // 3. Forrás Bontás Táblázat Renderelése
+      sourceTableBody.innerHTML = "";
+      let totalTraffic = 0;
+      SOURCE_KEYS.forEach(src => {
+        totalTraffic += (Number(sourceCounts[src.key]) || 0);
+      });
+      if (totalTraffic === 0) totalTraffic = landingCount;
+
+      let topSource = { name: "Nincs adat", count: 0, percent: 0 };
+
+      SOURCE_KEYS.forEach(src => {
+        const count = Number(sourceCounts[src.key]) || 0;
+        const share = totalTraffic > 0 ? (count / totalTraffic) * 100 : 0;
+        if (count > topSource.count) {
+          topSource = { name: src.label, count, percent: share };
+        }
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="source-icon">${src.icon}</span>
+              <span style="font-weight: 600; color: var(--text-white);">${src.label}</span>
+              <span class="stage-key" style="margin-left: 4px;">(${src.key})</span>
+            </div>
+          </td>
+          <td class="count-cell" style="text-align: right;">${formatNumber(count)}</td>
+          <td style="text-align: right;">
+            <span class="rate-badge high">${formatPercent(share)}</span>
+          </td>
+          <td class="visual-bar-cell">
+            <div class="table-progress-bg">
+              <div class="table-progress-fill" style="width: ${Math.min(share, 100)}%; background: ${src.color};"></div>
+            </div>
+          </td>
+        `;
+        sourceTableBody.appendChild(tr);
+      });
+
+      topSourceVal.textContent = `${topSource.name} (${formatPercent(topSource.percent)})`;
+      totalSourceTraffic.textContent = formatNumber(totalTraffic);
+      totalConversionRate.textContent = `${landingToPayRate.toFixed(2)}%`;
+
+      // Dátum frissítés
+      const nowStr = new Date().toLocaleString("hu-HU", { 
+        year: 'numeric', month: '2-digit', day: '2-digit', 
+        hour: '2-digit', minute: '2-digit', second: '2-digit' 
+      });
+      lastUpdatedNote.textContent = `Utolsó frissítés: ${nowStr} (${isDemo ? 'Demó minta' : 'Élő Google Táblázat'})`;
+    }
+
+    /**
+     * Bemeneti adatok normalizálása különböző lehetséges Apps Script válaszokból
+     */
+    function parseEventsResponse(data) {
+      const counts = {};
+      const sources = {};
+
+      FUNNEL_STAGES.forEach(s => counts[s.key] = 0);
+      SOURCE_KEYS.forEach(s => sources[s.key] = 0);
+
+      if (!data) return { counts, sources };
+
+      // 1. Eset: { events: { landing_view: 120, ... }, sources: { source_tiktok: 40, ... } }
+      if (data.events && typeof data.events === "object" && !Array.isArray(data.events)) {
+        Object.keys(data.events).forEach(k => {
+          counts[k] = Number(data.events[k]) || 0;
+        });
+        if (data.sources && typeof data.sources === "object") {
+          Object.keys(data.sources).forEach(k => {
+            sources[k] = Number(data.sources[k]) || 0;
+          });
+        }
+        return { counts, sources };
+      }
+
+      // 2. Eset: Adat egy tömb (pl. nyers események listája: [ { event_name: 'landing_view', source: 'tiktok' }, ... ])
+      const rawList = Array.isArray(data) ? data : (Array.isArray(data.events) ? data.events : (Array.isArray(data.data) ? data.data : null));
+      
+      if (rawList) {
+        rawList.forEach(item => {
+          if (!item) return;
+
+          // Esemény azonosító felismerése
+          const eventName = item.event_name || item.event || item.name || item.action || (Array.isArray(item) ? item[1] : null);
+          if (eventName && counts[eventName] !== undefined) {
+            counts[eventName]++;
+          }
+
+          // Forrás felismerése
+          let srcName = item.source || item.utm_source || (Array.isArray(item) ? item[2] : null);
+          if (srcName) {
+            if (!srcName.startsWith("source_")) {
+              srcName = "source_" + srcName.toLowerCase();
+            }
+            if (sources[srcName] !== undefined) {
+              sources[srcName]++;
+            } else {
+              sources["source_other"] = (sources["source_other"] || 0) + 1;
+            }
+          }
+        });
+        return { counts, sources };
+      }
+
+      // 3. Eset: Maga az objektum a kulcs-érték számlálókat tartalmazza közvetlenül
+      Object.keys(data).forEach(k => {
+        if (counts[k] !== undefined) counts[k] = Number(data[k]) || 0;
+        if (sources[k] !== undefined) sources[k] = Number(data[k]) || 0;
+      });
+
+      return { counts, sources };
+    }
+
+    /**
+     * Adatok lekérése a Google Apps Script végpontról
+     */
+    async function fetchDataFromGAS(url) {
+      if (!url || !url.trim().startsWith("http")) {
+        setStatus("demo", "Nincs megadva érvényes Google Apps Script URL. Mintaadatok betöltve.");
+        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+        return;
+      }
+
+      setLoading(true);
+      const cleanUrl = url.trim();
+
+      // Csatoljuk a ?action=getEvents paramétert
+      const separator = cleanUrl.includes("?") ? "&" : "?";
+      const requestUrl = `${cleanUrl}${separator}action=getEvents`;
+
+      try {
+        const response = await fetch(requestUrl, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Szerver válaszkód: ${response.status} (${response.statusText})`);
+        }
+
+        const json = await response.json();
+        const parsed = parseEventsResponse(json);
+
+        // Ellenőrizzük, kaptunk-e érdemi eseményt
+        const totalCount = Object.values(parsed.counts).reduce((a, b) => a + b, 0);
+        if (totalCount === 0) {
+          setStatus("demo", "A Google Apps Script válaszolt, de a táblázat még nem tartalmaz eseményeket. Mintaadatok megjelenítve.");
+          renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+        } else {
+          setStatus("live", "Sikeresen betöltve az élő események a Google Apps Script végpontból!");
+          renderDashboard(parsed.counts, parsed.sources, false);
+        }
+
+      } catch (err) {
+        console.warn("GAS lekérési hiba (CORS vagy hálózati elérhetőség):", err);
+        setStatus("error", `Nem sikerült lekérni az élő adatokat (${err.message}). Demó mintaadatok megjelenítve.`);
+        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // CSV Export funkció
+    btnExportCsv.addEventListener("click", () => {
+      let csv = "Sorszam;Fazis_Megnevezes;Esemenykod;Darabszam;Lepeskonverzio;Tolcserkonverzio\n";
+      const landingCount = Number(currentEventCounts["landing_view"]) || 1;
+      let prevCount = landingCount;
+
+      FUNNEL_STAGES.forEach((stage, idx) => {
+        const count = Number(currentEventCounts[stage.key]) || 0;
+        let stepRate = idx === 0 ? 100 : (prevCount > 0 ? (count / prevCount) * 100 : 0);
+        let overallRate = (count / landingCount) * 100;
+
+        csv += `${idx + 1};"${stage.label}";"${stage.key}";${count};"${stepRate.toFixed(2)}%";"${overallRate.toFixed(2)}%"\n`;
+
+        if (stage.key !== "result_red" && stage.key !== "result_yellow" && stage.key !== "result_green") {
+          prevCount = count;
+        }
+      });
+
+      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+      const downloadUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = downloadUrl;
+      a.download = `ber-audit-funnel-statisztika-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(downloadUrl);
+    });
+
+    // Frissítés gomb esemény
+    btnRefresh.addEventListener("click", () => {
+      const url = gasUrlInput.value.trim();
+      if (url) {
+        localStorage.setItem(LOCAL_STORAGE_KEY, url);
+      }
+      fetchDataFromGAS(url);
+    });
+
+    // Demó mód visszaállítása
+    btnResetDemo.addEventListener("click", () => {
+      gasUrlInput.value = "";
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+      setStatus("demo", "Visszaállítva demó üzemmódra (mintaadatok betöltve).");
+      renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+    });
+
+    // Enter billentyű az URL mezőben
+    gasUrlInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        btnRefresh.click();
+      }
+    });
+
+    // Kezdeti inicializálás
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedUrl = localStorage.getItem(LOCAL_STORAGE_KEY) || "";
+      if (savedUrl) {
+        gasUrlInput.value = savedUrl;
+        fetchDataFromGAS(savedUrl);
+      } else {
+        // Alapértelmezetten demó adatok megjelenítése
+        setStatus("demo", "Nincs beállítva mentett Google Apps Script Web App URL. Mintaadatok betöltve.");
+        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+      }
+    });
+  </script>
+</body>
+</html>

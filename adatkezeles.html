@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Adatkezelési Tájékoztató – Osztrák Bér-Audit</title>
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Színpaletta – Dark Theme */
+      --bg-main: #090c14;
+      --bg-card: rgba(18, 24, 38, 0.88);
+      --bg-card-subtle: rgba(255, 255, 255, 0.03);
+      --bg-card-hover: rgba(26, 35, 54, 0.95);
+      --bg-input: rgba(12, 17, 28, 0.95);
+
+      --accent-orange: #ff5e1a;
+      --accent-orange-bright: #ff7733;
+      --accent-orange-glow: rgba(255, 94, 26, 0.35);
+      --accent-red: #ef4444;
+      --accent-red-glow: rgba(239, 68, 68, 0.35);
+      --gradient-cta: linear-gradient(135deg, #ff5e1a 0%, #e11d48 100%);
+      --gradient-cta-hover: linear-gradient(135deg, #ff7733 0%, #f43f5e 100%);
+
+      --accent-green: #10b981;
+      --accent-green-glow: rgba(16, 185, 129, 0.3);
+      --accent-amber: #f59e0b;
+      --accent-amber-glow: rgba(245, 158, 11, 0.3);
+
+      --text-white: #ffffff;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --border-orange: rgba(255, 94, 26, 0.5);
+      --border-amber: rgba(245, 158, 11, 0.5);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+      --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+      --shadow-amber: 0 0 25px rgba(245, 158, 11, 0.2);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.65;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(255, 94, 26, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 85% 60%, rgba(239, 68, 68, 0.07) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.05) 0%, transparent 40%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Tipográfia */
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      color: var(--text-white);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    p {
+      color: var(--text-muted);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    /* Top Sticky Nav */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: rgba(9, 12, 20, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .flag-icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-orange-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-white);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-card);
+      padding: 7px 14px;
+      border-radius: var(--radius-full);
+      transition: all 0.2s ease;
+    }
+
+    .nav-back-pill:hover {
+      background: rgba(255, 94, 26, 0.2);
+      border-color: var(--accent-orange);
+      color: #fff;
+      transform: translateX(-2px);
+    }
+
+    /* Warning Banner */
+    .warning-banner-wrapper {
+      padding-top: 24px;
+    }
+
+    .warning-banner {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1.5px solid var(--accent-amber);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-amber);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .warning-icon {
+      font-size: 28px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .warning-content {
+      flex: 1;
+    }
+
+    .warning-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: rgba(245, 158, 11, 0.25);
+      color: #fde047;
+      padding: 3px 9px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+
+    .warning-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fef08a;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .warning-desc {
+      font-size: 13px;
+      color: #fef3c7;
+      line-height: 1.5;
+    }
+
+    /* Page Content */
+    .page-main {
+      flex: 1;
+      padding: 28px 0 60px 0;
+    }
+
+    .doc-header-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .doc-header-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-cta);
+    }
+
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .meta-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 94, 26, 0.15);
+      color: var(--accent-orange-bright);
+      border: 1px solid rgba(255, 94, 26, 0.3);
+    }
+
+    .meta-badge.badge-draft {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fde047;
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    .meta-date {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .doc-title {
+      font-size: 30px;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .doc-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 720px;
+      line-height: 1.6;
+    }
+
+    /* Policy Sections */
+    .policy-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .policy-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 26px 22px;
+      box-shadow: var(--shadow-card);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .policy-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .section-num {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent-orange);
+      flex-shrink: 0;
+    }
+
+    .section-heading {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-white);
+      line-height: 1.35;
+    }
+
+    /* Kitöltendő Badge */
+    .todo-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fde047;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px dashed var(--accent-amber);
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .todo-tag.ok-tag {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .section-body {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .section-body p {
+      margin-bottom: 12px;
+    }
+
+    .section-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .data-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .data-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .data-item-title {
+      font-weight: 700;
+      color: var(--text-white);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .data-item-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+    }
+
+    .todo-box {
+      background: rgba(245, 158, 11, 0.07);
+      border-left: 3px solid var(--accent-amber);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-top: 10px;
+      font-size: 13.5px;
+      color: #fef3c7;
+    }
+
+    .todo-box strong {
+      color: #fde047;
+    }
+
+    .table-placeholder {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 13.5px;
+    }
+
+    .table-placeholder tr {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .table-placeholder tr:last-child {
+      border-bottom: none;
+    }
+
+    .table-placeholder td {
+      padding: 10px 12px;
+      vertical-align: top;
+    }
+
+    .table-placeholder td:first-child {
+      font-weight: 600;
+      color: var(--text-white);
+      width: 38%;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    }
+
+    .table-placeholder td:last-child {
+      color: var(--text-muted);
+    }
+
+    .placeholder-val {
+      font-family: monospace;
+      color: #fde047;
+      background: rgba(245, 158, 11, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12.5px;
+    }
+
+    /* Hatóság Doboz */
+    .authority-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .authority-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .authority-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .authority-details {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .authority-details a {
+      color: var(--accent-orange-bright);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Vissza Navigáció Kártya */
+    .back-action-card {
+      background: linear-gradient(180deg, rgba(18, 24, 38, 0.95) 0%, rgba(12, 16, 26, 0.98) 100%);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      margin-top: 36px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-action-text {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 520px;
+    }
+
+    .btn-back-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--gradient-cta);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 4px 20px var(--accent-orange-glow);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-back-main:hover {
+      background: var(--gradient-cta-hover);
+      box-shadow: 0 6px 25px rgba(255, 94, 26, 0.5);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+
+    /* Lábléc */
+    .site-footer {
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(7, 10, 16, 0.95);
+      padding: 40px 0 32px 0;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-brand-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-white);
+    }
+
+    .footer-brand-sub {
+      font-size: 12px;
+      color: var(--accent-orange-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .footer-disclaimer {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .footer-bottom-line {
+      font-size: 12px;
+      color: var(--text-dim);
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom-line a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .footer-bottom-line a:hover {
+      color: var(--text-white);
+    }
+
+    /* Reszponzivitás */
+    @media (min-width: 768px) {
+      .doc-header-card {
+        padding: 40px 36px;
+      }
+
+      .doc-title {
+        font-size: 34px;
+      }
+
+      .policy-card {
+        padding: 30px 28px;
+      }
+
+      .authority-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .warning-banner {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .warning-icon {
+        font-size: 24px;
+      }
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .table-placeholder td:first-child {
+        width: 45%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand">
+        <span class="flag-icon" aria-hidden="true">🇦🇹</span>
+        <div class="brand-text">
+          <span class="brand-title">Osztrák Bér-Audit</span>
+          <span class="brand-badge">Adatkezelési Tájékoztató</span>
+        </div>
+      </div>
+      <a href="index.html" class="nav-back-pill">← Vissza a főoldalra</a>
+    </div>
+  </header>
+
+  <!-- Figyelmeztető Sárga Sáv (Prominent Yellow Warning Banner) -->
+  <div class="container warning-banner-wrapper">
+    <div class="warning-banner" role="alert">
+      <div class="warning-icon" aria-hidden="true">⚠️</div>
+      <div class="warning-content">
+        <span class="warning-tag">Tervezet / Placeholder Dokumentum</span>
+        <h2 class="warning-title">
+          Ez egy ideiglenes placeholder oldal. A végleges adatkezelési tájékoztatót jogi szakértővel kell összeállítani az élesítés előtt.
+        </h2>
+        <p class="warning-desc">
+          Ez a dokumentum a fejlesztési fázisban lévő bér-audit szolgáltatás tervezett adatkezelési struktúráját szemlélteti a leendő felhasználók és a jogi szakértők számára. Nem minősül hatályos, végleges jogi nyilatkozatnak.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <main class="page-main">
+    <div class="container">
+
+      <!-- Fejléc Kártya -->
+      <header class="doc-header-card">
+        <div class="doc-meta">
+          <span class="meta-badge badge-draft">Státusz: Placeholder Tervezet (v0.2)</span>
+          <span class="meta-badge">GDPR Előkészítés</span>
+          <span class="meta-date">Utolsó frissítés: 2026. szeptember</span>
+        </div>
+        <h1 class="doc-title">Adatkezelési Tájékoztató</h1>
+        <p class="doc-subtitle">
+          Tájékoztató az <strong>Osztrák Bér-Audit</strong> (Kristály László BSc) szolgáltatás keretében megvalósuló adatkezelési műveletekről, a beküldött adatok védelméről és az érintettek jogairól.
+        </p>
+      </header>
+
+      <!-- Tartalmi Szekciók (1 - 8) -->
+      <div class="policy-sections">
+
+        <!-- 1. SZEKCIÓ: Adatkezelő adatai -->
+        <section class="policy-card" id="szekcio-1">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">1.</span>
+              <h2 class="section-heading">Az adatkezelő megnevezése és elérhetősége</h2>
+            </div>
+            <span class="todo-tag">⚠️ [KITÖLTENDŐ]</span>
+          </div>
+          <div class="section-body">
+            <p>
+              A weboldalon keresztül indított Jelzőlámpa Teszt, bérpapír-elemzés és kapcsolódó konzultáció során rögzített adatok kezelője:
+            </p>
+            <table class="table-placeholder">
+              <tbody>
+                <tr>
+                  <td>Adatkezelő megnevezése:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – pl. Kristály László egyéni vállalkozó / gazdasági társaság neve]</span></td>
+                </tr>
+                <tr>
+                  <td>Székhely / Lakcím:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – Ausztria / Magyarország szerinti hivatalos székhely cím]</span></td>
+                </tr>
+                <tr>
+                  <td>Cégjegyzékszám / Nyilvántartási szám:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – pl. GISA szám / FN / EV nyilvántartási szám]</span></td>
+                </tr>
+                <tr>
+                  <td>Adószám (UID / Adószám):</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – ATU szám / magyar adószám]</span></td>
+                </tr>
+                <tr>
+                  <td>E-mail cím kapcsolatfelvételhez:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – pl. kapcsolat@ber-audit.at vagy info@ber-audit.hu]</span></td>
+                </tr>
+                <tr>
+                  <td>Telefonszám / WhatsApp:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – hivatalos elérhetőségi szám]</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="todo-box">
+              <strong>Jogi megjegyzés (TODO):</strong> Az élesítés előtt a vállalkozási forma (pl. osztrák Einzelunternehmen, Gewerbeanmeldung vagy magyar vállalkozás) pontos adataival és hivatalos nyilvántartási számaival kell kitölteni.
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. SZEKCIÓ: Kezelt adatok köre -->
+        <section class="policy-card" id="szekcio-2">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">2.</span>
+              <h2 class="section-heading">A kezelt adatok köre</h2>
+            </div>
+            <span class="todo-tag ok-tag">✓ RÉSZLETEZVE</span>
+          </div>
+          <div class="section-body">
+            <p>
+              A szolgáltatás céljából kizárólag az alábbi adatokat gyűjtjük és kezeljük:
+            </p>
+            <ul class="data-list">
+              <li class="data-item">
+                <div class="data-item-title">
+                  <span>📱</span>
+                  <span>WhatsApp telefonszám</span>
+                </div>
+                <div class="data-item-desc">
+                  A felhasználó által megadott nemzetközi formátumú mobilszám (+43... vagy +36...). Célja a diagnosztika eredményének közlése, a 15 perces ingyenes WhatsApp konzultáció lebonyolítása és a kapcsolatfelvétel.
+                </div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">
+                  <span>📄</span>
+                  <span>Bérpapír másolat (anonimizált formában)</span>
+                </div>
+                <div class="data-item-desc">
+                  A felhasználó által feltöltött osztrák bérlap (Lohnabrechnung) vagy elszámolás (PDF, JPG, PNG). <em>Biztonsági szabályzat: A rendszer kifejezetten előírja a név, a pontos lakcím és a munkáltató nevének előzetes kitakarását vagy feketítését, így az elemzés kizárólag a bérezési számadatokra (KV besorolás, túlórák, pótlékok, levonások) fókuszál.</em>
+                </div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">
+                  <span>🚦</span>
+                  <span>Jelzőlámpa Teszt és szűrőkérdések válaszai</span>
+                </div>
+                <div class="data-item-desc">
+                  A 4 diagnosztikai kérdésre adott válasz (túlórák gyakorisága, 13./14. havi bér, kollektív szerződés ismerete, bérpapír sorok átláthatósága) és a 3 szűrőkérdés (ágazat/szakma, fellépési szándék, díjazási struktúra tudomásulvétele), amelyek a jogosultság és kockázatok felmérését szolgálják.
+                </div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">
+                  <span>💬</span>
+                  <span>Opcionális megjegyzések és gyanúk</span>
+                </div>
+                <div class="data-item-desc">
+                  A felhasználó által önkéntesen rögzített leírás a feltételezett bérkülönbözetről, munkaidő-elszámolási problémákról vagy korábbi vitákról.
+                </div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">
+                  <span>🔒</span>
+                  <span>Anonim session azonosító és technikai metaadatok</span>
+                </div>
+                <div class="data-item-desc">
+                  Ideiglenes munkamenet-azonosító (session ID), időbélyeg, a beküldés sikeres lefutását biztosító technikai logok, valamint a visszaélések kiszűrésére szolgáló technikai fejlécek.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 3. SZEKCIÓ: Adatkezelés célja -->
+        <section class="policy-card" id="szekcio-3">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">3.</span>
+              <h2 class="section-heading">Az adatkezelés célja</h2>
+            </div>
+            <span class="todo-tag ok-tag">✓ MEGHATÁROZVA</span>
+          </div>
+          <div class="section-body">
+            <p>
+              Az adatkezelés kizárólagos célja: <strong>Az általad kifejezetten kért osztrák bér-ellenőrzési szolgáltatás és szakértői diagnosztika teljesítése.</strong>
+            </p>
+            <p>
+              Ezen belül a kezelt adatokat a következőkre használjuk fel:
+            </p>
+            <ul style="padding-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
+              <li>A beküldött adatok összevetése a hatályos osztrák Kollektív Szerződésekkel (Kollektivvertrag - KV) és a vonatkozó munkaügyi szabályokkal.</li>
+              <li>A bérbesorolás (Einstufung), a túlórapótlékok (Überstunden) és egyéb juttatások (Zulagen, Diäten) elszámolásának ellenőrzése.</li>
+              <li>A diagnosztikai eredmény összefoglalása és eljuttatása a megadott WhatsApp telefonszámra legfeljebb 48 órán belül.</li>
+              <li>Az ingyenes, 15 perces előzetes WhatsApp konzultáció lebonyolítása az érintett kezdeményezésére.</li>
+              <li>Amennyiben az érintett ezt kéri: a teljeskörű, díjköteles audit és hivatalos beadványcsomag előkészítése.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 4. SZEKCIÓ: Jogalap -->
+        <section class="policy-card" id="szekcio-4">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">4.</span>
+              <h2 class="section-heading">Az adatkezelés jogalapja</h2>
+            </div>
+            <span class="todo-tag">⚠️ [KITÖLTENDŐ]</span>
+          </div>
+          <div class="section-body">
+            <p>
+              Az adatkezelés jogalapjai az Európai Parlament és a Tanács (EU) 2016/679 rendelete (GDPR) szerint:
+            </p>
+            <div class="todo-box">
+              <strong>Tervezet – Jogi szakértő által véglegesítendő pontok:</strong>
+              <ul style="padding-left: 18px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
+                <li>
+                  <strong>GDPR 6. cikk (1) bek. a) pont (Hozzájárulás):</strong> Az érintett önkéntes, kifejezett és tájékozott hozzájárulása a Jelzőlámpa Teszt kitöltésével, az anonimizált dokumentum feltöltésével és a telefonszám beküldésével.
+                </li>
+                <li>
+                  <strong>GDPR 6. cikk (1) bek. b) pont (Szerződés teljesítése vagy megelőző lépések):</strong> Az adatkezelés az érintett kérésére történő lépések megtételéhez szükséges a bér-audit szolgáltatás nyújtása érdekében.
+                </li>
+                <li>
+                  <strong>GDPR 6. cikk (1) bek. f) pont (Jogos érdek):</strong> Bizonyos esetekben a visszaélések megakadályozása és az informatikai biztonság fenntartása.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. SZEKCIÓ: Megőrzési időtartam -->
+        <section class="policy-card" id="szekcio-5">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">5.</span>
+              <h2 class="section-heading">Az adatok megőrzésének időtartama</h2>
+            </div>
+            <span class="todo-tag">⚠️ [KITÖLTENDŐ]</span>
+          </div>
+          <div class="section-body">
+            <p>
+              A személyes és auditálási adatokat csak a szolgáltatás nyújtásához feltétlenül szükséges ideig tároljuk:
+            </p>
+            <table class="table-placeholder">
+              <tbody>
+                <tr>
+                  <td>Feltöltött bérpapír másolatok:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – pl. a diagnosztika lezárását követő 30 / 60 napon belül véglegesen törlődnek, kivéve ha az ügyfél megbízást ad a teljes auditra]</span></td>
+                </tr>
+                <tr>
+                  <td>WhatsApp telefonszám és csevegés:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – pl. az utolsó kapcsolatfelvételtől számított 90 nap, vagy az érintett törlési kérelméig]</span></td>
+                </tr>
+                <tr>
+                  <td>Tesztválaszok és session adatok:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – pl. 30 nap elteltével anonimizált aggregált statisztikává válnak]</span></td>
+                </tr>
+                <tr>
+                  <td>Számlázási adatok (megbízás esetén):</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – osztrák / magyar adójogi megőrzési kötelezettség szerint 7 év / 8 év]</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="todo-box">
+              <strong>Jogi megjegyzés (TODO):</strong> Meg kell határozni az automatikus adattörlési folyamatot (pl. Google Drive / tárhely mappa automatikus ürítése X nap után).
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. SZEKCIÓ: Adattovábbítás és feldolgozók -->
+        <section class="policy-card" id="szekcio-6">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">6.</span>
+              <h2 class="section-heading">Adattovábbítás és adatfeldolgozók</h2>
+            </div>
+            <span class="todo-tag">⚠️ [KITÖLTENDŐ]</span>
+          </div>
+          <div class="section-body">
+            <p>
+              A szolgáltatás üzemeltetéséhez az adatkezelő megbízható technológiai partnereket (adatfeldolgozókat) vehet igénybe. A tervezet szerinti partnerek:
+            </p>
+            <table class="table-placeholder">
+              <tbody>
+                <tr>
+                  <td>Google Ireland Ltd. / Google LLC:</td>
+                  <td>Google Workspace, Google Apps Script és Google Drive az űrlapadatok fogadására, technikai feldolgozására és a feltöltött fájlok biztonságos tárolására. <span class="placeholder-val">[DPA szerződés egyeztetendő]</span></td>
+                </tr>
+                <tr>
+                  <td>Meta Platforms Ireland Ltd.:</td>
+                  <td>WhatsApp Business szolgáltatás a felhasználóval történő közvetlen üzenetváltáshoz és az audit eredményének elküldéséhez. <span class="placeholder-val">[Feltételek pontosítandók]</span></td>
+                </tr>
+                <tr>
+                  <td>Webtárhely és CDN szolgáltató:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – pl. GitHub Pages / Cloudflare / egyéb tárhelyszolgáltató megnevezése és székhelye]</span></td>
+                </tr>
+                <tr>
+                  <td>Harmadik országba történő továbbítás:</td>
+                  <td><span class="placeholder-val">[KITÖLTENDŐ – Az EU-US Data Privacy Framework vagy az Európai Bizottság Általános Szerződési Feltételei (SCC) alapján]</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="todo-box">
+              <strong>Fontos:</strong> A felhasználók béradatait harmadik félnek, munkaadóknak vagy reklámhálózatoknak soha, semmilyen körülmények között nem adjuk át vagy értékesítjük.
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. SZEKCIÓ: Érintetti jogok -->
+        <section class="policy-card" id="szekcio-7">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">7.</span>
+              <h2 class="section-heading">Az érintett jogai a GDPR alapján</h2>
+            </div>
+            <span class="todo-tag">⚠️ [KITÖLTENDŐ]</span>
+          </div>
+          <div class="section-body">
+            <p>
+              A GDPR rendelkezései értelmében a szolgáltatást igénybe vevő személyt az alábbi jogok illetik meg:
+            </p>
+            <ul class="data-list">
+              <li class="data-item">
+                <div class="data-item-title">🔍 Hozzáférési jog (GDPR 15. cikk)</div>
+                <div class="data-item-desc">Jogosult vagy tájékoztatást kérni arról, hogy kezelünk-e rólad személyes adatot, és ha igen, milyen adatokat, milyen célból tárolunk.</div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">✏️ Helyesbítéshez való jog (GDPR 16. cikk)</div>
+                <div class="data-item-desc">Kérheted a pontatlan vagy megváltozott adatok (pl. helytelenül rögzített telefonszám) azonnali kijavítását.</div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">🗑️ Törléshez való jog / „elfeledtetés” (GDPR 17. cikk)</div>
+                <div class="data-item-desc">Kérheted a rólad tárolt adatok és feltöltött dokumentumok haladéktalan és végleges törlését.</div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">⏸️ Az adatkezelés korlátozásának joga (GDPR 18. cikk)</div>
+                <div class="data-item-desc">Bizonyos feltételek fennállása esetén kérheted az adatok kezelésének zárolását, felfüggesztését.</div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">📦 Adathordozhatósághoz való jog (GDPR 20. cikk)</div>
+                <div class="data-item-desc">Kérheted a megadott adataid géppel olvasható formátumban való átadását.</div>
+              </li>
+              <li class="data-item">
+                <div class="data-item-title">↩️ Hozzájárulás visszavonása</div>
+                <div class="data-item-desc">Bármikor, indoklás nélkül visszavonhatod korábbi adatkezelési hozzájárulásodat egyszerű WhatsApp üzenetben vagy e-mailben.</div>
+              </li>
+            </ul>
+            <div class="todo-box">
+              <strong>Kérelmek benyújtása:</strong> <span class="placeholder-val">[KITÖLTENDŐ – megadandó a dedikált e-mail cím és a válaszadási határidő, pl. legfeljebb 30 napon belül]</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. SZEKCIÓ: Panasz benyújtása -->
+        <section class="policy-card" id="szekcio-8">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-num">8.</span>
+              <h2 class="section-heading">Panasz benyújtása és jogérvényesítés</h2>
+            </div>
+            <span class="todo-tag">⚠️ [KITÖLTENDŐ]</span>
+          </div>
+          <div class="section-body">
+            <p>
+              Amennyiben úgy ítéled meg, hogy az adatkezelés során jogsérelem ért, az alábbi felügyeleti hatóságokhoz fordulhatsz panasszal, vagy bírósági jogorvoslattal élhetsz:
+            </p>
+            <div class="authority-grid">
+              <div class="authority-card">
+                <div class="authority-name">
+                  <span>🇦🇹</span>
+                  <span>Ausztria: Datenschutzbehörde (DSB)</span>
+                </div>
+                <div class="authority-details">
+                  <strong>Österreichische Datenschutzbehörde</strong><br>
+                  Cím: Barichgasse 40-42, 1030 Wien, Österreich<br>
+                  Telefon: +43 1 52 152-0<br>
+                  E-mail: <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a><br>
+                  Web: <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>
+                </div>
+              </div>
+
+              <div class="authority-card">
+                <div class="authority-name">
+                  <span>🇭🇺</span>
+                  <span>Magyarország: NAIH</span>
+                </div>
+                <div class="authority-details">
+                  <strong>Nemzeti Adatvédelmi és Információszabadság Hatóság</strong><br>
+                  Cím: 1055 Budapest, Falk Miksa utca 9-11.<br>
+                  Postacím: 1363 Budapest, Pf. 9.<br>
+                  Telefon: +36 1 391 1400<br>
+                  E-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a><br>
+                  Web: <a href="https://www.naih.hu" target="_blank" rel="noopener">www.naih.hu</a>
+                </div>
+              </div>
+            </div>
+            <div class="todo-box" style="margin-top: 14px;">
+              <strong>Bírósági jogérvényesítés:</strong> <span class="placeholder-val">[KITÖLTENDŐ – Illetékes bíróság megjelölése az adatkezelő székhelye vagy az érintett lakóhelye szerint]</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Vissza a főoldalra kártya -->
+      <div class="back-action-card">
+        <h3 style="font-size: 20px;">Kérdésed van a bér-audittal kapcsolatban?</h3>
+        <p class="back-action-text">
+          Töltsd ki az ingyenes Jelzőlámpa Tesztet a főoldalon, és 2 perc alatt képet kapsz az esetleges bérlevonások vagy hibás besorolás kockázatáról.
+        </p>
+        <a href="index.html" class="btn-back-main">
+          ← Vissza a főoldalra
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- LÁBLÉC -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <span class="footer-brand-title">Kristály László BSc</span>
+        <span class="footer-brand-sub">Osztrák Bér-Audit Szakértő</span>
+      </div>
+      <p class="footer-disclaimer">
+        Ez az oldal tájékoztató és elemző jellegű. Nem minősül jogi tanácsadásnak. A fenti adatkezelési tájékoztató egy ideiglenes placeholder tervezet.
+      </p>
+      <div class="footer-bottom-line">
+        <span>© 2026 Minden jog fenntartva.</span>
+        <a href="index.html">Főoldal</a>
+        <a href="adatkezeles.html">Adatkezelési Tájékoztató</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

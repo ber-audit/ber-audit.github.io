@@ -1664,4 +1664,174 @@ a {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
+  }
+}
+
+/* ============================================================================
+   V2 ÚJ CSS OSZTÁLYOK ÉS MÓDOSÍTÁSOK
+   ============================================================================ */
+
+/* Payslip check items */
+.check-text {
+  font-weight: 500;
+  color: var(--warning-light);
+  font-size: 0.9rem;
+}
+
+.payslip-footnote {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px dashed rgba(255,255,255,0.1);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  line-height: 1.4;
+}
+
+/* Warning light glow */
+.amber-glow {
+  box-shadow: 0 0 15px 2px rgba(245, 158, 11, 0.4);
+}
+
+/* Links */
+.inline-link {
+  color: var(--primary-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+.inline-link:hover {
+  color: var(--primary-main);
+}
+.footer-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+.footer-link:hover {
+  color: var(--text-light);
+  text-decoration: underline;
+}
+
+/* Results text */
+.res-disclaimer {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Info boxes replacing disqualified box */
+.info-box {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-left: 4px solid #94a3b8;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  animation: slideUp 0.4s ease-out;
+}
+.browsing-only-box {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-left: 4px solid #94a3b8;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  animation: slideUp 0.4s ease-out;
+}
+.status-box-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.status-box-icon {
+  font-size: 1.5rem;
+}
+.status-box-header h4 {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  margin: 0;
+}
+.status-box-message {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Modal redesign */
+.modal-message-block {
+  margin: 1.5rem 0;
+  text-align: left;
+  background: rgba(255,255,255,0.03);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.modal-message {
+  color: var(--text-light);
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.modal-details-list {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+.modal-details-list p {
+  margin-bottom: 0.5rem;
+}
+.modal-details-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+.modal-details-list li {
+  margin-bottom: 0.4rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.modal-details-list li::before {
+  content: '👉';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.9rem;
+}
+.modal-fine-print {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 0.75rem;
+  line-height: 1.4;
+}
+
+/* WhatsApp elements */
+.btn-whatsapp {
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.btn-whatsapp:hover {
+  background: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+.modal-whatsapp-area {
+  margin-top: 1.5rem;
 }

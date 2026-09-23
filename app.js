@@ -1,7 +1,6 @@
 /**
- * OSZTRÁK BÉR-AUDIT – INGYENES DIAGNOSZTIKA
- * Jelzőlámpa Teszt (befolyásolásmentes felület), szűrőlogika és Google Sheets / Drive integráció
- * Szerző: Kristály László BSc megbízásából
+ * OSZTRÁK BÉR-AUDIT V2 – PIACI VALIDÁCIÓS VERZIÓ
+ * Jelzőlámpa Teszt, előminősítés, tracking rendszer, Google Sheets integráció
  */
 
 // ============================================================================
@@ -9,13 +8,83 @@
 // ============================================================================
 const GOOGLE_SCRIPT_WEB_APP_URL = "";
 
+// Fizetős audit ár konfig – amíg nincs végleges ár, a blokk rejtett marad
+const PAID_AUDIT_CONFIG = {
+  enabled: false,       // Állítsd true-ra ha van végleges ár
+  price: 0,             // Ár euróban, pl. 79
+  currency: "€",
+  description: ""
+};
+
+// ============================================================================
+// ANALYTICS TRACKING MODUL
+// ============================================================================
+const SESSION_ID = localStorage.getItem('ba_session') || crypto.randomUUID();
+localStorage.setItem('ba_session', SESSION_ID);
+
+function detectSource() {
+  const params = new URLSearchParams(window.location.search);
+  const src = (params.get('src') || params.get('utm_source') || '').toLowerCase();
+  if (src.includes('tiktok')) return 'source_tiktok';
+  if (src.includes('facebook') || src.includes('fb')) return 'source_facebook';
+  if (src.includes('youtube') || src.includes('yt')) return 'source_youtube';
+  if (document.referrer) {
+    const ref = document.referrer.toLowerCase();
+    if (ref.includes('tiktok')) return 'source_tiktok';
+    if (ref.includes('facebook') || ref.includes('fb.com')) return 'source_facebook';
+    if (ref.includes('youtube') || ref.includes('youtu.be')) return 'source_youtube';
+  }
+  if (!document.referrer || document.referrer.includes(window.location.hostname)) return 'source_direct';
+  return 'source_other';
+}
+
+const SOURCE = detectSource();
+const trackedEvents = new Set();
+
+function trackEvent(eventName, metadata) {
+  metadata = metadata || {};
+  const oneTimeEvents = ['landing_view', 'test_started', 'test_completed',
+    'qualification_started', 'qualification_completed', 'document_upload_started'];
+  if (oneTimeEvents.includes(eventName) && trackedEvents.has(eventName)) return;
+  trackedEvents.add(eventName);
+
+  const event = {
+    type: 'event',
+    sessionId: SESSION_ID,
+    event: eventName,
+    timestamp: new Date().toISOString(),
+    source: SOURCE,
+    metadata: JSON.stringify(metadata)
+  };
+
+  if (GOOGLE_SCRIPT_WEB_APP_URL && GOOGLE_SCRIPT_WEB_APP_URL.startsWith('http')) {
+    try {
+      fetch(GOOGLE_SCRIPT_WEB_APP_URL, {
+        method: 'POST', mode: 'no-cors', cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event)
+      }).catch(function() {});
+    } catch(e) {}
+  }
+
+  try {
+    const stored = JSON.parse(localStorage.getItem('ba_events') || '[]');
+    stored.push(event);
+    if (stored.length > 200) stored.splice(0, stored.length - 200);
+    localStorage.setItem('ba_events', JSON.stringify(stored));
+  } catch(e) {}
+}
+
 // ============================================================================
 // DOM ELEMEK & ESEMÉNYEK
 // ============================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
+  // Track landing view
+  trackEvent('landing_view');
+
   // --------------------------------------------------------------------------
-  // 3. BLOKK: JELZŐLÁMPA TESZT HÁTTÉRSZÁMÍTÁSA (BEFOLYÁSOLÁSMENTES UI)
+  // JELZŐLÁMPA TESZT
   // --------------------------------------------------------------------------
   const tq1Radios = document.querySelectorAll('input[name="tq1"]');
   const tq2Radios = document.querySelectorAll('input[name="tq2"]');
@@ -27,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resYellowLight = document.getElementById('resYellowLight');
   const resGreenLight = document.getElementById('resGreenLight');
 
+  let testStartTracked = false;
   let autoScrollTimeout = null;
 
   function evaluateTrafficLight() {
@@ -35,34 +105,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const a3 = document.querySelector('input[name="tq3"]:checked')?.value;
     const a4 = document.querySelector('input[name="tq4"]:checked')?.value;
 
-    const answeredCount = [a1, a2, a3, a4].filter(Boolean).length;
-    if (answeredCount < 4) {
-      return;
+    // Track test_started on first interaction
+    if (!testStartTracked && [a1, a2, a3, a4].some(Boolean)) {
+      trackEvent('test_started');
+      testStartTracked = true;
     }
+
+    const answeredCount = [a1, a2, a3, a4].filter(Boolean).length;
+    if (answeredCount < 4) return;
+
+    // Track test_completed
+    trackEvent('test_completed');
 
     let riskCount = 0;
 
-    // 1. Túlóra kockázat: „Igen, rendszeresen” VAGY „Volt néha”
-    if (a1 === 'Igen, rendszeresen' || a1 === 'Volt néha') {
-      riskCount++;
-    }
+    // 1. Túlóra kockázat
+    if (a1 === 'Igen, rendszeresen' || a1 === 'Volt néha') riskCount++;
 
-    // 2. 13/14. havi fizetés kockázat: „Nem tudom / nem kaptam” VAGY „Nálam nincs ilyen”
-    if (a2 === 'Nem tudom / nem kaptam' || a2 === 'Nálam nincs ilyen') {
-      riskCount++;
-    }
+    // 2. Urlaubsgeld/Weihnachtsgeld kockázat
+    if (a2 === 'Nem tudom, hogy jár-e vagy mennyi jár') riskCount++;
+    if (a2 === 'Tudom, hogy jár, de nem tudom, jól számolták-e') riskCount++;
 
-    // 3. Kollektivvertrag kockázat: „Fogalmam sincs” VAGY „Hallottam róla de nem tudom pontosan” VAGY „Nincs szerződésem / nem kaptam semmit”
-    if (a3 === 'Fogalmam sincs' || a3 === 'Hallottam róla de nem tudom pontosan' || a3 === 'Nincs szerződésem / nem kaptam semmit') {
-      riskCount++;
-    }
+    // 3. Kollektivvertrag kockázat
+    if (a3 === 'Fogalmam sincs' || a3 === 'Hallottam róla de nem tudom pontosan' || a3 === 'Nincs szerződésem / nem kaptam semmit') riskCount++;
 
-    // 4. Céges szállás kockázat:
-    // CSAK akkor kockázat, ha van céges szállás, de nem tudja pontosan a levonást!
-    // Ha nincs céges szállása, vagy teljesen ingyenes, vagy pontosan tudja a levonást: az 0 kockázat.
-    if (a4 === 'Van, de nem tudom pontosan') {
-      riskCount++;
-    }
+    // 4. Céges szállás kockázat – csak ha van de nem tudja a levonást
+    if (a4 === 'Van, de nem tudom pontosan') riskCount++;
 
     resRedLight.style.display = 'none';
     resYellowLight.style.display = 'none';
@@ -70,23 +138,21 @@ document.addEventListener('DOMContentLoaded', () => {
     trafficResultCard.style.display = 'block';
 
     if (riskCount >= 2) {
-      // 🔴 PIROS LÁMPA (Magas kockázat - 2 vagy több pont)
       resRedLight.style.display = 'block';
+      trackEvent('result_red', { riskCount });
     } else if (riskCount === 1) {
-      // 🟡 SÁRGA LÁMPA (Közepes kockázat - 1 pont)
       resYellowLight.style.display = 'block';
+      trackEvent('result_yellow', { riskCount });
     } else {
-      // 🟢 ZÖLD LÁMPA (Minden tiszta - 0 kockázat)
       resGreenLight.style.display = 'block';
+      trackEvent('result_green', { riskCount });
     }
 
-    // Automatikus, finom lefelé görgetés a szűrőkérdésekhez (Auto-scroll UX)
+    // Auto-scroll to filter section
     if (autoScrollTimeout) clearTimeout(autoScrollTimeout);
     autoScrollTimeout = setTimeout(() => {
       const szuroBlokk = document.getElementById('szuro-blokk');
-      if (szuroBlokk) {
-        szuroBlokk.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (szuroBlokk) szuroBlokk.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 1100);
   }
 
@@ -95,16 +161,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------------------------------------------------------------------------
-  // 4. BLOKK: SZŰRŐ ÉS GATING LOGIKA (TURISTÁK KISZŰRÉSE)
+  // ELŐMINŐSÍTŐ KÉRDÉSEK (ÚJ LOGIKA – NINCS KIZÁRÁS)
   // --------------------------------------------------------------------------
   const form = document.getElementById('auditForm');
   const q1Radios = document.querySelectorAll('input[name="q1"]');
   const q2Radios = document.querySelectorAll('input[name="q2"]');
   const q3Radios = document.querySelectorAll('input[name="q3"]');
 
-  const disqualifiedBox = document.getElementById('disqualifiedBox');
+  const notWillingBox = document.getElementById('notWillingBox');
+  const browsingOnlyBox = document.getElementById('browsingOnlyBox');
   const qualifiedBox = document.getElementById('qualifiedBox');
-  const btnResetFilter = document.getElementById('btnResetFilter');
   const uploadBlock = document.getElementById('uploadBlock');
 
   const fileInput = document.getElementById('payslipFile');
@@ -129,77 +195,77 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCloseModal = document.getElementById('btnCloseModal');
 
   let currentFile = null;
+  let qualificationStartTracked = false;
 
-  function evaluateFilterLogic(triggerScroll = false) {
+  function hideAllStatusBoxes() {
+    notWillingBox.style.display = 'none';
+    browsingOnlyBox.style.display = 'none';
+    qualifiedBox.style.display = 'none';
+    uploadBlock.style.display = 'none';
+  }
+
+  function evaluateFilterLogic() {
     const q1 = document.querySelector('input[name="q1"]:checked')?.value;
     const q2 = document.querySelector('input[name="q2"]:checked')?.value;
     const q3 = document.querySelector('input[name="q3"]:checked')?.value;
 
-    if (!q2 && !q3) {
+    // Track qualification_started
+    if (!qualificationStartTracked && (q1 || q2 || q3)) {
+      trackEvent('qualification_started');
+      qualificationStartTracked = true;
+    }
+
+    // Need at least Q2 and Q3 to evaluate
+    if (!q2 || !q3) {
+      hideAllStatusBoxes();
       return;
     }
 
-    // Kizáró feltétel:
-    // Ha Q2 == "Csak kíváncsi vagyok" VAGY Q3 == "Nem, mindent ingyen várok"
-    const isDisqualified = 
-      q2 === 'Csak kíváncsi vagyok' || 
-      q3 === 'Nem, mindent ingyen várok';
+    // Track specific payment willingness
+    if (q3 === 'Igen') trackEvent('willing_to_pay_yes');
+    if (q3 === 'Előbb szeretném tudni, pontosan mit tartalmaz és mennyibe kerül') trackEvent('willing_to_pay_details_first');
+    if (q3 === 'Nem szeretnék fizetős szolgáltatást') trackEvent('not_willing_to_pay');
 
-    if (isDisqualified) {
-      disqualifiedBox.style.display = 'block';
-      qualifiedBox.style.display = 'none';
-      uploadBlock.style.display = 'none';
-
-      clearFile();
-      phoneInput.removeAttribute('required');
-      fileInput.removeAttribute('required');
-
-      disqualifiedBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // Case 1: Not willing to pay – barátságos üzenet, NEM kizárás
+    if (q3 === 'Nem szeretnék fizetős szolgáltatást') {
+      hideAllStatusBoxes();
+      notWillingBox.style.display = 'block';
+      notWillingBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       return;
     }
 
-    // Megfelelt feltétel:
-    const isQualified = 
-      q2 === 'Ha kiderül hogy meglopnak, kész vagyok lépni és elkérni a pénzem' &&
-      q3 === 'Igen, megértem';
+    // Case 2: Only browsing
+    if (q2 === 'Egyelőre csak tájékozódom') {
+      hideAllStatusBoxes();
+      browsingOnlyBox.style.display = 'block';
+      browsingOnlyBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
 
-    if (isQualified) {
-      disqualifiedBox.style.display = 'none';
+    // Case 3: Qualified
+    const q2ok = (q2 === 'Igen' || q2 === 'Attól függ, mit találunk');
+    const q3ok = (q3 === 'Igen' || q3 === 'Előbb szeretném tudni, pontosan mit tartalmaz és mennyibe kerül');
 
+    if (q2ok && q3ok) {
+      trackEvent('qualification_completed');
       if (q1) {
+        hideAllStatusBoxes();
         qualifiedBox.style.display = 'block';
         uploadBlock.style.display = 'block';
+        trackEvent('document_upload_started');
         phoneInput.setAttribute('required', 'required');
         fileInput.setAttribute('required', 'required');
-
-        if (triggerScroll) {
-          setTimeout(() => {
-            uploadBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 150);
-        }
-      } else {
-        qualifiedBox.style.display = 'none';
-        uploadBlock.style.display = 'none';
+        setTimeout(() => {
+          uploadBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
       }
     } else {
-      disqualifiedBox.style.display = 'none';
-      qualifiedBox.style.display = 'none';
-      uploadBlock.style.display = 'none';
+      hideAllStatusBoxes();
     }
   }
 
   [...q1Radios, ...q2Radios, ...q3Radios].forEach(radio => {
-    radio.addEventListener('change', () => evaluateFilterLogic(true));
-  });
-
-  btnResetFilter.addEventListener('click', () => {
-    q1Radios.forEach(r => r.checked = false);
-    q2Radios.forEach(r => r.checked = false);
-    q3Radios.forEach(r => r.checked = false);
-    disqualifiedBox.style.display = 'none';
-    qualifiedBox.style.display = 'none';
-    uploadBlock.style.display = 'none';
-    clearFile();
+    radio.addEventListener('change', evaluateFilterLogic);
   });
 
   // --------------------------------------------------------------------------
@@ -342,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       btnSubmit.disabled = false;
       btnSpinner.style.display = 'none';
-      btnText.textContent = '🔍 Beküldöm – Átnézed!';
+      btnText.textContent = 'Beküldöm az első ellenőrzésre';
     }
   }
 
@@ -370,18 +436,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const base64DataUrl = await fileToBase64(currentFile);
       const base64Content = base64DataUrl.split(',')[1];
 
-      const tq1Val = document.querySelector('input[name="tq1"]:checked')?.value || 'Nincs kitöltve';
-      const tq2Val = document.querySelector('input[name="tq2"]:checked')?.value || 'Nincs kitöltve';
-      const tq3Val = document.querySelector('input[name="tq3"]:checked')?.value || 'Nincs kitöltve';
-      const tq4Val = document.querySelector('input[name="tq4"]:checked')?.value || 'Nincs kitöltve';
-
       const payload = {
+        type: 'submission',
+        sessionId: SESSION_ID,
         timestamp: new Date().toLocaleString('hu-HU', { timeZone: 'Europe/Vienna' }),
         whatsappNumber: rawPhone,
-        tq1: tq1Val,
-        tq2: tq2Val,
-        tq3: tq3Val,
-        tq4: tq4Val,
+        tq1: document.querySelector('input[name="tq1"]:checked')?.value || '',
+        tq2: document.querySelector('input[name="tq2"]:checked')?.value || '',
+        tq3: document.querySelector('input[name="tq3"]:checked')?.value || '',
+        tq4: document.querySelector('input[name="tq4"]:checked')?.value || '',
         q1: document.querySelector('input[name="q1"]:checked')?.value || '',
         q2: document.querySelector('input[name="q2"]:checked')?.value || '',
         q3: document.querySelector('input[name="q3"]:checked')?.value || '',
@@ -389,7 +452,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fileName: currentFile.name,
         fileMimeType: currentFile.type || 'application/octet-stream',
         fileSizeFormatted: formatBytes(currentFile.size),
-        fileBase64: base64Content
+        fileBase64: base64Content,
+        source: SOURCE
       };
 
       if (GOOGLE_SCRIPT_WEB_APP_URL && GOOGLE_SCRIPT_WEB_APP_URL.startsWith('http')) {
@@ -397,27 +461,27 @@ document.addEventListener('DOMContentLoaded', () => {
           method: 'POST',
           mode: 'no-cors',
           cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
       } else {
         await new Promise(resolve => setTimeout(resolve, 800));
       }
 
+      trackEvent('document_submitted');
       setSubmittingState(false);
       showSuccessModal();
 
     } catch (err) {
       console.error('Hiba történt a bérpapír küldésekor:', err);
+      trackEvent('document_submitted');
       setSubmittingState(false);
       showSuccessModal();
     }
   });
 
   // --------------------------------------------------------------------------
-  // SIKERES BEKÜLDÉS MODAL
+  // SUCCESS MODAL
   // --------------------------------------------------------------------------
   function showSuccessModal() {
     successModal.style.display = 'flex';
@@ -429,17 +493,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
     form.reset();
     clearFile();
-    disqualifiedBox.style.display = 'none';
-    qualifiedBox.style.display = 'none';
-    uploadBlock.style.display = 'none';
+    hideAllStatusBoxes();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   btnCloseModal.addEventListener('click', hideSuccessModal);
 
   successModal.addEventListener('click', (e) => {
-    if (e.target === successModal) {
-      hideSuccessModal();
-    }
+    if (e.target === successModal) hideSuccessModal();
+  });
+
+  // --------------------------------------------------------------------------
+  // WHATSAPP LINK TRACKING (kizárólag explicit WhatsApp link/CTA kattintásra)
+  // --------------------------------------------------------------------------
+  document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"], .btn-whatsapp').forEach(link => {
+    link.addEventListener('click', () => {
+      trackEvent('whatsapp_started');
+    });
   });
 });
+
