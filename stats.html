@@ -1039,6 +1039,33 @@
       </div>
     </section>
 
+    <!-- ÚJ SZEKCIÓ: Lead Minőség és Konverzió (HOT/WARM/NURTURE) -->
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">🔥 Lead Minőség és Vásárlási Hajlandóság</h2>
+          <p class="section-subtitle">Lead minőség (NURTURE, WARM, HOT) alapú megoszlás és vásárlási arányok</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Lead Státusz</th>
+              <th style="text-align: right;">Beérkezett Leadek</th>
+              <th style="text-align: right;">Vásárlók ebből</th>
+              <th style="text-align: right;">Konverziós Arány</th>
+              <th>Megoszlás Vizualizáció</th>
+            </tr>
+          </thead>
+          <tbody id="qualityTableBody">
+            <!-- Dinamikusan feltöltve -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- 3. Teljes Tölcsér Táblázat (18 Fázis) -->
     <section class="card">
       <div class="section-head">
@@ -1149,7 +1176,7 @@
      * Kezeli a localStorage-t, a Google Apps Script GET lekérést és a dinamikus számításokat.
      */
 
-    // A 18 megadott fázis pontos sorrendben, címkékkel és vizuális jelölőkkel
+    // A V2.1 fázisok pontos sorrendben, címkékkel és vizuális jelölőkkel
     const FUNNEL_STAGES = [
       { key: "landing_view", label: "Látogatók", icon: "🌐", tag: null },
       { key: "test_started", label: "Tesztindítás", icon: "🚦", tag: null },
@@ -1162,10 +1189,14 @@
       { key: "willing_to_pay_yes", label: "Fizetést elfogadja", icon: "💳", tag: "green" },
       { key: "willing_to_pay_details_first", label: "Előbb részleteket kér", icon: "💬", tag: "yellow" },
       { key: "not_willing_to_pay", label: "Nem szeretne fizetni", icon: "❌", tag: "red" },
-      { key: "document_upload_started", label: "Dokumentum feltöltés indítás", icon: "📤", tag: null },
-      { key: "document_submitted", label: "Dokumentum beküldve", icon: "📑", tag: "gold" },
-      { key: "whatsapp_started", label: "WhatsApp indítás", icon: "💬", tag: null },
-      { key: "free_review_completed", label: "Ingyenes audit megtörtént", icon: "🔍", tag: "gold" },
+      { key: "lead_form_shown", label: "Lead űrlap megjelent", icon: "📝", tag: null },
+      { key: "lead_form_started", label: "Lead űrlap elkezdve", icon: "✍️", tag: null },
+      { key: "lead_submitted", label: "Lead beküldve", icon: "📬", tag: "gold" },
+      { key: "whatsapp_started", label: "WhatsApp gomb kattintva", icon: "💬", tag: null },
+      { key: "whatsapp_contacted", label: "WhatsApp cég felől", icon: "📲", tag: null },
+      { key: "documents_requested", label: "Dokumentum bekérve", icon: "📤", tag: null },
+      { key: "documents_received", label: "Dokumentum megérkezett", icon: "📥", tag: "gold" },
+      { key: "free_review_completed", label: "Ingyenes audit megtörtént", icon: "🔍", tag: "green" },
       { key: "paid_offer_shown", label: "Fizetős ajánlat megjelent", icon: "💼", tag: null },
       { key: "checkout_started", label: "Checkout indítás", icon: "🛒", tag: null },
       { key: "purchase_completed", label: "Vásárlás", icon: "🎉", tag: "purple" }
@@ -1300,7 +1331,7 @@
     /**
      * Adatok feldolgozása és UI renderelése
      */
-    function renderDashboard(eventCounts, sourceCounts, isDemo = false) {
+    function renderDashboard(eventCounts, sourceCounts, leadQualities = {}, purchasedQualities = {}, isDemo = false) {
       currentEventCounts = eventCounts;
       currentSourceCounts = sourceCounts;
 
@@ -1448,6 +1479,48 @@
         sourceTableBody.appendChild(tr);
       });
 
+      // 4. Lead Minőség Táblázat Renderelése
+      const qualityTableBody = document.getElementById("qualityTableBody");
+      qualityTableBody.innerHTML = "";
+      const leadCategories = [
+        { key: "HOT", label: "🔥🔥 HOT (Nagy esélyes)", color: "#ef4444" },
+        { key: "WARM", label: "🔥 WARM (Érdeklődő)", color: "#f59e0b" },
+        { key: "NURTURE", label: "🌱 NURTURE (Tájékozódó)", color: "#10b981" }
+      ];
+
+      let totalLeadsCount = 0;
+      leadCategories.forEach(cat => totalLeadsCount += (Number(leadQualities[cat.key]) || 0));
+
+      leadCategories.forEach(cat => {
+        const lCount = Number(leadQualities[cat.key]) || 0;
+        const pCount = Number(purchasedQualities[cat.key]) || 0;
+        const convRate = lCount > 0 ? (pCount / lCount) * 100 : 0;
+        const distShare = totalLeadsCount > 0 ? (lCount / totalLeadsCount) * 100 : 0;
+        
+        let convClass = "medium";
+        if(convRate >= 50) convClass = "high";
+        else if(convRate < 10) convClass = "drop";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>
+            <div style="font-weight: 700; color: ${cat.color};">${cat.label}</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Megoszlás a leadek közt: ${formatPercent(distShare)}</div>
+          </td>
+          <td class="count-cell" style="text-align: right;">${formatNumber(lCount)}</td>
+          <td class="count-cell" style="text-align: right;">${formatNumber(pCount)}</td>
+          <td style="text-align: right;">
+            <span class="rate-badge ${convClass}">${formatPercent(convRate)}</span>
+          </td>
+          <td class="visual-bar-cell">
+            <div class="table-progress-bg" title="Vásárlási arány">
+              <div class="table-progress-fill" style="width: ${Math.min(convRate, 100)}%; background: ${cat.color};"></div>
+            </div>
+          </td>
+        `;
+        qualityTableBody.appendChild(tr);
+      });
+
       topSourceVal.textContent = `${topSource.name} (${formatPercent(topSource.percent)})`;
       totalSourceTraffic.textContent = formatNumber(totalTraffic);
       totalConversionRate.textContent = `${landingToPayRate.toFixed(2)}%`;
@@ -1466,11 +1539,13 @@
     function parseEventsResponse(data) {
       const counts = {};
       const sources = {};
+      const leadQualities = data?.leadQualities || {};
+      const purchasedQualities = data?.purchasedQualities || {};
 
       FUNNEL_STAGES.forEach(s => counts[s.key] = 0);
       SOURCE_KEYS.forEach(s => sources[s.key] = 0);
 
-      if (!data) return { counts, sources };
+      if (!data) return { counts, sources, leadQualities, purchasedQualities };
 
       // 1. Eset: { events: { landing_view: 120, ... }, sources: { source_tiktok: 40, ... } }
       if (data.events && typeof data.events === "object" && !Array.isArray(data.events)) {
@@ -1482,7 +1557,7 @@
             sources[k] = Number(data.sources[k]) || 0;
           });
         }
-        return { counts, sources };
+        return { counts, sources, leadQualities, purchasedQualities };
       }
 
       // 2. Eset: Adat egy tömb (pl. nyers események listája: [ { event_name: 'landing_view', source: 'tiktok' }, ... ])
@@ -1511,7 +1586,7 @@
             }
           }
         });
-        return { counts, sources };
+        return { counts, sources, leadQualities, purchasedQualities };
       }
 
       // 3. Eset: Maga az objektum a kulcs-érték számlálókat tartalmazza közvetlenül
@@ -1520,7 +1595,7 @@
         if (sources[k] !== undefined) sources[k] = Number(data[k]) || 0;
       });
 
-      return { counts, sources };
+      return { counts, sources, leadQualities, purchasedQualities };
     }
 
     /**
@@ -1529,7 +1604,7 @@
     async function fetchDataFromGAS(url) {
       if (!url || !url.trim().startsWith("http")) {
         setStatus("demo", "Nincs megadva érvényes Google Apps Script URL. Mintaadatok betöltve.");
-        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, {}, {}, true);
         return;
       }
 
@@ -1558,17 +1633,17 @@
         // Ellenőrizzük, kaptunk-e érdemi eseményt
         const totalCount = Object.values(parsed.counts).reduce((a, b) => a + b, 0);
         if (totalCount === 0) {
-          setStatus("demo", "A Google Apps Script válaszolt, de a táblázat még nem tartalmaz eseményeket. Mintaadatok megjelenítve.");
-          renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+          setStatus("live", "Élő kapcsolat: A táblázat jelenleg nem tartalmaz rögzített eseményt (0 db).");
+          renderDashboard(parsed.counts, parsed.sources, parsed.leadQualities, parsed.purchasedQualities, false);
         } else {
           setStatus("live", "Sikeresen betöltve az élő események a Google Apps Script végpontból!");
-          renderDashboard(parsed.counts, parsed.sources, false);
+          renderDashboard(parsed.counts, parsed.sources, parsed.leadQualities, parsed.purchasedQualities, false);
         }
 
       } catch (err) {
         console.warn("GAS lekérési hiba (CORS vagy hálózati elérhetőség):", err);
         setStatus("error", `Nem sikerült lekérni az élő adatokat (${err.message}). Demó mintaadatok megjelenítve.`);
-        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, {}, {}, true);
       } finally {
         setLoading(false);
       }
@@ -1630,15 +1705,14 @@
 
     // Kezdeti inicializálás
     window.addEventListener("DOMContentLoaded", () => {
-      const savedUrl = localStorage.getItem(LOCAL_STORAGE_KEY) || "";
-      if (savedUrl) {
+      let savedUrl = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (!savedUrl) {
+        savedUrl = "https://script.google.com/macros/s/AKfycbyRP-WwEZf-ik8_qra826MI9LFsCiDFVR8uTKqCv2kkZ5nTydTASW9Aj6tLFqPjgVVXHQ/exec";
         gasUrlInput.value = savedUrl;
-        fetchDataFromGAS(savedUrl);
       } else {
-        // Alapértelmezetten demó adatok megjelenítése
-        setStatus("demo", "Nincs beállítva mentett Google Apps Script Web App URL. Mintaadatok betöltve.");
-        renderDashboard(DEMO_DATA.events, DEMO_DATA.sources, true);
+        gasUrlInput.value = savedUrl;
       }
+      fetchDataFromGAS(savedUrl);
     });
   </script>
 </body>

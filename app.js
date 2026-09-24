@@ -6,7 +6,7 @@
 // ============================================================================
 // KONFIGURÁCIÓ
 // ============================================================================
-const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJgveAKP7FbAEoaRYoGF9TG3eEzDET4nnCW1c9mi1ozGCiPjSWkQBlqONvBSYrrH6t/exec";
+const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyRP-WwEZf-ik8_qra826MI9LFsCiDFVR8uTKqCv2kkZ5nTydTASW9Aj6tLFqPjgVVXHQ/exec";
 
 // Fizetős audit ár konfig – amíg nincs végleges ár, a blokk rejtett marad
 const PAID_AUDIT_CONFIG = {
@@ -184,48 +184,24 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------------------------------------------------------------------------
-  // ELŐMINŐSÍTŐ KÉRDÉSEK (ÚJ LOGIKA – NINCS KIZÁRÁS)
+  // ELŐMINŐSÍTŐ KÉRDÉSEK (V2.1 - NINCS KIZÁRÁS)
   // --------------------------------------------------------------------------
   const form = document.getElementById('auditForm');
   const q1Radios = document.querySelectorAll('input[name="q1"]');
   const q2Radios = document.querySelectorAll('input[name="q2"]');
   const q3Radios = document.querySelectorAll('input[name="q3"]');
-
-  const notWillingBox = document.getElementById('notWillingBox');
-  const browsingOnlyBox = document.getElementById('browsingOnlyBox');
-  const qualifiedBox = document.getElementById('qualifiedBox');
-  const uploadBlock = document.getElementById('uploadBlock');
-
-  const fileInput = document.getElementById('payslipFile');
-  const dropzone = document.getElementById('fileDropzone');
-  const dropzoneIdle = document.getElementById('dropzoneIdle');
-  const dropzoneActive = document.getElementById('dropzoneActiveFile');
-  const fileNameEl = document.getElementById('fileName');
-  const fileSizeEl = document.getElementById('fileSize');
-  const fileTypeIcon = document.getElementById('fileTypeIcon');
-  const btnRemoveFile = document.getElementById('btnRemoveFile');
-  const fileError = document.getElementById('fileError');
-
+  const leadFormBlock = document.getElementById('leadFormBlock');
+  const firstNameInput = document.getElementById('firstNameInput');
   const phoneInput = document.getElementById('whatsappNumber');
   const phoneError = document.getElementById('phoneError');
-  const userSuspicions = document.getElementById('userSuspicions');
-
   const btnSubmit = document.getElementById('btnSubmitAudit');
   const btnSpinner = document.getElementById('btnSpinner');
   const btnText = document.getElementById('btnText');
-
   const successModal = document.getElementById('successModal');
-  const btnCloseModal = document.getElementById('btnCloseModal');
 
-  let currentFile = null;
   let qualificationStartTracked = false;
-
-  function hideAllStatusBoxes() {
-    notWillingBox.style.display = 'none';
-    browsingOnlyBox.style.display = 'none';
-    qualifiedBox.style.display = 'none';
-    uploadBlock.style.display = 'none';
-  }
+  let leadFormShownTracked = false;
+  let leadFormStartedTracked = false;
 
   function evaluateFilterLogic() {
     const q1 = document.querySelector('input[name="q1"]:checked')?.value;
@@ -238,51 +214,28 @@ document.addEventListener('DOMContentLoaded', () => {
       qualificationStartTracked = true;
     }
 
-    // Need at least Q2 and Q3 to evaluate
-    if (!q2 || !q3) {
-      hideAllStatusBoxes();
+    // Need all 3 to show the form
+    if (!q1 || !q2 || !q3) {
+      leadFormBlock.style.display = 'none';
       return;
     }
+
+    trackEvent('qualification_completed');
 
     // Track specific payment willingness
     if (q3 === 'Igen') trackEvent('willing_to_pay_yes');
     if (q3 === 'Előbb szeretném tudni, pontosan mit tartalmaz és mennyibe kerül') trackEvent('willing_to_pay_details_first');
     if (q3 === 'Nem szeretnék fizetős szolgáltatást') trackEvent('not_willing_to_pay');
 
-    // Case 1: Not willing to pay – barátságos üzenet, NEM kizárás
-    if (q3 === 'Nem szeretnék fizetős szolgáltatást') {
-      hideAllStatusBoxes();
-      notWillingBox.style.display = 'block';
-      notWillingBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      return;
-    }
-
-    // Case 2: Only browsing
-    if (q2 === 'Egyelőre csak tájékozódom') {
-      hideAllStatusBoxes();
-      browsingOnlyBox.style.display = 'block';
-      browsingOnlyBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      return;
-    }
-
-    // Case 3: Qualified
-    const q2ok = (q2 === 'Igen' || q2 === 'Attól függ, mit találunk');
-    const q3ok = (q3 === 'Igen' || q3 === 'Előbb szeretném tudni, pontosan mit tartalmaz és mennyibe kerül');
-
-    if (q2ok && q3ok) {
-      trackEvent('qualification_completed');
-      if (q1) {
-        hideAllStatusBoxes();
-        qualifiedBox.style.display = 'block';
-        uploadBlock.style.display = 'block';
-        phoneInput.setAttribute('required', 'required');
-        fileInput.setAttribute('required', 'required');
-        setTimeout(() => {
-          uploadBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
-      }
-    } else {
-      hideAllStatusBoxes();
+    // Mindig megjelenítjük a formot
+    leadFormBlock.style.display = 'block';
+    
+    if (!leadFormShownTracked) {
+      trackEvent('lead_form_shown');
+      leadFormShownTracked = true;
+      setTimeout(() => {
+        leadFormBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
     }
   }
 
@@ -290,118 +243,15 @@ document.addEventListener('DOMContentLoaded', () => {
     radio.addEventListener('change', evaluateFilterLogic);
   });
 
-  // --------------------------------------------------------------------------
-  // 5. BLOKK: FÁJLKEZELÉS & VALIDÁCIÓ (MAX 10 MB, KÉP/PDF)
-  // --------------------------------------------------------------------------
-  const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
-  const ALLOWED_TYPES = [
-    'application/pdf',
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/webp'
-  ];
-
-  let uploadStartTracked = false;
-
-  function formatBytes(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-    else return (bytes / 1048576).toFixed(2) + ' MB';
+  // Track lead_form_started when user starts typing
+  function trackFormStart() {
+    if (!leadFormStartedTracked) {
+      trackEvent('lead_form_started');
+      leadFormStartedTracked = true;
+    }
   }
-
-  function handleSelectedFile(file) {
-    fileError.style.display = 'none';
-    fileError.textContent = '';
-
-    if (!file) {
-      clearFile();
-      return;
-    }
-
-    if (!uploadStartTracked) {
-      trackEvent('document_upload_started');
-      uploadStartTracked = true;
-    }
-
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      fileError.textContent = `A kiválasztott fájl túl nagy (${formatBytes(file.size)}). A megengedett maximális méret: 10 MB.`;
-      fileError.style.display = 'block';
-      clearFile();
-      return;
-    }
-
-    const isExtensionOk = /\.(pdf|jpe?g|png|webp)$/i.test(file.name);
-    const isMimeOk = ALLOWED_TYPES.includes(file.type.toLowerCase()) || file.type.startsWith('image/');
-
-    if (!isExtensionOk && !isMimeOk) {
-      fileError.textContent = 'Kérlek bérpapír fotót (JPG, PNG) vagy PDF dokumentumot tölts fel!';
-      fileError.style.display = 'block';
-      clearFile();
-      return;
-    }
-
-    currentFile = file;
-    fileNameEl.textContent = file.name;
-    fileSizeEl.textContent = formatBytes(file.size);
-
-    if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-      fileTypeIcon.textContent = '📑';
-    } else {
-      fileTypeIcon.textContent = '🖼️';
-    }
-
-    dropzoneIdle.style.display = 'none';
-    dropzoneActive.style.display = 'block';
-  }
-
-  function clearFile() {
-    currentFile = null;
-    fileInput.value = '';
-    dropzoneIdle.style.display = 'block';
-    dropzoneActive.style.display = 'none';
-  }
-
-  dropzone.addEventListener('click', (e) => {
-    if (e.target !== btnRemoveFile && !btnRemoveFile.contains(e.target)) {
-      fileInput.click();
-    }
-  });
-
-  fileInput.addEventListener('change', (e) => {
-    if (e.target.files && e.target.files[0]) {
-      handleSelectedFile(e.target.files[0]);
-    }
-  });
-
-  btnRemoveFile.addEventListener('click', (e) => {
-    e.stopPropagation();
-    clearFile();
-  });
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      dropzone.classList.add('dragover');
-    });
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      dropzone.classList.remove('dragover');
-    });
-  });
-
-  dropzone.addEventListener('drop', (e) => {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files && files.length > 0) {
-      handleSelectedFile(files[0]);
-    }
-  });
+  firstNameInput.addEventListener('focus', trackFormStart);
+  phoneInput.addEventListener('focus', trackFormStart);
 
   // --------------------------------------------------------------------------
   // TELEFONSZÁM / WHATSAPP VALIDÁCIÓ
@@ -420,25 +270,36 @@ document.addEventListener('DOMContentLoaded', () => {
   // --------------------------------------------------------------------------
   // FORM BEKÜLDÉS & GOOGLE SHEETS KÜLDÉS
   // --------------------------------------------------------------------------
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-      reader.readAsDataURL(file);
-    });
-  }
-
   function setSubmittingState(isSubmitting) {
     if (isSubmitting) {
       btnSubmit.disabled = true;
       btnSpinner.style.display = 'inline-block';
-      btnText.textContent = 'Feldolgozás és küldés...';
+      btnText.textContent = 'Küldés...';
     } else {
       btnSubmit.disabled = false;
       btnSpinner.style.display = 'none';
-      btnText.textContent = 'Beküldöm az első ellenőrzésre';
+      btnText.textContent = 'Kérem az ingyenes első áttekintést';
     }
+  }
+
+  function calculateLeadStatus(q1, q2, q3) {
+    // 1. NURTURE (Priority)
+    if (
+      q2 === 'Egyelőre csak tájékozódom' || 
+      q3 === 'Nem szeretnék fizetős szolgáltatást' || 
+      q1 === 'Nincs konkrét gyanúm, csak szeretném ellenőrizni'
+    ) {
+      return 'NURTURE';
+    }
+    
+    // 2. HOT
+    const hasSpecificProblem = q1 && q1 !== 'Nincs konkrét gyanúm, csak szeretném ellenőrizni';
+    if (hasSpecificProblem && q2 === 'Igen' && q3 === 'Igen') {
+      return 'HOT';
+    }
+    
+    // 3. WARM (Fallback)
+    return 'WARM';
   }
 
   form.addEventListener('submit', async (e) => {
@@ -452,37 +313,31 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (!currentFile) {
-      fileError.textContent = 'Kérlek töltsd fel a bérpapírod fotóját vagy PDF-jét!';
-      fileError.style.display = 'block';
-      dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-
     setSubmittingState(true);
 
     try {
-      const base64DataUrl = await fileToBase64(currentFile);
-      const base64Content = base64DataUrl.split(',')[1];
+      const q1 = document.querySelector('input[name="q1"]:checked')?.value || '';
+      const q2 = document.querySelector('input[name="q2"]:checked')?.value || '';
+      const q3 = document.querySelector('input[name="q3"]:checked')?.value || '';
+      
+      let trafficLightResult = '';
+      if (document.getElementById('resRedLight').style.display === 'block') trafficLightResult = 'Red';
+      else if (document.getElementById('resYellowLight').style.display === 'block') trafficLightResult = 'Yellow';
+      else if (document.getElementById('resGreenLight').style.display === 'block') trafficLightResult = 'Green';
 
       const payload = {
         type: 'submission',
         sessionId: SESSION_ID,
         timestamp: new Date().toLocaleString('hu-HU', { timeZone: 'Europe/Vienna' }),
+        source: CURRENT_SOURCE,
+        first_source: FIRST_SOURCE,
+        firstName: firstNameInput.value.trim(),
         whatsappNumber: rawPhone,
-        tq1: document.querySelector('input[name="tq1"]:checked')?.value || '',
-        tq2: document.querySelector('input[name="tq2"]:checked')?.value || '',
-        tq3: document.querySelector('input[name="tq3"]:checked')?.value || '',
-        tq4: document.querySelector('input[name="tq4"]:checked')?.value || '',
-        q1: document.querySelector('input[name="q1"]:checked')?.value || '',
-        q2: document.querySelector('input[name="q2"]:checked')?.value || '',
-        q3: document.querySelector('input[name="q3"]:checked')?.value || '',
-        userSuspicions: userSuspicions.value.trim(),
-        fileName: currentFile.name,
-        fileMimeType: currentFile.type || 'application/octet-stream',
-        fileSizeFormatted: formatBytes(currentFile.size),
-        fileBase64: base64Content,
-        source: FIRST_SOURCE
+        trafficLightResult: trafficLightResult,
+        qualificationQ1: q1,
+        qualificationQ2: q2,
+        qualificationQ3: q3,
+        leadStatus: calculateLeadStatus(q1, q2, q3)
       };
 
       if (GOOGLE_SCRIPT_WEB_APP_URL && GOOGLE_SCRIPT_WEB_APP_URL.startsWith('http')) {
@@ -494,16 +349,16 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(payload)
         });
       } else {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 500));
       }
 
-      trackEvent('document_submitted');
+      trackEvent('lead_submitted');
       setSubmittingState(false);
       showSuccessModal();
 
     } catch (err) {
-      console.error('Hiba történt a bérpapír küldésekor:', err);
-      trackEvent('document_submitted');
+      console.error('Hiba történt a form küldésekor:', err);
+      trackEvent('lead_submitted');
       setSubmittingState(false);
       showSuccessModal();
     }
@@ -513,24 +368,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // SUCCESS MODAL
   // --------------------------------------------------------------------------
   function showSuccessModal() {
-    successModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    if(successModal) {
+      successModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
   }
-
-  function hideSuccessModal() {
-    successModal.style.display = 'none';
-    document.body.style.overflow = '';
-    form.reset();
-    clearFile();
-    hideAllStatusBoxes();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  btnCloseModal.addEventListener('click', hideSuccessModal);
-
-  successModal.addEventListener('click', (e) => {
-    if (e.target === successModal) hideSuccessModal();
-  });
 
   // --------------------------------------------------------------------------
   // WHATSAPP LINK TRACKING (kizárólag explicit WhatsApp link/CTA kattintásra)

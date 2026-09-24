@@ -1010,12 +1010,12 @@
     <!-- Alert / Feedback Area -->
     <div id="alertBox" style="display: none;"></div>
 
-    <!-- 1. Configuration Section: Google Apps Script Web App URL -->
+    <!-- 1. Configuration Section: Google Apps Script Web App URL & Secret -->
     <section class="admin-card" id="configCard">
       <div class="card-header-flex">
         <h2 class="card-title">
           <span>⚙️</span>
-          <span>Google Apps Script Végpont</span>
+          <span>Google Apps Script Végpont és Biztonság</span>
         </h2>
         <span id="configStatusBadge" class="card-badge missing">⚠️ Nincs beállítva</span>
       </div>
@@ -1029,13 +1029,22 @@
             placeholder="https://script.google.com/macros/s/.../exec"
             autocomplete="off"
             spellcheck="false"
+            style="flex: 2;"
+          >
+          <input 
+            type="password" 
+            id="adminSecretInput" 
+            class="input-control" 
+            placeholder="Admin Jelszó (Biztonság)"
+            autocomplete="off"
+            style="flex: 1;"
           >
           <button type="button" id="saveUrlBtn" class="btn-secondary">
             <span>💾 Mentés</span>
           </button>
         </div>
         <div class="config-help">
-          A Web App URL a böngésző helyi tárhelyében (<code>localStorage</code>) tárolódik. Ide küldjük a rögzített eseményeket POST hívással (<code>no-cors</code> módban).
+          A Web App URL és az Admin Jelszó a böngésző helyi tárhelyében (<code>localStorage</code>) tárolódik.
         </div>
       </div>
     </section>
@@ -1092,12 +1101,34 @@
             <button 
               type="button" 
               class="event-card-btn active" 
+              data-event="documents_requested"
+            >
+              <span class="event-badge-icon">📤</span>
+              <span class="event-card-title">Dokumentum bekérve</span>
+              <span class="event-card-code">documents_requested</span>
+              <span class="event-card-desc">WhatsAppon kértünk be bérpapírokat/dokumentumokat az ügyféltől.</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="event-card-btn" 
+              data-event="documents_received"
+            >
+              <span class="event-badge-icon">📥</span>
+              <span class="event-card-title">Dokumentum megérkezett</span>
+              <span class="event-card-code">documents_received</span>
+              <span class="event-card-desc">Az ügyfél átküldte a kért dokumentumokat.</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="event-card-btn" 
               data-event="whatsapp_contacted"
             >
               <span class="event-badge-icon">💬</span>
-              <span class="event-card-title">WhatsApp kapcsolatfelvétel (Cég felől)</span>
+              <span class="event-card-title">WhatsApp kapcsolatfelvétel</span>
               <span class="event-card-code">whatsapp_contacted</span>
-              <span class="event-card-desc">Cégként mi írtunk rá az ügyfélre a megadott számon.</span>
+              <span class="event-card-desc">Cégként mi írtunk rá az ügyfélre.</span>
             </button>
 
             <button 
@@ -1241,6 +1272,23 @@
       <div id="historyTableContainer">
         <!-- Rendered dynamically via JavaScript -->
       </div>
+    <!-- 4. Leadek Section (GAS Fetch) -->
+    <section class="admin-card" id="leadsCard">
+      <div class="card-header-flex">
+        <h2 class="card-title">
+          <span>👥</span>
+          <span>Legfrissebb Leadek</span>
+        </h2>
+        <button type="button" id="refreshLeadsBtn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;">
+          🔄 Frissítés
+        </button>
+      </div>
+
+      <div id="leadsContainer" style="display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto;">
+        <div style="text-align: center; padding: 20px; color: var(--text-muted);">
+          Kattints a frissítésre a leadek lekéréséhez...
+        </div>
+      </div>
     </section>
 
   </main>
@@ -1262,8 +1310,18 @@
 
       // Esemény szótár címkékkel és ikonokkal
       const EVENT_DEFINITIONS = {
+        documents_requested: {
+          label: 'Dokumentum bekérve',
+          badgeClass: 'badge-free_review_scheduled',
+          icon: '📤'
+        },
+        documents_received: {
+          label: 'Dokumentum megérkezett',
+          badgeClass: 'badge-whatsapp_contacted',
+          icon: '📥'
+        },
         whatsapp_contacted: {
-          label: 'WhatsApp kapcsolatfelvétel (Cég felől)',
+          label: 'WhatsApp kapcsolatfelvétel',
           badgeClass: 'badge-whatsapp_contacted',
           icon: '💬'
         },
@@ -1331,9 +1389,22 @@
       // ======================================================================
       // 1. GAS URL KEZELÉS (localStorage)
       // ======================================================================
+      const adminSecretInput = document.getElementById('adminSecretInput');
+      
       function initGasUrl() {
-        const savedUrl = localStorage.getItem(STORAGE_KEY_GAS_URL) || '';
-        gasUrlInput.value = savedUrl;
+        let savedUrl = localStorage.getItem(STORAGE_KEY_GAS_URL);
+        if (!savedUrl) {
+          savedUrl = "https://script.google.com/macros/s/AKfycbyRP-WwEZf-ik8_qra826MI9LFsCiDFVR8uTKqCv2kkZ5nTydTASW9Aj6tLFqPjgVVXHQ/exec";
+          gasUrlInput.value = savedUrl;
+        } else {
+          gasUrlInput.value = savedUrl;
+        }
+        
+        let savedSecret = localStorage.getItem('ber_audit_admin_secret');
+        if (savedSecret) {
+          adminSecretInput.value = savedSecret;
+        }
+        
         updateConfigBadge(savedUrl);
       }
 
@@ -1349,12 +1420,20 @@
 
       saveUrlBtn.addEventListener('click', () => {
         const val = gasUrlInput.value.trim();
+        const secretVal = adminSecretInput.value.trim();
         localStorage.setItem(STORAGE_KEY_GAS_URL, val);
+        localStorage.setItem('ber_audit_admin_secret', secretVal);
         updateConfigBadge(val);
-        showToast('Google Apps Script URL sikeresen mentve!');
+        showToast('Beállítások sikeresen mentve!');
       });
 
       gasUrlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          saveUrlBtn.click();
+        }
+      });
+      adminSecretInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
           saveUrlBtn.click();
@@ -1607,8 +1686,7 @@
           return;
         }
 
-        // 3. Payload összeállítása pontosan a specifikáció szerint
-        // { type: 'event', sessionId: <input>, event: <selected>, timestamp: new Date().toISOString(), source: 'admin_manual', metadata: <notes> }
+        const adminSecret = localStorage.getItem('ber_audit_admin_secret') || '';
         const timestamp = new Date().toISOString();
         const payload = {
           type: 'event',
@@ -1616,7 +1694,8 @@
           event: selectedEvent,
           timestamp: timestamp,
           source: 'admin_manual',
-          metadata: metadata
+          metadata: metadata,
+          secret: adminSecret
         };
 
         // UI állapot: küldés folyamatban
@@ -1770,12 +1849,86 @@
       }
 
       // ======================================================================
-      // 7. INICIALIZÁLÁS BETÖLTÉSKOR
+      // 7. LEADEK LEKÉRÉSE (GAS)
+      // ======================================================================
+      const refreshLeadsBtn = document.getElementById('refreshLeadsBtn');
+      const leadsContainer = document.getElementById('leadsContainer');
+
+      async function fetchLeads() {
+        const gasUrl = localStorage.getItem(STORAGE_KEY_GAS_URL);
+        const adminSecret = localStorage.getItem('ber_audit_admin_secret') || '';
+        
+        if (!gasUrl || !gasUrl.startsWith('http')) {
+          leadsContainer.innerHTML = `<div style="text-align: center; color: var(--accent-red); padding: 10px;">Előbb állítsd be a GAS URL-t!</div>`;
+          return;
+        }
+
+        refreshLeadsBtn.disabled = true;
+        refreshLeadsBtn.textContent = '🔄 Frissítés...';
+        leadsContainer.innerHTML = `<div style="text-align: center; padding: 20px;"><div class="spinner"></div></div>`;
+
+        try {
+          const separator = gasUrl.includes('?') ? '&' : '?';
+          const res = await fetch(`${gasUrl}${separator}action=getLeads&secret=${encodeURIComponent(adminSecret)}`);
+          const data = await res.json();
+
+          if (data.status === 'success') {
+            renderLeads(data.leads || []);
+          } else {
+            throw new Error(data.message || 'Sikertelen lekérés');
+          }
+        } catch (err) {
+          leadsContainer.innerHTML = `<div style="text-align: center; color: var(--accent-red); padding: 10px;">Hiba: ${escapeHtml(err.message)}</div>`;
+        } finally {
+          refreshLeadsBtn.disabled = false;
+          refreshLeadsBtn.textContent = '🔄 Frissítés';
+        }
+      }
+
+      function renderLeads(leads) {
+        if (!leads.length) {
+          leadsContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--text-muted);">Nincs még jelentkező.</div>`;
+          return;
+        }
+
+        let html = '';
+        leads.forEach(lead => {
+          const sId = escapeHtml(lead['Session ID'] || '');
+          const status = escapeHtml(lead['Lead Status'] || 'Ismeretlen');
+          let badgeColor = '#94a3b8';
+          if(status === 'HOT') badgeColor = '#ef4444';
+          if(status === 'WARM') badgeColor = '#f59e0b';
+          if(status === 'NURTURE') badgeColor = '#10b981';
+
+          html += `
+            <div class="event-card-btn" style="display: block; cursor: pointer;" onclick="document.getElementById('sessionIdInput').value='${sId}'; window.scrollTo({top:0, behavior:'smooth'});">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <strong style="color: white;">${escapeHtml(lead['Keresztnév'] || 'Névtelen')} - ${escapeHtml(lead['WhatsApp'] || 'Nincs szám')}</strong>
+                <span style="background: ${badgeColor}33; color: ${badgeColor}; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;">${status}</span>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">
+                <span style="font-family: var(--font-mono); color: var(--accent-orange-bright);">${sId}</span> • ${formatTimestamp(lead['Időpont'])}
+              </div>
+              <div style="font-size: 0.75rem; margin-top: 6px; color: var(--text-dim);">
+                Q1: ${escapeHtml(lead['Q1 (Miért)'] || lead['Q1'] || '')} | Q2: ${escapeHtml(lead['Q2 (Lépne)'] || lead['Q2'] || '')} | Q3: ${escapeHtml(lead['Q3 (Fizetős)'] || lead['Q3'] || '')}
+              </div>
+            </div>
+          `;
+        });
+        leadsContainer.innerHTML = html;
+      }
+
+      refreshLeadsBtn.addEventListener('click', fetchLeads);
+
+
+      // ======================================================================
+      // 8. INICIALIZÁLÁS BETÖLTÉSKOR
       // ======================================================================
       initGasUrl();
       setSelectedEvent('free_review_completed');
       renderHistory();
       updateReuseLastSessionBtn();
+      fetchLeads(); // Auto-fetch on load
 
     })();
   </script>

@@ -334,84 +334,45 @@
               </div>
             </div>
 
-            <!-- NEM FIZETŐ ÜZENET -->
-            <div id="notWillingBox" class="status-box info-box" style="display: none;">
-              <div class="status-box-header">
-                <span class="status-box-icon">ℹ️</span>
-                <h4>Köszönjük a válaszodat.</h4>
-              </div>
-              <p class="status-box-message">Az ingyenes tájékoztató tartalmakat továbbra is használhatod. Ha később szeretnél személyes ellenőrzést, visszatérhetsz erre az oldalra.</p>
-            </div>
-            <!-- CSAK TÁJÉKOZÓDÓ -->
-            <div id="browsingOnlyBox" class="status-box info-box" style="display: none;">
-              <div class="status-box-header">
-                <span class="status-box-icon">ℹ️</span>
-                <h4>Köszönjük a válaszodat.</h4>
-              </div>
-              <p class="status-box-message">Ha később úgy döntesz, szívesen megnézzük az elszámolásodat. Bármikor visszatérhetsz erre az oldalra.</p>
-            </div>
-            <!-- SIKERES ELŐMINŐSÍTÉS -->
-            <div id="qualifiedBox" class="status-box qualified-box" style="display: none;">
-              <div class="status-box-header">
-                <span class="status-box-icon">✓</span>
-                <h4>Köszönjük a válaszaidat!</h4>
-              </div>
-              <p class="status-box-message">Készítsd elő az anonimizált bérpapírodat, és töltsd fel az alábbi űrlapon.</p>
-            </div>
-
-            <!-- 5. BLOKK: DOKUMENTUM FELTÖLTÉS -->
-            <div id="uploadBlock" class="upload-block-container" style="display: none;">
-              <div class="upload-divider"><span>Következő lépés: Dokumentum és elérhetőség</span></div>
+            <!-- ÚJ LEAD FORM BLOKK (V2.1) -->
+            <div id="leadFormBlock" class="upload-block-container" style="display: none;">
+              <div class="upload-divider"><span>Következő lépés: Ingyenes első áttekintés igénylése</span></div>
               <div class="upload-inner-card">
                 <div class="upload-header">
-                  <span class="upload-step-tag">KÖVETKEZŐ LÉPÉS</span>
-                  <h3 class="upload-title">Töltsd fel az anonimizált bérpapírod</h3>
+                  <h3 class="upload-title" style="margin-bottom: 8px;">Kéred az ingyenes 15 perces első áttekintést?</h3>
+                  <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 24px;">
+                    Add meg azt a WhatsApp-számot, amelyen felvehetem veled a kapcsolatot. Az első egyeztetés során tisztázzuk, mit szeretnél ellenőrizni, és ha szükséges, megírom azt is, milyen dokumentumra lesz szükségem.
+                  </p>
                 </div>
-                <div class="anonymity-alert">
-                  <span class="alert-symbol">⚠️</span>
-                  <div class="alert-text">
-                    <strong>Fontos a feltöltés előtt:</strong>
-                    <p>Takard ki a <strong>neved, lakcímed, céged nevét</strong> és más olyan adatot, amely az ellenőrzéshez nem szükséges. Csak a számok, órák és sorok maradjanak láthatók.</p>
-                  </div>
-                </div>
-                <div class="file-dropzone" id="fileDropzone">
-                  <input type="file" id="payslipFile" accept=".pdf,image/jpeg,image/png,image/webp,image/jpg" class="file-input-hidden" required>
-                  <div class="dropzone-idle" id="dropzoneIdle">
-                    <div class="dropzone-icon">📄</div>
-                    <p class="dropzone-main-text"><strong>Kattints ide a bérpapír kiválasztásához</strong><br>vagy húzd ide a fájlt mobilon/gépen</p>
-                    <span class="dropzone-hint">Támogatott: Kép (JPG, PNG, WebP) vagy PDF • Max. 10 MB</span>
-                  </div>
-                  <div class="dropzone-active-file" id="dropzoneActiveFile" style="display: none;">
-                    <div class="file-info-row">
-                      <span class="file-type-icon" id="fileTypeIcon">📎</span>
-                      <div class="file-text-meta">
-                        <span class="file-name" id="fileName">fajl_neve.pdf</span>
-                        <span class="file-size" id="fileSize">2.4 MB</span>
-                      </div>
-                      <button type="button" id="btnRemoveFile" class="btn-remove-file" title="Fájl törlése">✕</button>
-                    </div>
-                  </div>
-                </div>
-                <div id="fileError" class="field-error" style="display: none;"></div>
+
                 <div class="form-group">
-                  <label for="userSuspicions" class="form-label">Írd le röviden, mit szeretnél ellenőriztetni <span class="optional-tag">(Opcionális)</span></label>
-                  <textarea id="userSuspicions" rows="3" class="form-textarea" placeholder="Pl.: Szerintem a túlóráimat nem a megfelelő szorzóval számolták, vagy nem értem a levonásokat..."></textarea>
+                  <label for="firstNameInput" class="form-label">Keresztnév <span class="optional-tag">(Opcionális)</span></label>
+                  <input type="text" id="firstNameInput" class="form-input" placeholder="Pl. Gábor" autocomplete="given-name">
                 </div>
+
                 <div class="form-group">
                   <label for="whatsappNumber" class="form-label">WhatsApp telefonszámod <span class="required-star">* (Kötelező)</span></label>
                   <div class="phone-input-wrapper">
                     <span class="phone-input-icon">📱</span>
                     <input type="tel" id="whatsappNumber" class="form-input" placeholder="+43 676 1234567 vagy +36 30 123 4567" required autocomplete="tel">
                   </div>
-                  <p class="field-hint">Ezen a számon vesszük fel veled a kapcsolatot az ingyenes, legfeljebb 15 perces első áttekintéshez.</p>
                   <div id="phoneError" class="field-error" style="display: none;"></div>
                 </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                  <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" id="privacyConsent" required style="margin-top: 3px; accent-color: var(--accent-orange); width: 18px; height: 18px;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
+                      Elolvastam és elfogadom az <a href="adatkezeles.html" target="_blank" style="color: var(--accent-orange); text-decoration: underline;">Adatkezelési tájékoztatót</a>, és hozzájárulok, hogy WhatsAppon kapcsolatba lépjenek velem.
+                    </span>
+                  </label>
+                </div>
+
                 <div class="cta-action-area">
                   <button type="submit" id="btnSubmitAudit" class="btn btn-cta btn-submit">
                     <span class="btn-spinner" id="btnSpinner" style="display: none;"></span>
-                    <span class="btn-text" id="btnText">Beküldöm az első ellenőrzésre</span>
+                    <span class="btn-text" id="btnText">Kérem az ingyenes első áttekintést</span>
                   </button>
-                  <p class="cta-microcopy">Az első áttekintés ingyenes. A beküldés után felvesszük a kapcsolatot WhatsAppon.</p>
                 </div>
               </div>
             </div>
@@ -440,20 +401,16 @@
   <div id="successModal" class="modal-overlay" style="display: none;">
     <div class="modal-card">
       <div class="modal-icon-wrap"><span class="modal-checkmark">✓</span></div>
-      <h3 class="modal-title">Megkaptam az adatokat.</h3>
+      <h3 class="modal-title">Köszönöm, megkaptam a jelentkezésed.</h3>
       <div class="modal-message-block">
-        <p class="modal-message">A következő lépés egy <strong>legfeljebb 15 perces ingyenes WhatsApp-áttekintés</strong>.</p>
-        <div class="modal-details-list">
-          <p>Ennek során tisztázzuk:</p>
-          <ul>
-            <li>mit szeretnél ellenőrizni,</li>
-            <li>látok-e olyan pontot, amely további vizsgálatot indokol,</li>
-            <li>és szükség van-e részletes fizetős auditra.</li>
-          </ul>
-        </div>
-        <p class="modal-fine-print">Az ingyenes áttekintés nem tartalmaz teljes bérszámfejtési vagy jogi vizsgálatot. Ha nincs szükség további szolgáltatásra, nincs fizetési kötelezettséged.</p>
+        <p class="modal-message">A következő lépésben WhatsAppon felveszem veled a kapcsolatot. Először röviden tisztázzuk, mit szeretnél ellenőrizni.</p>
+        <p class="modal-message" style="margin-top: 12px;">Ha az első áttekintéshez szükségem lesz bérpapírra, szerződésre vagy más dokumentumra, megírom pontosan, mit és hogyan küldj el.</p>
+        <p class="modal-message" style="margin-top: 12px; color: var(--accent-orange-bright);">Az első, legfeljebb 15 perces áttekintés ingyenes.</p>
+        <p class="modal-message" style="margin-top: 12px; font-size: 0.9rem;">Ha később részletes fizetős ellenőrzésre lenne szükség, annak tartalmát és árát előre megkapod.</p>
       </div>
-      <button type="button" id="btnCloseModal" class="btn btn-primary btn-modal-close">Rendben, értem!</button>
+      <button class="btn btn-secondary" onclick="window.location.reload()" style="margin-top: 24px; width: 100%;">
+        Vissza a főoldalra
+      </button>
     </div>
   </div>
 
