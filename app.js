@@ -168,15 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
       trackEvent('result_green', { riskCount });
     }
 
-    // Auto-scroll to filter section
-    if (autoScrollTimeout) clearTimeout(autoScrollTimeout);
-    autoScrollTimeout = setTimeout(() => {
-      const szuroBlokk = document.getElementById('szuro-blokk');
-      if (szuroBlokk) {
-        szuroBlokk.style.display = 'block';
-        szuroBlokk.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 1100);
+    // Megjelenítjük a szűrő blokkot, de NEM görgetünk oda automatikusan,
+    // így a felhasználó maga kattinthat a "Tovább" gombra, nem ugrik el a képernyő.
+    const szuroBlokk = document.getElementById('szuro-blokk');
+    if (szuroBlokk) {
+      szuroBlokk.style.display = 'block';
+    }
   }
 
   [...tq1Radios, ...tq2Radios, ...tq3Radios, ...tq4Radios].forEach(radio => {
@@ -233,9 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!leadFormShownTracked) {
       trackEvent('lead_form_shown');
       leadFormShownTracked = true;
-      setTimeout(() => {
-        leadFormBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
     }
   }
 
@@ -302,8 +296,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return 'WARM';
   }
 
+  // Űrlapok alaphelyzetbe állítása az oldal betöltésekor
+  // (ez megakadályozza, hogy iOS-en a back-gomb után bennmaradjanak a korábbi jelölések)
+  document.getElementById('trafficLightForm').reset();
+  form.reset();
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Biztonsági ellenőrzés iOS-re (ha a böngésző átengedné a required mezőt)
+    const privacyCheckbox = document.getElementById('privacyConsent');
+    if (!privacyCheckbox.checked) {
+      alert("Kérlek, pipáld be az adatkezelési tájékoztatót a jelentkezéshez!");
+      return;
+    }
 
     const rawPhone = phoneInput.value.trim();
     if (!rawPhone || !validatePhoneNumber(rawPhone)) {
