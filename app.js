@@ -221,13 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Track specific payment willingness
     if (q3 === 'Igen') trackEvent('willing_to_pay_yes');
-    if (q3 === 'Előbb szeretném tudni, pontosan mit tartalmaz és mennyibe kerül') trackEvent('willing_to_pay_details_first');
-    if (q3 === 'Nem szeretnék fizetős szolgáltatást') trackEvent('not_willing_to_pay');
+    if (q3 === 'Előbb szeretném tudni, pontosan mit kapok érte') trackEvent('willing_to_pay_details_first');
+    if (q3 === 'Nem') trackEvent('not_willing_to_pay');
 
     // Mindig megjelenítjük a formot
     leadFormBlock.style.display = 'block';
     
     if (!leadFormShownTracked) {
+      trackEvent('paid_price_165_viewed');
       trackEvent('lead_form_shown');
       leadFormShownTracked = true;
     }
@@ -280,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. NURTURE (Priority)
     if (
       q2 === 'Egyelőre csak tájékozódom' || 
-      q3 === 'Nem szeretnék fizetős szolgáltatást' || 
+      q3 === 'Nem' || 
       q1 === 'Nincs konkrét gyanúm, csak szeretném ellenőrizni'
     ) {
       return 'NURTURE';
