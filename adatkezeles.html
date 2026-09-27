@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Adatkezelési Tájékoztató – Osztrák Bér-Audit</title>
+  <title>AdatkezelÃ©si TÃ¡jÃ©koztatÃ³ â€“ OsztrÃ¡k BÃ©r-Audit</title>
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
 
   <style>
     :root {
-      /* Színpaletta – Dark Theme */
+      /* SzÃ­npaletta â€“ Dark Theme */
       --bg-main: #090c14;
       --bg-card: rgba(18, 24, 38, 0.88);
       --bg-card-subtle: rgba(255, 255, 255, 0.03);
@@ -83,7 +83,7 @@
       overflow-x: hidden;
     }
 
-    /* Tipográfia */
+    /* TipogrÃ¡fia */
     h1, h2, h3, h4 {
       font-family: var(--font-heading);
       color: var(--text-white);
@@ -354,7 +354,7 @@
       line-height: 1.35;
     }
 
-    /* Kitöltendő Badge */
+    /* KitÃ¶ltendÅ‘ Badge */
     .todo-tag {
       display: inline-flex;
       align-items: center;
@@ -478,7 +478,7 @@
       font-size: 12.5px;
     }
 
-    /* Hatóság Doboz */
+    /* HatÃ³sÃ¡g Doboz */
     .authority-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -515,7 +515,7 @@
       text-underline-offset: 3px;
     }
 
-    /* Vissza Navigáció Kártya */
+    /* Vissza NavigÃ¡ciÃ³ KÃ¡rtya */
     .back-action-card {
       background: linear-gradient(180deg, rgba(18, 24, 38, 0.95) 0%, rgba(12, 16, 26, 0.98) 100%);
       border: 1px solid var(--border-card);
@@ -560,7 +560,7 @@
       color: #fff;
     }
 
-    /* Lábléc */
+    /* LÃ¡blÃ©c */
     .site-footer {
       border-top: 1px solid var(--border-subtle);
       background: rgba(7, 10, 16, 0.95);
@@ -627,7 +627,7 @@
       color: var(--text-white);
     }
 
-    /* Reszponzivitás */
+    /* ReszponzivitÃ¡s */
     @media (min-width: 768px) {
       .doc-header-card {
         padding: 40px 36px;
@@ -666,365 +666,179 @@
   </style>
 </head>
 <body>
+  <div class="site-bg-glow"></div>
+  <div class="site-bg-glow glow-2"></div>
 
-  <!-- Top Sticky Navigation Bar -->
-  <header class="top-nav">
-    <div class="nav-container">
-      <div class="brand">
-        <span class="flag-icon" aria-hidden="true">🇦🇹</span>
-        <div class="brand-text">
-          <span class="brand-title">Osztrák Bér-Audit</span>
-          <span class="brand-badge">Adatkezelési Tájékoztató</span>
-        </div>
+  <header class="site-header">
+    <div class="container header-container">
+      <div class="header-brand">
+        <span class="brand-title">Osztrák Bér-Audit</span>
+        <span class="brand-badge">Adatvédelem</span>
       </div>
-      <a href="index.html" class="nav-back-pill">← Vissza a főoldalra</a>
+      <nav class="header-nav">
+        <a href="index.html" class="nav-btn">← Vissza a főoldalra</a>
+      </nav>
     </div>
   </header>
 
-  <!-- Figyelmeztető Sárga Sáv (Prominent Yellow Warning Banner) -->
-  <div class="container warning-banner-wrapper">
-    <div class="warning-banner" role="alert">
-      <div class="warning-icon" aria-hidden="true">⚠️</div>
-      <div class="warning-content">
-        <span class="warning-tag">Tervezet / Placeholder Dokumentum</span>
-        <h2 class="warning-title">
-          Ez egy ideiglenes placeholder oldal. A végleges adatkezelési tájékoztatót jogi szakértővel kell összeállítani az élesítés előtt.
-        </h2>
-        <p class="warning-desc">
-          Ez a dokumentum a fejlesztési fázisban lévő bér-audit szolgáltatás tervezett adatkezelési struktúráját szemlélteti a leendő felhasználók és a jogi szakértők számára. Nem minősül hatályos, végleges jogi nyilatkozatnak.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <main class="page-main">
+  <main class="main-content">
     <div class="container">
+      
+      <div class="page-header">
+        <h1 class="page-title">ADATKEZELÉSI TÁJÉKOZTATÓ</h1>
+        <p class="page-subtitle" style="color: var(--text-muted); margin-top: 8px;">Hatályos: 2026. szeptember 27-től</p>
+      </div>
 
-      <!-- Fejléc Kártya -->
-      <header class="doc-header-card">
-        <div class="doc-meta">
-          <span class="meta-badge badge-draft">Státusz: Placeholder Tervezet (v0.2)</span>
-          <span class="meta-badge">GDPR Előkészítés</span>
-          <span class="meta-date">Utolsó frissítés: 2026. szeptember</span>
-        </div>
-        <h1 class="doc-title">Adatkezelési Tájékoztató</h1>
-        <p class="doc-subtitle">
-          Tájékoztató az <strong>Osztrák Bér-Audit</strong> (Kristály László BSc) szolgáltatás keretében megvalósuló adatkezelési műveletekről, a beküldött adatok védelméről és az érintettek jogairól.
-        </p>
-      </header>
+      <div class="policy-container">
 
-      <!-- Tartalmi Szekciók (1 - 8) -->
-      <div class="policy-sections">
-
-        <!-- 1. SZEKCIÓ: Adatkezelő adatai -->
-        <section class="policy-card" id="szekcio-1">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">1.</span>
-              <h2 class="section-heading">Az adatkezelő megnevezése és elérhetősége</h2>
-            </div>
-            <span class="todo-tag ok-tag">✓ MEGHATÁROZVA</span>
-          </div>
-          <div class="section-body">
-            <p>
-              A weboldalon keresztül indított Jelzőlámpa Teszt, bérpapír-elemzés és kapcsolódó konzultáció során rögzített adatok kezelője:
-            </p>
-            <table class="table-placeholder">
-              <tbody>
-                <tr>
-                  <td>Adatkezelő megnevezése:</td>
-                  <td><span class="placeholder-val">Kristály László BSc (magánszemély)</span></td>
-                </tr>
-                <tr>
-                  <td>Levelezési cím / Székhely:</td>
-                  <td><span class="placeholder-val">[Pontos cím megadása]</span></td>
-                </tr>
-                <tr>
-                  <td>E-mail cím kapcsolatfelvételhez:</td>
-                  <td><span class="placeholder-val">[E-mail cím megadása]</span></td>
-                </tr>
-                <tr>
-                  <td>Telefonszám / WhatsApp:</td>
-                  <td><span class="placeholder-val">[Telefonszám megadása]</span></td>
-                </tr>
-              </tbody>
-            </table>
+        <section class="policy-section">
+          <h2>1. Az adatkezelő</h2>
+          <div class="policy-content">
+            <p><strong>Adatkezelő:</strong> Kristály László<br>
+            <strong>Levelezési cím:</strong> 8314 Vonyarcvashegy, Magyarország<br>
+            <strong>E-mail:</strong> <a href="mailto:kristaly.laszlo.hr@gmail.com" style="color: var(--accent-orange);">kristaly.laszlo.hr@gmail.com</a><br>
+            <strong>WhatsApp:</strong> +43 677 61717355</p>
+            <p>Az adatkezelő az Osztrák Bér-Audit szolgáltatáshoz kapcsolódó személyes adatok kezeléséért felelős.</p>
           </div>
         </section>
 
-        <!-- 2. SZEKCIÓ: Kezelt adatok köre -->
-        <section class="policy-card" id="szekcio-2">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">2.</span>
-              <h2 class="section-heading">A kezelt adatok köre</h2>
-            </div>
-            <span class="todo-tag ok-tag">✓ RÉSZLETEZVE</span>
-          </div>
-          <div class="section-body">
-            <p>
-              A szolgáltatás céljából kizárólag az alábbi adatokat gyűjtjük és kezeljük:
-            </p>
-            <ul class="data-list">
-              <li class="data-item">
-                <div class="data-item-title">
-                  <span>📱</span>
-                  <span>WhatsApp telefonszám</span>
-                </div>
-                <div class="data-item-desc">
-                  A felhasználó által megadott nemzetközi formátumú mobilszám (+43... vagy +36...). Célja a diagnosztika eredményének közlése, a 15 perces ingyenes WhatsApp konzultáció lebonyolítása és a kapcsolatfelvétel.
-                </div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">
-                  <span>📄</span>
-                  <span>Bérpapír másolat (anonimizált formában)</span>
-                </div>
-                <div class="data-item-desc">
-                  A felhasználó által feltöltött osztrák bérlap (Lohnabrechnung) vagy elszámolás (PDF, JPG, PNG). <em>Biztonsági szabályzat: A rendszer kifejezetten előírja a név, a pontos lakcím és a munkáltató nevének előzetes kitakarását vagy feketítését, így az elemzés kizárólag a bérezési számadatokra (KV besorolás, túlórák, pótlékok, levonások) fókuszál.</em>
-                </div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">
-                  <span>🚦</span>
-                  <span>Jelzőlámpa Teszt és szűrőkérdések válaszai</span>
-                </div>
-                <div class="data-item-desc">
-                  A 4 diagnosztikai kérdésre adott válasz (túlórák gyakorisága, 13./14. havi bér, kollektív szerződés ismerete, bérpapír sorok átláthatósága) és a 3 szűrőkérdés (ágazat/szakma, fellépési szándék, díjazási struktúra tudomásulvétele), amelyek a jogosultság és kockázatok felmérését szolgálják.
-                </div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">
-                  <span>💬</span>
-                  <span>Opcionális megjegyzések és gyanúk</span>
-                </div>
-                <div class="data-item-desc">
-                  A felhasználó által önkéntesen rögzített leírás a feltételezett bérkülönbözetről, munkaidő-elszámolási problémákról vagy korábbi vitákról.
-                </div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">
-                  <span>🔒</span>
-                  <span>Anonim session azonosító és technikai metaadatok</span>
-                </div>
-                <div class="data-item-desc">
-                  Ideiglenes munkamenet-azonosító (session ID), időbélyeg, a beküldés sikeres lefutását biztosító technikai logok, valamint a visszaélések kiszűrésére szolgáló technikai fejlécek.
-                </div>
-              </li>
+        <section class="policy-section">
+          <h2>2. Milyen adatokat kezelünk?</h2>
+          <div class="policy-content">
+            <h3 style="color: #fff; margin-top: 20px; margin-bottom: 12px;">Bérvédelmi Jelzőlámpa és kapcsolatfelvétel</h3>
+            <p>A weboldal használata és az ingyenes első áttekintés kérése során az alábbi adatok kezelhetők:</p>
+            <ul>
+              <li>véletlenszerű munkamenet-azonosító (Session ID);</li>
+              <li>forgalmi forrás (például TikTok vagy Facebook);</li>
+              <li>a Jelzőlámpában és az azt követő kérdésekben adott válaszok;</li>
+              <li>keresztnév vagy becenév;</li>
+              <li>WhatsApp-szám;</li>
+              <li>a kapcsolatfelvételhez és az ügy előzetes áttekintéséhez kapcsolódó kommunikáció.</li>
             </ul>
-          </div>
-        </section>
-
-        <!-- 3. SZEKCIÓ: Adatkezelés célja -->
-        <section class="policy-card" id="szekcio-3">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">3.</span>
-              <h2 class="section-heading">Az adatkezelés célja</h2>
-            </div>
-            <span class="todo-tag ok-tag">✓ MEGHATÁROZVA</span>
-          </div>
-          <div class="section-body">
-            <p>
-              Az adatkezelés kizárólagos célja: <strong>Az általad kifejezetten kért osztrák bér-ellenőrzési szolgáltatás és szakértői diagnosztika teljesítése.</strong>
-            </p>
-            <p>
-              Ezen belül a kezelt adatokat a következőkre használjuk fel:
-            </p>
-            <ul style="padding-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
-              <li>A beküldött adatok összevetése a hatályos osztrák Kollektív Szerződésekkel (Kollektivvertrag - KV) és a vonatkozó munkaügyi szabályokkal.</li>
-              <li>A bérbesorolás (Einstufung), a túlórapótlékok (Überstunden) és egyéb juttatások (Zulagen, Diäten) elszámolásának ellenőrzése.</li>
-              <li>A diagnosztikai eredmény összefoglalása és eljuttatása a megadott WhatsApp telefonszámra legfeljebb 48 órán belül.</li>
-              <li>Az ingyenes, 15 perces előzetes WhatsApp konzultáció lebonyolítása az érintett kezdeményezésére.</li>
-              <li>Amennyiben az érintett ezt kéri: a teljeskörű, díjköteles audit és hivatalos beadványcsomag előkészítése.</li>
+            
+            <h3 style="color: #fff; margin-top: 24px; margin-bottom: 12px;">Fizetett Bér-Audit</h3>
+            <p>A részletes Bér-Audit megrendelése és teljesítése során az alábbi adatok kezelhetők:</p>
+            <ul>
+              <li>teljes név;</li>
+              <li>opcionálisan megadott e-mail-cím;</li>
+              <li>foglalkoztatás típusa;</li>
+              <li>munkakör;</li>
+              <li>munkaviszony kezdete;</li>
+              <li>aktuális foglalkoztatási státusz;</li>
+              <li>az ellenőrizni kívánt témák;</li>
+              <li>az ügyfél által leírt konkrét kérdés vagy probléma;</li>
+              <li>a rendelkezésre álló dokumentumok megjelölése;</li>
+              <li>a választott dokumentumküldési mód;</li>
+              <li>az ügyfél által a vizsgálathoz ténylegesen megküldött dokumentumok és azok tartalma;</li>
+              <li>a Bér-Audit elvégzése során készült megállapítások és összefoglaló.</li>
             </ul>
+            <p>A megküldött dokumentumok többek között bérpapírok, munkaszerződések, Dienstzettel, munkaidő-nyilvántartások, kifizetési adatok vagy az ügy szempontjából releváns munkáltatói kommunikáció lehetnek.</p>
           </div>
         </section>
 
-        <!-- 4. SZEKCIÓ: Jogalap -->
-        <section class="policy-card" id="szekcio-4">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">4.</span>
-              <h2 class="section-heading">Az adatkezelés jogalapja</h2>
-            </div>
-            <span class="todo-tag ok-tag">✓ MEGHATÁROZVA</span>
-          </div>
-          <div class="section-body">
-            <p>
-              Az adatkezelés jogalapjai az Európai Parlament és a Tanács (EU) 2016/679 rendelete (GDPR) szerint:
-            </p>
-            <div class="todo-box">
-              <ul style="padding-left: 18px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
-                <li>
-                  <strong>GDPR 6. cikk (1) bek. a) pont (Hozzájárulás):</strong> Az érintett önkéntes, kifejezett és tájékozott hozzájárulása a Jelzőlámpa Teszt kitöltésével, az anonimizált dokumentum feltöltésével és a telefonszám beküldésével.
-                </li>
-                <li>
-                  <strong>GDPR 6. cikk (1) bek. b) pont (Szerződés teljesítése vagy megelőző lépések):</strong> Az adatkezelés az érintett kérésére történő lépések megtételéhez szükséges a bér-audit szolgáltatás nyújtása érdekében.
-                </li>
-              </ul>
-            </div>
+        <section class="policy-section">
+          <h2>3. Az adatkezelés célja és jogalapja</h2>
+          <div class="policy-content">
+            <p>A kapcsolatfelvételkor megadott adatok kezelésének célja az ügyfél kérésére történő kapcsolatfelvétel, az első áttekintés megszervezése és annak megállapítása, hogy a Bér-Audit szolgáltatás releváns lehet-e számára.</p>
+            <p>A fizetett szolgáltatáshoz kapcsolódó adatkezelés célja a megrendelt Bér-Audit megszervezése és teljesítése, a dokumentumok áttekintése, az eredmények elkészítése és az ügyféllel történő kommunikáció.</p>
+            <p>Ezen adatkezelések jogalapja elsősorban az Európai Parlament és a Tanács (EU) 2016/679 rendelete („GDPR”) 6. cikk (1) bekezdés b) pontja: az érintett kérésére történő, szerződéskötést megelőző lépések megtétele, illetve a létrejött szerződés teljesítése.</p>
+            <p>Amennyiben valamely adat megőrzése jogszabályi kötelezettség teljesítéséhez szükséges, az adott adatkezelés jogalapja a GDPR 6. cikk (1) bekezdés c) pontja lehet.</p>
           </div>
         </section>
 
-        <!-- 5. SZEKCIÓ: Megőrzési időtartam -->
-        <section class="policy-card" id="szekcio-5">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">5.</span>
-              <h2 class="section-heading">Az adatok megőrzésének időtartama</h2>
-            </div>
-            <span class="todo-tag ok-tag">✓ MEGHATÁROZVA</span>
-          </div>
-          <div class="section-body">
-            <p>
-              A személyes és auditálási adatokat csak a szolgáltatás nyújtásához feltétlenül szükséges ideig tárolom:
-            </p>
-            <table class="table-placeholder">
-              <tbody>
-                <tr>
-                  <td>Feltöltött bérpapír másolatok:</td>
-                  <td><span class="placeholder-val">A diagnosztika lezárását követő 30 napon belül véglegesen törlésre kerülnek, kivéve ha az ügyfél megbízást ad a teljes auditra.</span></td>
-                </tr>
-                <tr>
-                  <td>WhatsApp telefonszám és csevegés:</td>
-                  <td><span class="placeholder-val">Az utolsó kapcsolatfelvételtől számított 90 napig, vagy az érintett törlési kérelméig.</span></td>
-                </tr>
-                <tr>
-                  <td>Tesztválaszok és session adatok:</td>
-                  <td><span class="placeholder-val">30 nap elteltével anonimizált aggregált statisztikává válnak.</span></td>
-                </tr>
-              </tbody>
-            </table>
+        <section class="policy-section">
+          <h2>4. Dokumentumok küldése</h2>
+          <div class="policy-content">
+            <p>A Bér-Audit elvégzéséhez szükséges dokumentumokat az ügyfél választása szerint WhatsAppon vagy e-mailben küldheti meg.</p>
+            <p>Kérjük, csak olyan dokumentumot és adatot küldj, amely a vizsgált kérdés tisztázásához szükséges.</p>
+            <p>Ha egy dokumentum olyan személyes vagy különösen érzékeny információt tartalmaz, amelynek nincs köze a Bér-Audithoz, azt lehetőség szerint takard ki a dokumentum elküldése előtt.</p>
           </div>
         </section>
 
-        <!-- 6. SZEKCIÓ: Adattovábbítás és feldolgozók -->
-        <section class="policy-card" id="szekcio-6">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">6.</span>
-              <h2 class="section-heading">Adattovábbítás és adatfeldolgozók</h2>
-            </div>
-            <span class="todo-tag ok-tag">✓ MEGHATÁROZVA</span>
-          </div>
-          <div class="section-body">
-            <p>
-              A szolgáltatás üzemeltetéséhez az alábbi megbízható technológiai partnereket (adatfeldolgozókat) veszem igénybe:
-            </p>
-            <table class="table-placeholder">
-              <tbody>
-                <tr>
-                  <td>Google LLC:</td>
-                  <td>Google Workspace, Google Apps Script és Google Drive az űrlapadatok fogadására, technikai feldolgozására és a feltöltött fájlok biztonságos tárolására.</td>
-                </tr>
-                <tr>
-                  <td>Meta Platforms Ireland Ltd.:</td>
-                  <td>WhatsApp Business szolgáltatás a felhasználóval történő közvetlen üzenetváltáshoz és az audit eredményének elküldéséhez.</td>
-                </tr>
-                <tr>
-                  <td>Webtárhely és CDN szolgáltató:</td>
-                  <td><span class="placeholder-val">GitHub Pages a weboldal hosztolására.</span></td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="todo-box">
-              <strong>Fontos:</strong> A felhasználók béradatait harmadik félnek, munkaadóknak vagy reklámhálózatoknak soha, semmilyen körülmények között nem adom át és nem értékesítem.
-            </div>
+        <section class="policy-section">
+          <h2>5. Fizetés</h2>
+          <div class="policy-content">
+            <p>A fizetés a Stripe rendszerén keresztül történik.</p>
+            <p>A Bér-Audit weboldala nem kezeli és nem tárolja az ügyfél bankkártyaadatait. A fizetés feldolgozását a Stripe végzi saját adatvédelmi és biztonsági szabályai szerint.</p>
           </div>
         </section>
 
-        <!-- 7. SZEKCIÓ: Érintetti jogok -->
-        <section class="policy-card" id="szekcio-7">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">7.</span>
-              <h2 class="section-heading">Az érintett jogai a GDPR alapján</h2>
-            </div>
-            <span class="todo-tag ok-tag">✓ MEGHATÁROZVA</span>
-          </div>
-          <div class="section-body">
-            <p>
-              A GDPR rendelkezései értelmében a szolgáltatást igénybe vevő személyt az alábbi jogok illetik meg:
-            </p>
-            <ul class="data-list">
-              <li class="data-item">
-                <div class="data-item-title">🔍 Hozzáférési jog (GDPR 15. cikk)</div>
-                <div class="data-item-desc">Jogosult vagy tájékoztatást kérni arról, hogy kezelünk-e rólad személyes adatot, és ha igen, milyen adatokat, milyen célból tárolunk.</div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">✏️ Helyesbítéshez való jog (GDPR 16. cikk)</div>
-                <div class="data-item-desc">Kérheted a pontatlan vagy megváltozott adatok (pl. helytelenül rögzített telefonszám) azonnali kijavítását.</div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">🗑️ Törléshez való jog / „elfeledtetés” (GDPR 17. cikk)</div>
-                <div class="data-item-desc">Kérheted a rólad tárolt adatok és feltöltött dokumentumok haladéktalan és végleges törlését.</div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">⏸️ Az adatkezelés korlátozásának joga (GDPR 18. cikk)</div>
-                <div class="data-item-desc">Bizonyos feltételek fennállása esetén kérheted az adatok kezelésének zárolását, felfüggesztését.</div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">📦 Adathordozhatósághoz való jog (GDPR 20. cikk)</div>
-                <div class="data-item-desc">Kérheted a megadott adataid géppel olvasható formátumban való átadását.</div>
-              </li>
-              <li class="data-item">
-                <div class="data-item-title">↩️ Hozzájárulás visszavonása</div>
-                <div class="data-item-desc">Bármikor, indoklás nélkül visszavonhatod korábbi adatkezelési hozzájárulásodat egyszerű WhatsApp üzenetben vagy e-mailben.</div>
-              </li>
+        <section class="policy-section">
+          <h2>6. Technikai szolgáltatók</h2>
+          <div class="policy-content">
+            <p>A szolgáltatás működtetése során az alábbi külső szolgáltatások vehetnek részt a személyes adatok kezelésében:</p>
+            <ul>
+              <li><strong>Google:</strong> Google Apps Script, Google Sheets, Google Drive és Gmail – az űrlapadatok tárolásához, a rendszer működtetéséhez, illetve az e-mailes kommunikációhoz.</li>
+              <li><strong>Meta / WhatsApp:</strong> az ügyféllel történő WhatsApp-kommunikációhoz és – ha az ügyfél ezt a lehetőséget választja – dokumentumok továbbításához.</li>
+              <li><strong>Stripe:</strong> a fizetés feldolgozásához.</li>
+              <li><strong>GitHub Pages / Microsoft:</strong> a weboldal technikai kiszolgálásához. A Bér-Audit űrlapjaiban megadott ügyféladatok adatbázisa nem a GitHub Pages rendszerében található.</li>
             </ul>
-            <div class="todo-box">
-              <strong>Kérelmek benyújtása:</strong> <span class="placeholder-val">[KITÖLTENDŐ – megadandó a dedikált e-mail cím és a válaszadási határidő, pl. legfeljebb 30 napon belül]</span>
-            </div>
+            <p>E külső szolgáltatók saját rendszereik működtetése során önálló adatkezelőként vagy adatfeldolgozóként is eljárhatnak a konkrét adatkezelési művelettől függően.</p>
           </div>
         </section>
 
-        <!-- 8. SZEKCIÓ: Panasz benyújtása -->
-        <section class="policy-card" id="szekcio-8">
-          <div class="section-header">
-            <div class="section-title-wrap">
-              <span class="section-num">8.</span>
-              <h2 class="section-heading">Panasz benyújtása és jogérvényesítés</h2>
-            </div>
-            <span class="todo-tag">⚠️ [KITÖLTENDŐ]</span>
+        <section class="policy-section">
+          <h2>7. Weboldal-technológia</h2>
+          <div class="policy-content">
+            <p>A Bér-Audit weboldal a jelenlegi technikai kialakítás szerint nem használ Meta Pixelt vagy Google Analytics szolgáltatást.</p>
+            <p>A weboldal a böngésző helyi tárhelyét (localStorage) használja többek között egy véletlenszerű Session ID és a látogatási forrás tárolására.</p>
+            <p>Ezek célja a szolgáltatás működésének biztosítása, a felhasználói folyamat összekapcsolása és a saját belső mérés támogatása.</p>
           </div>
-          <div class="section-body">
-            <p>
-              Amennyiben úgy ítéled meg, hogy az adatkezelés során jogsérelem ért, az alábbi felügyeleti hatóságokhoz fordulhatsz panasszal, vagy bírósági jogorvoslattal élhetsz:
-            </p>
-            <div class="authority-grid">
-              <div class="authority-card">
-                <div class="authority-name">
-                  <span>🇦🇹</span>
-                  <span>Ausztria: Datenschutzbehörde (DSB)</span>
-                </div>
-                <div class="authority-details">
-                  <strong>Österreichische Datenschutzbehörde</strong><br>
-                  Cím: Barichgasse 40-42, 1030 Wien, Österreich<br>
-                  Telefon: +43 1 52 152-0<br>
-                  E-mail: <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a><br>
-                  Web: <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>
-                </div>
-              </div>
+        </section>
 
-              <div class="authority-card">
-                <div class="authority-name">
-                  <span>🇭🇺</span>
-                  <span>Magyarország: NAIH</span>
-                </div>
-                <div class="authority-details">
-                  <strong>Nemzeti Adatvédelmi és Információszabadság Hatóság</strong><br>
-                  Cím: 1055 Budapest, Falk Miksa utca 9-11.<br>
-                  Postacím: 1363 Budapest, Pf. 9.<br>
-                  Telefon: +36 1 391 1400<br>
-                  E-mail: <a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a><br>
-                  Web: <a href="https://www.naih.hu" target="_blank" rel="noopener">www.naih.hu</a>
-                </div>
-              </div>
-            </div>
-            <div class="todo-box" style="margin-top: 14px;">
-              <strong>Bírósági jogérvényesítés:</strong> <span class="placeholder-val">[KITÖLTENDŐ – Illetékes bíróság megjelölése az adatkezelő székhelye vagy az érintett lakóhelye szerint]</span>
-            </div>
+        <section class="policy-section">
+          <h2>8. Az adatok megőrzése</h2>
+          <div class="policy-content">
+            <p>A személyes adatokat nem őrizzük meg korlátlan ideig.</p>
+            <p>A kapcsolatfelvételi, ügyfél- és dokumentumadatokat addig kezeljük, ameddig azok az adott kapcsolatfelvétel, a Bér-Audit teljesítése, az esetleges utólagos egyeztetés, illetve az adatkezelőre vonatkozó jogi kötelezettségek teljesítése szempontjából szükségesek.</p>
+            <p>Ha valamely adat megőrzését jogszabály kötelezően előírja, az adat az előírt megőrzési idő végéig kezelhető.</p>
+            <p>A szükségtelenné vált személyes adatokat törölni kell, kivéve, ha további megőrzésüknek más jogszerű alapja van.</p>
+          </div>
+        </section>
+
+        <section class="policy-section">
+          <h2>9. Adatbiztonság</h2>
+          <div class="policy-content">
+            <p>Az adatkezelő és az igénybe vett technikai szolgáltatások megfelelő technikai és szervezési intézkedésekkel törekednek a személyes adatok jogosulatlan hozzáféréssel, megváltoztatással, nyilvánosságra hozatallal, elvesztéssel vagy megsemmisüléssel szembeni védelmére.</p>
+            <p>Az adminisztrációs felületen elérhető személyes ügyféladatok hozzáférése korlátozott.</p>
+          </div>
+        </section>
+
+        <section class="policy-section">
+          <h2>10. Az érintett jogai</h2>
+          <div class="policy-content">
+            <p>Az érintett a GDPR feltételei szerint jogosult:</p>
+            <ul>
+              <li>tájékoztatást kérni személyes adatainak kezeléséről;</li>
+              <li>hozzáférést kérni a róla kezelt személyes adatokhoz;</li>
+              <li>kérni pontatlan adatainak helyesbítését;</li>
+              <li>meghatározott esetekben kérni személyes adatainak törlését;</li>
+              <li>kérni az adatkezelés korlátozását;</li>
+              <li>meghatározott esetekben kérni adatainak hordozhatóságát;</li>
+              <li>a GDPR-ban meghatározott esetekben tiltakozni az adatkezelés ellen.</li>
+            </ul>
+            <p>Az érintetti kérelmek a <a href="mailto:kristaly.laszlo.hr@gmail.com" style="color: var(--accent-orange);">kristaly.laszlo.hr@gmail.com</a> címen nyújthatók be.</p>
+            <p>Az adatkezelő a kérelmet indokolatlan késedelem nélkül, főszabály szerint annak beérkezésétől számított egy hónapon belül megválaszolja.</p>
+          </div>
+        </section>
+
+        <section class="policy-section">
+          <h2>11. Panasz</h2>
+          <div class="policy-content">
+            <p>Ha úgy gondolod, hogy személyes adataid kezelése sérti az adatvédelmi szabályokat, közvetlenül is kapcsolatba léphetsz az adatkezelővel:</p>
+            <p>E-mail: <a href="mailto:kristaly.laszlo.hr@gmail.com" style="color: var(--accent-orange);">kristaly.laszlo.hr@gmail.com</a></p>
+            <p>Jogosult vagy továbbá panaszt tenni az illetékes adatvédelmi felügyeleti hatóságnál. Magyarországon:</p>
+            <p><strong>Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</strong><br>
+            1055 Budapest, Falk Miksa utca 9–11.<br>
+            Levelezési cím: 1363 Budapest, Pf. 9.</p>
+          </div>
+        </section>
+
+        <section class="policy-section">
+          <h2>12. A tájékoztató módosítása</h2>
+          <div class="policy-content">
+            <p>A jelen tájékoztató módosítható, ha a szolgáltatás működése, az alkalmazott technológia, az adatkezelési folyamat vagy a vonatkozó jogi követelmények megváltoznak.</p>
+            <p>A mindenkor hatályos változat a Bér-Audit weboldalán érhető el.</p>
           </div>
         </section>
 
@@ -1049,15 +863,14 @@
     <div class="container footer-container">
       <div class="footer-brand">
         <span class="footer-brand-title">Kristály László BSc</span>
-        <span class="footer-brand-sub">Osztrák Bér-Audit Szakértő</span>
+        <span class="footer-brand-sub">Munkavállalási tanácsadó</span>
       </div>
       <p class="footer-disclaimer">
-        Ez az oldal tájékoztató és elemző jellegű. Nem minősül jogi tanácsadásnak. A fenti adatkezelési tájékoztató egy ideiglenes placeholder tervezet.
+        Ez az oldal tájékoztató és elemző jellegű. Nem minősül jogi tanácsadásnak.
       </p>
       <div class="footer-bottom-line">
         <span>© 2026 Minden jog fenntartva.</span>
         <a href="index.html">Főoldal</a>
-        <a href="adatkezeles.html">Adatkezelési Tájékoztató</a>
       </div>
     </div>
   </footer>
