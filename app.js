@@ -6,7 +6,7 @@
 // ============================================================================
 // KONFIGURÁCIÓ
 // ============================================================================
-const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyRP-WwEZf-ik8_qra826MI9LFsCiDFVR8uTKqCv2kkZ5nTydTASW9Aj6tLFqPjgVVXHQ/exec";
+const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRdhga4cuvZ9GmQdYaGWRFErDjgZn_VUYFyRN4g8miLPZjAos063kkBaHnFJnuY9Yzww/exec";
 
 // Fizetős audit ár konfig – amíg nincs végleges ár, a blokk rejtett marad
 const PAID_AUDIT_CONFIG = {

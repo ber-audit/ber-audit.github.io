@@ -1291,6 +1291,45 @@
       </div>
     </section>
 
+    <!-- 4. FIZETETT AUDITOK SECTION -->
+    <section class="admin-card" id="paidAuditsCard" style="margin-top: 40px; border-top: 2px solid var(--accent-orange); padding-top: 30px;">
+      <div class="card-header-flex">
+        <h2 class="card-title">
+          <span>💼</span>
+          <span>Fizetett Auditok (Ügyfelek)</span>
+        </h2>
+        <button type="button" id="refreshAuditsBtn" class="btn-secondary btn-sm" disabled>
+          <span>🔄 Frissítés</span>
+        </button>
+      </div>
+      <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">
+        Sikeres fizetés után kitöltött audit adatlapok (csak olvasható nézet).
+      </p>
+
+      <div class="table-responsive" style="overflow-x: auto; background: var(--bg-card-subtle); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+        <table class="leads-table" id="auditsTable" style="width: 100%; border-collapse: collapse; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: var(--text-muted);">
+              <th style="padding: 12px 16px;">Dátum</th>
+              <th style="padding: 12px 16px;">Ügyfél</th>
+              <th style="padding: 12px 16px;">Elérhetőség</th>
+              <th style="padding: 12px 16px;">Munkaviszony</th>
+              <th style="padding: 12px 16px;">Témák</th>
+              <th style="padding: 12px 16px; min-width: 250px;">Kérdés / Probléma</th>
+              <th style="padding: 12px 16px;">Státusz</th>
+            </tr>
+          </thead>
+          <tbody id="auditsTableBody">
+            <tr>
+              <td colspan="7" style="padding: 24px; text-align: center; color: var(--text-dim);">
+                A funkció használatához előbb állítsd be a végpontot és a jelszót.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
   </main>
 
   <!-- Toast Notification Container -->
@@ -1394,7 +1433,7 @@
       function initGasUrl() {
         let savedUrl = localStorage.getItem(STORAGE_KEY_GAS_URL);
         if (!savedUrl) {
-          savedUrl = "https://script.google.com/macros/s/AKfycbyRP-WwEZf-ik8_qra826MI9LFsCiDFVR8uTKqCv2kkZ5nTydTASW9Aj6tLFqPjgVVXHQ/exec";
+          savedUrl = "https://script.google.com/macros/s/AKfycbxRdhga4cuvZ9GmQdYaGWRFErDjgZn_VUYFyRN4g8miLPZjAos063kkBaHnFJnuY9Yzww/exec";
           gasUrlInput.value = savedUrl;
         } else {
           gasUrlInput.value = savedUrl;
@@ -1868,8 +1907,18 @@
         leadsContainer.innerHTML = `<div style="text-align: center; padding: 20px;"><div class="spinner"></div></div>`;
 
         try {
-          const separator = gasUrl.includes('?') ? '&' : '?';
-          const res = await fetch(`${gasUrl}${separator}action=getLeads&secret=${encodeURIComponent(adminSecret)}`);
+          const res = await fetch(gasUrl, {
+            method: 'POST',
+            mode: 'cors', // Changed to CORS to read JSON response, might need no-cors but then we can't read response. Wait, GET works with CORS because it's a simple request. POST with application/json triggers preflight, which GAS doesn't support well unless handled. Wait! GAS supports POST but returns redirect for CORS.
+            // Actually, GAS standard workaround for reading POST responses from browser requires using 'text/plain' content type to avoid preflight!
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify({
+              type: 'getLeads',
+              secret: adminSecret
+            })
+          });
           const data = await res.json();
 
           if (data.status === 'success') {
@@ -1920,6 +1969,102 @@
 
       refreshLeadsBtn.addEventListener('click', fetchLeads);
 
+      // ======================================================================
+      // 7.5 FIZETETT AUDITOK LEKÉRÉSE (GAS)
+      // ======================================================================
+      const refreshAuditsBtn = document.getElementById('refreshAuditsBtn');
+      const auditsTableBody = document.getElementById('auditsTableBody');
+
+      async function fetchAudits() {
+        const gasUrl = localStorage.getItem(STORAGE_KEY_GAS_URL);
+        const adminSecret = localStorage.getItem('ber_audit_admin_secret') || '';
+        
+        if (!gasUrl || !gasUrl.startsWith('http')) {
+          auditsTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--accent-red); padding: 20px;">Előbb állítsd be a GAS URL-t és a jelszót!</td></tr>`;
+          return;
+        }
+
+        refreshAuditsBtn.classList.add('loading');
+        const originalText = refreshAuditsBtn.innerHTML;
+        refreshAuditsBtn.innerHTML = '<span>🔄 Töltés...</span>';
+        
+        try {
+          const response = await fetch(gasUrl, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify({
+              type: 'getAuditCustomers',
+              secret: adminSecret
+            })
+          });
+          const result = await response.json();
+          
+          if (result.status === 'success') {
+            renderAudits(result.customers || []);
+            showToast('Fizetett auditok frissítve!', 'success');
+          } else {
+            auditsTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--accent-red); padding: 20px;">Hiba: ${result.message}</td></tr>`;
+          }
+        } catch (error) {
+          auditsTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--accent-red); padding: 20px;">Hálózati hiba: ${error.message}</td></tr>`;
+        } finally {
+          refreshAuditsBtn.classList.remove('loading');
+          refreshAuditsBtn.innerHTML = originalText;
+        }
+      }
+
+      function renderAudits(customers) {
+        if (customers.length === 0) {
+          auditsTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-dim); padding: 20px;">Nincs megjeleníthető fizetett audit adatlap.</td></tr>`;
+          return;
+        }
+
+        const escapeHTML = (str) => {
+          if (!str) return '';
+          return str.toString().replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+          }[tag]));
+        };
+
+        let html = '';
+        customers.forEach(customer => {
+          const topics = customer['Audit Topics'] || '';
+          const topicOther = customer['Audit Topic Other'] ? ` (Egyéb: ${customer['Audit Topic Other']})` : '';
+          const fullTopics = topics + topicOther;
+          
+          const empType = customer['Employment Type'] === 'Egyéb' ? `Egyéb: ${customer['Employment Type Other']}` : customer['Employment Type'];
+          
+          const deliveryMethod = customer['Delivery Method'] || '';
+          const deliveryBadge = deliveryMethod === 'WhatsAppon' 
+            ? '<span style="display:inline-block; padding: 2px 6px; background: rgba(37,211,102,0.1); color: #25D366; border-radius: 4px; font-size: 0.75rem; margin-top: 4px;">📱 WhatsApp</span>' 
+            : '<span style="display:inline-block; padding: 2px 6px; background: rgba(56,189,248,0.1); color: #38bdf8; border-radius: 4px; font-size: 0.75rem; margin-top: 4px;">📧 E-mail</span>';
+
+          html += `
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 12px 16px; font-size: 0.85rem; color: var(--text-muted); white-space: nowrap;">${escapeHTML(customer['Timestamp']?.substring(0, 16) || '')}</td>
+              <td style="padding: 12px 16px; font-weight: 500; color: #fff;">${escapeHTML(customer['Full Name'] || '')}</td>
+              <td style="padding: 12px 16px; font-size: 0.85rem;">
+                <div style="margin-bottom:4px;"><a href="https://wa.me/${escapeHTML((customer['WhatsApp']||'').replace(/[^\d+]/g, ''))}" target="_blank" style="color:var(--accent-orange); text-decoration:none;">${escapeHTML(customer['WhatsApp'] || '')}</a></div>
+                <div style="color:var(--text-muted);">${escapeHTML(customer['Email'] || '')}</div>
+                ${deliveryBadge}
+              </td>
+              <td style="padding: 12px 16px; font-size: 0.85rem; color: var(--text-main);">${escapeHTML(empType || '')}</td>
+              <td style="padding: 12px 16px; font-size: 0.8rem; color: var(--text-muted); max-width: 200px; white-space: normal;">${escapeHTML(fullTopics)}</td>
+              <td style="padding: 12px 16px; font-size: 0.85rem; color: #fff; max-width: 250px; white-space: normal; background: rgba(255,255,255,0.02); border-radius: 4px;">${escapeHTML(customer['Customer Question'] || '')}</td>
+              <td style="padding: 12px 16px;">
+                <span class="status-badge" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 20px; padding: 4px 10px; font-size: 0.75rem;">${escapeHTML(customer['Audit Status'] || 'PAID_INTAKE_SUBMITTED')}</span>
+              </td>
+            </tr>
+          `;
+        });
+        auditsTableBody.innerHTML = html;
+      }
+
+      refreshAuditsBtn.addEventListener('click', fetchAudits);
+
 
       // ======================================================================
       // 8. INICIALIZÁLÁS BETÖLTÉSKOR
@@ -1929,6 +2074,7 @@
       renderHistory();
       updateReuseLastSessionBtn();
       fetchLeads(); // Auto-fetch on load
+      fetchAudits(); // Auto-fetch paid audits on load
 
     })();
   </script>

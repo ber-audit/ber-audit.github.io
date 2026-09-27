@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Sikeres fizetés – indulhat a részletes Bér-Audit</title>
+  
+  <meta name="robots" content="noindex, nofollow"> <!-- Fizetés utáni oldal, ne indexelje a Google -->
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css?v=4">
+
+  <style>
+    .audit-intake-container {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .audit-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    
+    .audit-header h1 {
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    
+    .audit-header p {
+      color: #cbd5e1;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+    
+    .process-steps {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .process-steps ol {
+      margin: 0;
+      padding-left: 20px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    
+    .process-steps li {
+      margin-bottom: 8px;
+    }
+    
+    .form-section {
+      background: var(--surface-light);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    
+    .form-section-title {
+      font-size: 1.25rem;
+      color: var(--accent-orange);
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="date"],
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-orange);
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .form-text {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .radio-label, .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+    
+    .radio-label:hover, .checkbox-label:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    
+    .radio-label input, .checkbox-label input {
+      margin-top: 4px;
+      margin-right: 12px;
+      cursor: pointer;
+    }
+    
+    .radio-text, .checkbox-text {
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+    
+    .highlight-block {
+      background: rgba(255, 94, 26, 0.08);
+      border: 1px solid rgba(255, 94, 26, 0.3);
+      border-left: 4px solid var(--accent-orange);
+    }
+    
+    .success-state {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
+    .delivery-action {
+      margin-top: 32px;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-lg);
+    }
+    
+    #otherEmploymentWrap, #otherTopicWrap {
+      display: none;
+      margin-top: 12px;
+      padding-left: 28px;
+    }
+  </style>
+</head>
+<body>
+  
+  <header class="header">
+    <div class="container header-container">
+      <div class="brand">
+        <span class="flag-icon" aria-hidden="true">🇦🇹</span>
+        <div class="brand-text">
+          <span class="brand-title">Osztrák Bér-Audit</span>
+          <span class="brand-badge">Részletes Dokumentumvizsgálat</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="audit-intake-container">
+      
+      <!-- SIKERES KÜLDÉS ÁLLAPOT -->
+      <div id="successState" class="success-state" style="display: none;">
+        <div class="modal-icon-wrap" style="margin: 0 auto 20px;"><span class="modal-checkmark">✓</span></div>
+        <h2 style="font-size: 24px; margin-bottom: 16px;">Az adatlapod megérkezett.</h2>
+        <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 24px;">Most küldd el a vizsgálathoz szükséges dokumentumokat az általad választott módon.</p>
+        
+        <div class="price-info-box" style="background: rgba(255, 94, 26, 0.1); border: 1px solid rgba(255, 94, 26, 0.3); border-radius: 8px; padding: 16px; margin-bottom: 24px; text-align: left;">
+          <p style="margin: 0; color: #fff; font-size: 0.95rem;"><strong>Fontos figyelmeztetés:</strong> Csak olyan dokumentumot küldj, amely a vizsgálathoz szükséges. Ha egy dokumentumon olyan adat szerepel, amelynek nincs köze a vizsgálathoz, lehetőség szerint takard ki.</p>
+        </div>
+        
+        <div id="whatsappDelivery" class="delivery-action" style="display: none;">
+          <h3 style="margin-bottom: 16px;">Kattints ide a WhatsApp megnyitásához:</h3>
+          <a id="waLink" href="#" target="_blank" class="btn btn-primary" style="display: inline-block; text-decoration: none; padding: 16px 32px; background: #25D366; border-color: #25D366; color: #fff;">
+            Dokumentumok küldése WhatsAppon
+          </a>
+        </div>
+        
+        <div id="emailDelivery" class="delivery-action" style="display: none;">
+          <h3 style="margin-bottom: 16px;">Kattints ide az e-mail megírásához:</h3>
+          <a id="emailLink" href="#" target="_blank" class="btn btn-primary" style="display: inline-block; text-decoration: none; padding: 16px 32px;">
+            Dokumentumok küldése e-mailben
+          </a>
+          <p style="margin-top: 16px; color: #94a3b8; font-size: 0.9rem;">Vagy másold ki a címet: <strong id="emailDisplay" style="color: #fff;"></strong></p>
+        </div>
+      </div>
+
+      <!-- ŰRLAP -->
+      <form id="auditIntakeForm">
+        <div class="audit-header">
+          <h1>Sikeres fizetés – indulhat a részletes Bér-Audit</h1>
+          <p>Köszönöm, a 165 €-os részletes dokumentumvizsgálat megrendelése sikeres.</p>
+          <p style="margin-top: 8px;">A vizsgálat elindításához töltsd ki az alábbi adatlapot. Ez alapján pontosan látni fogom, mit szeretnél ellenőriztetni, és milyen dokumentumokra lesz szükségem.</p>
+        </div>
+        
+        <div class="process-steps">
+          <ol>
+            <li>Kitöltöd az alábbi adatlapot.</li>
+            <li>Elküldöd a szükséges dokumentumokat WhatsAppon vagy e-mailben.</li>
+            <li>Elkészül a részletes dokumentumvizsgálat és az írásos összefoglaló.</li>
+            <li>Ha szükséges, az eredményt legfeljebb 30 percben átbeszéljük.</li>
+          </ol>
+        </div>
+
+        <!-- 1. KAPCSOLAT -->
+        <div class="form-section">
+          <h2 class="form-section-title">Kapcsolattartási adatok</h2>
+          
+          <div class="form-group">
+            <label for="fullName">Teljes név *</label>
+            <input type="text" id="fullName" name="fullName" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">E-mail-cím *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="whatsapp">WhatsApp-szám *</label>
+            <input type="text" id="whatsapp" name="whatsapp" required placeholder="+43... vagy +36...">
+            <span class="form-text">Azt a számot add meg, amelyen WhatsAppon elérhető vagy. Nemzetközi formátumban kérjük.</span>
+          </div>
+        </div>
+
+        <!-- 2. MUNKAVISZONY -->
+        <div class="form-section">
+          <h2 class="form-section-title">Munkaviszony adatai</h2>
+          
+          <div class="form-group">
+            <label>Hogyan dolgozol/dolgoztál Ausztriában? *</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="employmentType" value="Közvetlenül osztrák munkáltatónál" required> <span class="radio-text">Közvetlenül osztrák munkáltatónál</span></label>
+              <label class="radio-label"><input type="radio" name="employmentType" value="Osztrák Leihfirma / munkaerő-kölcsönző"> <span class="radio-text">Osztrák Leihfirma / munkaerő-kölcsönző</span></label>
+              <label class="radio-label"><input type="radio" name="employmentType" value="Magyar közvetítő vagy munkáltató"> <span class="radio-text">Magyar közvetítő vagy munkáltató</span></label>
+              <label class="radio-label"><input type="radio" name="employmentType" value="Szlovák vagy más külföldi közvetítő/munkáltató"> <span class="radio-text">Szlovák vagy más külföldi közvetítő/munkáltató</span></label>
+              <label class="radio-label"><input type="radio" name="employmentType" value="Nem tudom pontosan"> <span class="radio-text">Nem tudom pontosan</span></label>
+              <label class="radio-label"><input type="radio" name="employmentType" id="employmentTypeOtherToggle" value="Egyéb"> <span class="radio-text">Egyéb</span></label>
+            </div>
+            <div id="otherEmploymentWrap">
+              <input type="text" id="employmentTypeOther" name="employmentTypeOther" placeholder="Kérlek részletezd...">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="jobTitle">Munkakör (opcionális)</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Példa: szakács, hegesztő, raktáros, szobalány stb.">
+          </div>
+          
+          <div class="form-group">
+            <label for="employmentStart">Mikor kezdődött ez a munkaviszony? (opcionális)</label>
+            <input type="text" id="employmentStart" name="employmentStart" placeholder="Év, hónap vagy pontos dátum">
+          </div>
+          
+          <div class="form-group">
+            <label>Jelenleg is ennél a munkáltatónál dolgozol? *</label>
+            <div class="radio-group">
+              <label class="radio-label" style="display:inline-flex; width:auto; margin-right:10px;"><input type="radio" name="currentlyEmployed" value="Igen" required> <span class="radio-text">Igen</span></label>
+              <label class="radio-label" style="display:inline-flex; width:auto;"><input type="radio" name="currentlyEmployed" value="Nem"> <span class="radio-text">Nem</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. TÉMÁK -->
+        <div class="form-section">
+          <h2 class="form-section-title">Mit szeretnél ellenőriztetni?</h2>
+          
+          <div class="form-group">
+            <label>Mivel kapcsolatban szeretnéd a részletes vizsgálatot? (Több is jelölhető)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Fizetés / bér elszámolása"> <span class="checkbox-text">Fizetés / bér elszámolása</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Munkaidő"> <span class="checkbox-text">Munkaidő</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Túlóra"> <span class="checkbox-text">Túlóra</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Pótlékok"> <span class="checkbox-text">Pótlékok</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Levonások"> <span class="checkbox-text">Levonások</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Szállás vagy egyéb költség levonása"> <span class="checkbox-text">Szállás vagy egyéb költség levonása</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="13. és 14. havi fizetés / Sonderzahlungen"> <span class="checkbox-text">13. és 14. havi fizetés / Sonderzahlungen</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Munkaszerződés / Dienstzettel"> <span class="checkbox-text">Munkaszerződés / Dienstzettel</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Ki- vagy visszajelentés"> <span class="checkbox-text">Ki- vagy visszajelentés</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Munkaviszony megszűnése / végelszámolás"> <span class="checkbox-text">Munkaviszony megszűnése / végelszámolás</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" value="Leihfirma / közvetítő"> <span class="checkbox-text">Leihfirma / közvetítő</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="auditTopics" id="topicOtherToggle" value="Egyéb"> <span class="checkbox-text">Egyéb</span></label>
+            </div>
+            <div id="otherTopicWrap">
+              <input type="text" id="auditTopicOther" name="auditTopicOther" placeholder="Kérlek részletezd...">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. LEGFONTOSABB KÉRDÉS -->
+        <div class="form-section highlight-block">
+          <h2 class="form-section-title" style="color: #fff; border-bottom-color: rgba(255,255,255,0.2);">Pontosan mire szeretnél választ kapni? *</h2>
+          
+          <div class="form-group">
+            <label for="customerQuestion" style="font-weight: 400;">Írd le röviden a problémát. Nem kell hivatalosan megfogalmaznod. Írd le úgy, ahogy nekem elmondanád.</label>
+            <textarea id="customerQuestion" name="customerQuestion" rows="6" required placeholder="Segítő példák:
+- Nem értem, miért vonnak le minden hónapban 100 €-t a szállásra.
+- Nem találom a 13–14. havi fizetést az elszámolásaimban.
+- Más óraszám szerepel a bérpapíron, mint amennyit dolgoztam.
+- Szeretném megérteni, hogy miből áll össze a fizetésem."></textarea>
+          </div>
+        </div>
+
+        <!-- 5. DOKUMENTUMOK -->
+        <div class="form-section">
+          <h2 class="form-section-title">Milyen dokumentumai vannak?</h2>
+          
+          <div class="form-group">
+            <label>Milyen dokumentumok állnak rendelkezésedre? (Több is jelölhető)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Bérpapír / Lohnabrechnung / Gehaltsabrechnung"> <span class="checkbox-text">Bérpapír / Lohnabrechnung / Gehaltsabrechnung</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Munkaszerződés / Arbeitsvertrag"> <span class="checkbox-text">Munkaszerződés / Arbeitsvertrag</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Dienstzettel"> <span class="checkbox-text">Dienstzettel</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Munkaidő-nyilvántartás"> <span class="checkbox-text">Munkaidő-nyilvántartás</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Saját munkaidő-feljegyzés"> <span class="checkbox-text">Saját munkaidő-feljegyzés</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Bankszámlakivonat / kifizetések"> <span class="checkbox-text">Bankszámlakivonat / kifizetések</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Munkáltatói üzenetek / e-mailek"> <span class="checkbox-text">Munkáltatói üzenetek / e-mailek</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Ki-/bejelentéssel kapcsolatos dokumentum"> <span class="checkbox-text">Ki-/bejelentéssel kapcsolatos dokumentum</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Egyéb"> <span class="checkbox-text">Egyéb</span></label>
+              <label class="checkbox-label"><input type="checkbox" name="availableDocs" value="Nem tudom, melyik dokumentum mire való"> <span class="checkbox-text">Nem tudom, melyik dokumentum mire való</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. KÜLDÉS MÓDJA -->
+        <div class="form-section">
+          <h2 class="form-section-title">Dokumentumküldés</h2>
+          
+          <div class="form-group">
+            <label>Hogyan szeretnéd elküldeni a dokumentumokat? *</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="deliveryMethod" value="WhatsAppon" required> <span class="radio-text">WhatsAppon</span></label>
+              <label class="radio-label"><input type="radio" name="deliveryMethod" value="E-mailben"> <span class="radio-text">E-mailben</span></label>
+            </div>
+            <span class="form-text" style="margin-top: 12px;">Az adatlap elküldése után megmutatjuk, hova küldheted a dokumentumokat.</span>
+          </div>
+        </div>
+
+        <!-- 7. ADATVÉDELEM ÉS KÜLDÉS -->
+        <div class="form-section" style="background: transparent; border: none; padding: 0;">
+          <div class="form-group">
+            <label class="checkbox-label" style="background: transparent; border: none;">
+              <input type="checkbox" id="privacyConsent" required>
+              <span class="checkbox-text">Elolvastam az <a href="adatkezeles.html" target="_blank" class="inline-link">Adatkezelési Tájékoztatót</a>, és tudomásul vettem az abban foglaltakat.</span>
+            </label>
+          </div>
+          
+          <button type="submit" id="btnSubmit" class="btn btn-primary" style="width: 100%; margin-top: 16px; padding: 18px; font-size: 1.1rem;">
+            <span id="btnText">Elküldöm az adatokat és indítom a Bér-Auditot</span>
+            <span id="btnSpinner" style="display:none; margin-left:10px;">⏳</span>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <strong>Osztrák Bér-Audit</strong>
+        <p>Bérpapír, munkaidő és elszámolás ellenőrzés.</p>
+      </div>
+      <div class="footer-links">
+        <a href="adatkezeles.html">Adatkezelési Tájékoztató</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Konfigurálható elérhetőségek
+    const WHATSAPP_CONTACT = "+43 677 61717355"; // Ügyfél tényleges száma
+    const AUDIT_EMAIL = "kristaly.laszlo.hr@gmail.com"; // Ügyfél tényleges e-mail címe
+
+    // --- GOOGLE APPS SCRIPT URL EGYEZTETÉSE AZ app.js-szel ---
+    // Az ügyfélnek a saját aktuális éles URL-jét kell használnia.
+    const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRdhga4cuvZ9GmQdYaGWRFErDjgZn_VUYFyRN4g8miLPZjAos063kkBaHnFJnuY9Yzww/exec";
+
+    // Session ID generátor (ha nincs Cookie)
+    function getSessionId() {
+      let sid = localStorage.getItem('ba_session_id');
+      if (!sid) {
+        sid = 'audit-session-' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('ba_session_id', sid);
+      }
+      return sid;
+    }
+
+    // Tracking Event Helper
+    function trackEvent(eventName) {
+      fetch(GOOGLE_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'event',
+          sessionId: getSessionId(),
+          event: eventName,
+          source: 'audit_intake',
+          timestamp: new Date().toISOString()
+        })
+      }).catch(err => console.error("Tracking error:", err));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Analytics Views
+      trackEvent('audit_intake_viewed');
+      
+      let startedTracked = false;
+      document.getElementById('auditIntakeForm').addEventListener('input', () => {
+        if (!startedTracked) {
+          trackEvent('audit_intake_started');
+          startedTracked = true;
+        }
+      });
+
+      // 2. Egyéb mezők megjelenítése
+      const empRadios = document.querySelectorAll('input[name="employmentType"]');
+      const empOtherWrap = document.getElementById('otherEmploymentWrap');
+      const empOtherInput = document.getElementById('employmentTypeOther');
+      
+      empRadios.forEach(r => {
+        r.addEventListener('change', (e) => {
+          if(e.target.value === 'Egyéb') {
+            empOtherWrap.style.display = 'block';
+            empOtherInput.required = true;
+          } else {
+            empOtherWrap.style.display = 'none';
+            empOtherInput.required = false;
+            empOtherInput.value = '';
+          }
+        });
+      });
+
+      const topicOtherToggle = document.getElementById('topicOtherToggle');
+      const topicOtherWrap = document.getElementById('otherTopicWrap');
+      const topicOtherInput = document.getElementById('auditTopicOther');
+      
+      topicOtherToggle.addEventListener('change', (e) => {
+        if(e.target.checked) {
+          topicOtherWrap.style.display = 'block';
+        } else {
+          topicOtherWrap.style.display = 'none';
+          topicOtherInput.value = '';
+        }
+      });
+
+      // 3. Form beküldése
+      const form = document.getElementById('auditIntakeForm');
+      const btnSubmit = document.getElementById('btnSubmit');
+      const btnText = document.getElementById('btnText');
+      const btnSpinner = document.getElementById('btnSpinner');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Kliens oldali extra validáció iOS Safari miatt
+        if (!document.getElementById('privacyConsent').checked) {
+          alert("Kérlek, fogadd el az adatkezelési tájékoztatót!");
+          return;
+        }
+
+        btnSubmit.disabled = true;
+        btnText.textContent = 'Küldés folyamatban...';
+        btnSpinner.style.display = 'inline-block';
+
+        // Adatok kinyerése
+        const formData = new FormData(form);
+        
+        // Többértékes checkboxok (Témák, Dokumentumok)
+        const selectedTopics = [];
+        document.querySelectorAll('input[name="auditTopics"]:checked').forEach(cb => {
+          selectedTopics.push(cb.value);
+        });
+        
+        const selectedDocs = [];
+        document.querySelectorAll('input[name="availableDocs"]:checked').forEach(cb => {
+          selectedDocs.push(cb.value);
+        });
+
+        const deliveryMethod = formData.get('deliveryMethod');
+        const customerName = formData.get('fullName');
+
+        const payload = {
+          type: 'audit_intake',
+          sessionId: getSessionId(),
+          timestamp: new Date().toISOString(),
+          fullName: customerName,
+          email: formData.get('email'),
+          whatsapp: formData.get('whatsapp'),
+          employmentType: formData.get('employmentType'),
+          employmentTypeOther: formData.get('employmentTypeOther') || '',
+          jobTitle: formData.get('jobTitle') || '',
+          employmentStart: formData.get('employmentStart') || '',
+          currentlyEmployed: formData.get('currentlyEmployed') || '',
+          auditTopics: selectedTopics.join(', '),
+          auditTopicOther: formData.get('auditTopicOther') || '',
+          customerQuestion: formData.get('customerQuestion'),
+          availableDocuments: selectedDocs.join(', '),
+          documentDeliveryMethod: deliveryMethod,
+          privacyAcknowledged: true,
+          auditStatus: 'PAID_INTAKE_SUBMITTED'
+        };
+
+        try {
+          // Küldés a GAS-nak
+          await fetch(GOOGLE_SCRIPT_WEB_APP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          
+          trackEvent('audit_intake_submitted');
+
+          // Sikeres állapot megjelenítése
+          form.style.display = 'none';
+          document.getElementById('successState').style.display = 'block';
+          window.scrollTo(0, 0);
+
+          // Dinamikus gombok beállítása
+          if (deliveryMethod === 'WhatsAppon') {
+            const waBlock = document.getElementById('whatsappDelivery');
+            waBlock.style.display = 'block';
+            const waLink = document.getElementById('waLink');
+            const msg = encodeURIComponent("Szia! A 165 €-os Bér-Auditot megrendeltem, és az adatlapot kitöltöttem. A vizsgálathoz szükséges dokumentumokat küldöm.");
+            const waNumberClean = WHATSAPP_CONTACT.replace(/[\s\-\(\)\+]/g, ''); // + és szóköz nélkül a wa.me linkhez
+            waLink.href = `https://wa.me/${waNumberClean}?text=${msg}`;
+            
+            waLink.addEventListener('click', () => trackEvent('document_delivery_whatsapp_clicked'));
+            
+          } else {
+            const emailBlock = document.getElementById('emailDelivery');
+            emailBlock.style.display = 'block';
+            const emailLink = document.getElementById('emailLink');
+            const subject = encodeURIComponent(`Bér-Audit dokumentumok – ${customerName}`);
+            emailLink.href = `mailto:${AUDIT_EMAIL}?subject=${subject}`;
+            document.getElementById('emailDisplay').textContent = AUDIT_EMAIL;
+            
+            emailLink.addEventListener('click', () => trackEvent('document_delivery_email_clicked'));
+          }
+
+        } catch (error) {
+          alert("Hiba történt a küldés során. Kérjük, próbáld újra!");
+          btnSubmit.disabled = false;
+          btnText.textContent = 'Elküldöm az adatokat és indítom a Bér-Auditot';
+          btnSpinner.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
